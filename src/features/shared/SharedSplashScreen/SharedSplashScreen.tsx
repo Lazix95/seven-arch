@@ -4,7 +4,11 @@ import styles from './SharedSplashScreen.module.scss'; // Import the CSS file fo
 import clsx from 'clsx';
 import { LinearProgress } from '@mui/material';
 
-export function SharedSplashScreen() {
+export interface SharedSplashScreenProps {
+  imageUrl: string | null;
+}
+
+export function SharedSplashScreen({ imageUrl }: SharedSplashScreenProps) {
   const [showSplash, setShowSplash] = useState(true);
   const [isFadeIn, setFadeIn] = useState(true);
 
@@ -20,10 +24,10 @@ export function SharedSplashScreen() {
 
   return (
     <div>
-      {showSplash && (
+      {showSplash && imageUrl && (
         <div className={clsx([styles['splash-screen'], { [styles['splash-screen-out']]: !isFadeIn }])}>
           <img
-            src="https://www.sevenarch.rs/resources/Prednja%20vizitke%20horizontalna.jpg"
+            src={imageUrl || ''}
             alt="Splash Screen"
             className={clsx([styles['splash-image'], { [styles['splash-image--in']]: isFadeIn, [styles['splash-image--out']]: !isFadeIn }])}
           />

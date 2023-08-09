@@ -14,6 +14,7 @@ export interface FeatureIndexViewProps {
   onSingInSubmit: (email: string, password: string) => Promise<void>;
   onDrawerChange: (state: boolean) => void;
   onSignOut: () => void;
+  splashScreenImageUrl: string | null;
   hasLoginError: boolean;
   isSignInLoading: boolean;
   isAdminPage: boolean;
@@ -21,6 +22,7 @@ export interface FeatureIndexViewProps {
   isDrawerActive: boolean;
   userData: User | null | undefined;
   children: ReactNode;
+  appBarTitle: string;
 }
 
 export function FeatureIndexView({
@@ -34,20 +36,22 @@ export function FeatureIndexView({
   isAdminPage,
   drawerItems,
   isDrawerActive,
+  splashScreenImageUrl,
+  appBarTitle,
 }: FeatureIndexViewProps) {
   const LoginFallback = useCallback(() => {
-    return <FirebaseAuth onSubmit={onSingInSubmit} error={hasLoginError} loading={isSignInLoading} />;
+    return <FirebaseAuth onSubmit={onSingInSubmit} error={hasLoginError} isLoading={isSignInLoading} />;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isSignInLoading]);
 
   return (
     <Fragment>
       <SharedHead title="Welcome to Sevenarch!" />
       <SharedThemeProvider mode={'light'}>
-        <SharedSplashScreen />
+        <SharedSplashScreen imageUrl={splashScreenImageUrl} />
         <CssBaseline />
         <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
-          <SharedMainLayout onDrawerChange={onDrawerChange} onSignOut={onSignOut}>
+          <SharedMainLayout title={appBarTitle} onDrawerChange={onDrawerChange} onSignOut={onSignOut}>
             <SharedNamedChild name="drawer">
               <SharedDrawer title={'Menu'} items={drawerItems} value={isDrawerActive} showSubList={false} onChange={onDrawerChange} />
             </SharedNamedChild>

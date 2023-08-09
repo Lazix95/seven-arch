@@ -8,11 +8,7 @@ import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems } from '@/constants/mainDrawerItems';
 import { StaticDataProvider } from '@/hooks/useStaticPropsData';
 
-export interface CustomAppProps {
-  maxWidth: Breakpoint | false;
-}
-
-export function FeatureIndexContainer({ Component, pageProps }: AppProps<CustomAppProps>) {
+export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
@@ -47,6 +43,8 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps<CustomA
     <UserContextProvider value={user}>
       <StaticDataProvider>
         <FeatureIndexView
+          appBarTitle={pageProps.basicInfo.companyName}
+          splashScreenImageUrl={pageProps.savedImages.loadingScreenImage}
           onSingInSubmit={handleSubmitSignIn}
           onDrawerChange={setIsDrawerActive}
           onSignOut={handleSignOut}

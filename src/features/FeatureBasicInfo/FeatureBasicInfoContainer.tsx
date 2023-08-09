@@ -13,7 +13,6 @@ export const getStaticProps = async () => {
 
 interface FeatureBasicInfoState {
   readonly basicInfo: { companyName: string };
-  readonly images: { loadingScreenImage: File | null };
   readonly savedImages: { loadingScreenImage: string | null };
   readonly isSubmitLoading: boolean;
 }
@@ -29,7 +28,6 @@ export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: Fea
     isSubmitLoading: false,
     basicInfo,
     savedImages,
-    images: { loadingScreenImage: null },
   });
 
   async function handleSubmitBasicInfo(payload: FeatureBasicInfoAdminViewFields) {
@@ -38,10 +36,13 @@ export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: Fea
       updateState({ isSubmitLoading: true });
       const { images, ...rest } = payload;
       if (images) {
-        newImages = await storeImages({ images: images, folder: 'general' });
+        const newSavedImages = await storeImages({ images: images, folder: 'general' });
+        Object.keys(newSavedImages).forEach((imgKey) => {
+          newImages = { ...newImages, [imgKey]: newSavedImages[imgKey as keyof typeof newSavedImages] };
+        });
       }
       const newBasicInfo = await storeDocument('general', 'basicInfo', rest);
-      updateState({ savedImages: newImages });
+      updateState({ savedImages: newImages, basicInfo: newBasicInfo });
     } finally {
       updateState({ isSubmitLoading: false });
     }
@@ -50,12 +51,7 @@ export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: Fea
   return (
     <Fragment>
       <SharedIf RIf={admin}>
-        <FeatureBasicInfoAdminView
-          isSubmitLoading={state.isSubmitLoading}
-          onSubmit={handleSubmitBasicInfo}
-          images={state.savedImages}
-          data={{ ...state.basicInfo, images: state.images }}
-        />
+        <FeatureBasicInfoAdminView isSubmitLoading={state.isSubmitLoading} onSubmit={handleSubmitBasicInfo} images={state.savedImages} data={{ ...state.basicInfo }} />
       </SharedIf>
 
       <SharedIf RIf={!admin}>

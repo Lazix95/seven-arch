@@ -2,27 +2,33 @@ import { Button, IconButton, IconButtonProps, ButtonProps } from '@mui/material'
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { ReactNode } from 'react';
 
-interface SharedButtonIconProps extends IconButtonProps {
+interface SharedButtonBase {
+  children?: ReactNode;
+  submit?: boolean;
+}
+
+interface SharedButtonIconProps extends IconButtonProps, SharedButtonBase {
   btnType?: 'Icon';
-  children?: ReactNode;
 }
 
-interface SharedButtonProps extends ButtonProps {
+interface SharedButtonProps extends ButtonProps, SharedButtonBase {
   btnType?: 'Button';
-  children?: ReactNode;
 }
 
-interface SharedLoadingButtonProps extends LoadingButtonProps {
+interface SharedLoadingButtonProps extends LoadingButtonProps, SharedButtonBase {
   btnType?: 'LoadingButton';
-  children?: ReactNode;
 }
 
 export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps | SharedButtonIconProps) {
-  const { children, btnType = 'Button', ...rest } = props;
+  const { children, submit, btnType = 'Button', ...rest } = props;
+
+  const optionals: any = {
+    ...(submit && { type: 'submit' }),
+  };
 
   if (btnType === 'Icon') {
     return (
-      <IconButton color="inherit" {...rest}>
+      <IconButton {...optionals} color="inherit" {...rest}>
         {children}
       </IconButton>
     );
@@ -30,7 +36,7 @@ export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps
 
   if (btnType === 'Button') {
     return (
-      <Button variant={'contained'} {...(rest as ButtonProps)}>
+      <Button variant={'contained'} {...optionals} {...(rest as ButtonProps)}>
         {children}
       </Button>
     );
@@ -38,7 +44,7 @@ export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps
 
   if (btnType === 'LoadingButton') {
     return (
-      <LoadingButton variant={'contained'} {...(rest as ButtonProps)}>
+      <LoadingButton {...optionals} variant={'contained'} {...(rest as ButtonProps)}>
         {children}
       </LoadingButton>
     );

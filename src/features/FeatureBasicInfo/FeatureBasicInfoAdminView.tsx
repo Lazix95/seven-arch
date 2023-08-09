@@ -16,14 +16,14 @@ export interface FeatureBasicInfoAdminViewImages {
 
 export interface FeatureBasicInfoAdminViewFields extends FeatureBasicInfoAdminViewData {
   images: {
-    loadingScreenImage: File | null;
+    loadingScreenImage?: File | null;
   };
 }
 
 export interface FeatureBasicInfoAdminViewProps {
   isSubmitLoading?: boolean;
   onSubmit: (payload: FeatureBasicInfoAdminViewFields) => void;
-  data: FeatureBasicInfoAdminViewFields;
+  data: FeatureBasicInfoAdminViewData;
   images: FeatureBasicInfoAdminViewImages;
 }
 
@@ -38,10 +38,10 @@ export function FeatureBasicInfoAdminView({ onSubmit, data, images, isSubmitLoad
   const [fields, setFields] = useState<FeatureBasicInfoAdminViewFields>(initFields);
 
   useEffect(() => {
-    if (data) {
-      setFields({ ...data });
+    if (data && !isSubmitLoading) {
+      setFields({ ...data, images: {} });
     }
-  }, [data]);
+  }, [data, isSubmitLoading]);
 
   function handleImageUpload(name: string, file: File | null) {
     setFields((oldFields) => ({ ...oldFields, images: { ...oldFields.images, [name]: file } }));
@@ -64,7 +64,7 @@ export function FeatureBasicInfoAdminView({ onSubmit, data, images, isSubmitLoad
       </SharedGridItem>
 
       <SharedGridInput required name={'companyName'} label={'Company Name'} value={fields.companyName} onChange={handleInputChange} />
-      <SharedImageUpload name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage ?? undefined} onChange={handleImageUpload} />
+      <SharedImageUpload label={'Splash Screen Image'} name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage} onChange={handleImageUpload} />
 
       <SharedButton btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
         Save

@@ -2,14 +2,15 @@ import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, TextField, 
 import { LockOutlined } from '@mui/icons-material';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
 import { useState, ReactElement, ReactEventHandler, FormEvent, ChangeEvent } from 'react';
+import { SharedButton } from '@/features/shared/SharedButton';
 
 export interface FirebaseAuthProps {
   onSubmit?: (email: string, password: string) => void;
   error?: boolean;
-  loading?: boolean;
+  isLoading?: boolean;
 }
 
-export function FirebaseAuth({ onSubmit, error }: FirebaseAuthProps) {
+export function FirebaseAuth({ onSubmit, error, isLoading }: FirebaseAuthProps) {
   const [fields, setFields] = useState<{ email: string; password: string }>({ email: '', password: '' });
 
   const loginErrorText = error ? 'Wrong Email or Password' : '';
@@ -38,9 +39,9 @@ export function FirebaseAuth({ onSubmit, error }: FirebaseAuthProps) {
           <SharedTextField value={fields.password} onChange={handleFieldChange} label="Password" name="password" password errorText={loginErrorText} />
 
           <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Remember me" />
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 1, mb: 2 }}>
+          <SharedButton submit loading={isLoading} btnType={'LoadingButton'} fullWidth sx={{ mt: 1, mb: 2 }}>
             Sign In
-          </Button>
+          </SharedButton>
         </Box>
       </Box>
     </Container>

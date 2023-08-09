@@ -7,14 +7,17 @@ import { getFilePreviewURL } from '@/utils/uploadUtils';
 import { SharedGridBreak } from '../grid/SharedGridBreak';
 import { SharedUploadFile } from '../form/SharedUploadFile';
 import { SharedOutlinedContainer } from '../SharedOutlinedContainer';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { SharedButton } from '../SharedButton';
 
 interface SharedImageUploadProps {
   name: string;
-  previewUrl?: string;
+  previewUrl?: string | null;
+  label: string;
   onChange?: (name: string, file: File) => void;
 }
 
-export const SharedImageUpload = ({ onChange, previewUrl, name }: SharedImageUploadProps) => {
+export const SharedImageUpload = ({ onChange, previewUrl, name, label }: SharedImageUploadProps) => {
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,14 +49,18 @@ export const SharedImageUpload = ({ onChange, previewUrl, name }: SharedImageUpl
   }
 
   return (
-    <SharedOutlinedContainer style={{ aspectRatio: '16/9', width: '100%', height: '100%', marginBottom: '20px' }} centerText={true} label={'Drag Image'}>
-      <div>
+    <SharedOutlinedContainer style={{ aspectRatio: '16/9', width: '100%', height: '100%', marginBottom: '20px' }} centerText={true} label={label}>
+      <div className={classes.dropzone}>
         <div onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} style={{ aspectRatio: '16/9', width: '100%', height: '100%' }}>
           <Grid style={{ height: '100%' }} container alignContent={'center'}>
             <Grid style={{ height: image ? '100%' : 'auto' }} item xs={12}>
               <SharedIf RIf={!!image}>
                 <img src={image as string} alt="Uploaded" className={classes.image} />
-                <Button onClick={handleRemoveImage}>Remove Image</Button>
+                <div className={classes.overlay}>
+                  <SharedButton onClick={handleRemoveImage} btnType={'Icon'}>
+                    <DeleteForeverIcon style={{ fontSize: '30px' }} />
+                  </SharedButton>
+                </div>
               </SharedIf>
 
               <SharedIf RIf={!image}>
