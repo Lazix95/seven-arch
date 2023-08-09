@@ -7,7 +7,7 @@ export function useFirebaseImage(folder: FolderKeys, name: string) {
 
   const getImage = useCallback(async () => {
     const imgUrl = await getImageLink({ folder, name });
-    setImage(imgUrl);
+    setImage(imgUrl as string);
   }, [folder, name]);
 
   useEffect(() => {

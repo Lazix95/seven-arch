@@ -21,7 +21,7 @@ export function FirebaseImage({ folder, name, text }: SharedContentImageProps) {
 
   async function getImage() {
     const imgUrl = await getImageLink({ folder, name });
-    setImage(imgUrl);
+    setImage(imgUrl || '');
   }
 
   return (

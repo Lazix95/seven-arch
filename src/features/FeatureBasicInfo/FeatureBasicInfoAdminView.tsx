@@ -6,8 +6,15 @@ import { SharedForm } from '../shared/form/SharedForm';
 import { SharedGridInput } from '../shared/form/SharedGridInput';
 import { SharedGridItem } from '../shared/grid/SharedGridItem';
 
-export interface FeatureBasicInfoAdminViewFields extends Record<string, unknown> {
+export interface FeatureBasicInfoAdminViewData extends Record<string, unknown> {
   companyName: string;
+}
+
+export interface FeatureBasicInfoAdminViewImages {
+  loadingScreenImage: string | null;
+}
+
+export interface FeatureBasicInfoAdminViewFields extends FeatureBasicInfoAdminViewData {
   images: {
     loadingScreenImage: File | null;
   };
@@ -15,8 +22,9 @@ export interface FeatureBasicInfoAdminViewFields extends Record<string, unknown>
 
 export interface FeatureBasicInfoAdminViewProps {
   isSubmitLoading?: boolean;
-  onSubmit: (payload: Record<string, unknown>) => void;
+  onSubmit: (payload: FeatureBasicInfoAdminViewFields) => void;
   data: FeatureBasicInfoAdminViewFields;
+  images: FeatureBasicInfoAdminViewImages;
 }
 
 const initFields: FeatureBasicInfoAdminViewFields = {
@@ -26,11 +34,13 @@ const initFields: FeatureBasicInfoAdminViewFields = {
   },
 };
 
-export function FeatureBasicInfoAdminView({ onSubmit, data, isSubmitLoading }: FeatureBasicInfoAdminViewProps) {
+export function FeatureBasicInfoAdminView({ onSubmit, data, images, isSubmitLoading }: FeatureBasicInfoAdminViewProps) {
   const [fields, setFields] = useState<FeatureBasicInfoAdminViewFields>(initFields);
 
   useEffect(() => {
-    if (data) setFields(data);
+    if (data) {
+      setFields({ ...data });
+    }
   }, [data]);
 
   function handleImageUpload(name: string, file: File | null) {
@@ -54,7 +64,7 @@ export function FeatureBasicInfoAdminView({ onSubmit, data, isSubmitLoading }: F
       </SharedGridItem>
 
       <SharedGridInput required name={'companyName'} label={'Company Name'} value={fields.companyName} onChange={handleInputChange} />
-      <SharedImageUpload name={'loadingScreenImage'} onChange={handleImageUpload} />
+      <SharedImageUpload name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage ?? undefined} onChange={handleImageUpload} />
 
       <SharedButton btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
         Save

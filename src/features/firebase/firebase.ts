@@ -32,9 +32,41 @@ export async function storeImage({ image, name, folder }: { image: File; name: s
   return await getDownloadURL(uploadedImage.ref);
 }
 
+export async function storeImages<T extends { [key: string]: File | undefined | null }>({
+  images,
+  folder,
+}: {
+  folder: FolderKeys;
+  images: Partial<T>;
+}): Promise<Record<keyof typeof images, string>> {
+  let imagesLinks: Record<keyof T, string> = {} as Record<keyof T, string>;
+  if (images) {
+    for (const imgKey of Object.keys(images)) {
+      const link = await storeImage({ image: images[imgKey] as File, name: imgKey, folder });
+      imagesLinks = { ...imagesLinks, [imgKey]: link };
+    }
+  }
+  return imagesLinks;
+}
+
+export async function storeImageList({ images, folder }: { folder: FolderKeys; images: File[] }) {
+  let imagesLinks: string[] = [];
+  if (images) {
+    images.forEach(async (img) => {
+      const link = await storeImage({ image: img, name: img.name, folder });
+      imagesLinks = [...imagesLinks, link];
+    });
+  }
+  return imagesLinks;
+}
+
 export async function getImageLink({ folder, name }: { name: string; folder: FolderKeys }) {
-  const imageRef = storageRef(firebaseStorage, `/images/${folder}/${name}`);
-  return await getDownloadURL(imageRef);
+  try {
+    const imageRef = storageRef(firebaseStorage, `/images/${folder}/${name}`);
+    return await getDownloadURL(imageRef);
+  } catch (e) {
+    return null;
+  }
 }
 
 export async function storeEntity<T extends GenericPayload>({ entity, payload }: { entity: EntityKeys; payload: T }) {
