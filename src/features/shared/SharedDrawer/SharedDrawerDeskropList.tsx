@@ -20,6 +20,7 @@ export function SharedDrawerDesktopList({ items, showSubList, onChange, title }:
   useEffect(() => {
     if (subItems.items.length > 0 || !items || items.length === 0) return;
     setSubItems({ items: items[0].subItems || [], index: 0 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handlers = {

@@ -3,19 +3,26 @@
 @import '@fontsource/roboto/500.css';
 @import '@fontsource/roboto/700.css';
 
+@import './utility/margins';
+@import './utility/colors';
+@import './utility/text';
+
 html,
 body {
   height: 100%;
   margin: 0;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
 .main-content {
   display: flex;
   flex-grow: 1;
+}
+
+@keyframes spinner {
+  0% {
+    stroke-dashoffset: 125.6;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
 }

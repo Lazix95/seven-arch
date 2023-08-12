@@ -1,5 +1,6 @@
 export const folders = {
   general: 'general',
+  caruselImages: 'caruselImages',
 } as const;
 
 export const documents = {

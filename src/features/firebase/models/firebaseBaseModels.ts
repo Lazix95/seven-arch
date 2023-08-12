@@ -1,6 +1,5 @@
 import { DocumentReference } from 'firebase/firestore';
 import { entities, documents, folders } from '../../../constants/entitiesAndFoldersNames';
-import Document from '../../../pages/_document';
 
 export type GenericPayload = {
   [key in EntityKeys]?: DocumentReference[];

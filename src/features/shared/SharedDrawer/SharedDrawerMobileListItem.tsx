@@ -2,6 +2,7 @@ import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } f
 import { Fragment } from 'react';
 import { SharedDrawerItem } from './SharedDrawer';
 import { SharedIf } from '../SharedIf';
+import Link from 'next/link';
 
 interface SharedDrawerItemListProps {
   readonly showSubList?: boolean;
@@ -13,7 +14,7 @@ interface SharedDrawerItemListProps {
 export function SharedDrawerMobileListItem({ items, dense, showSubList }: SharedDrawerItemListProps) {
   return (
     <List sx={{ pt: 0 }}>
-      {items.map(({ label, Icon, subItems }, index) => (
+      {items.map(({ label, Icon, subItems, toItem }, index) => (
         <Fragment key={`${label} - fragment`}>
           <ListItem key={label} disablePadding>
             <ListItemButton dense={dense}>
@@ -22,7 +23,11 @@ export function SharedDrawerMobileListItem({ items, dense, showSubList }: Shared
                   <Icon />
                 </ListItemIcon>
               )}
-              <ListItemText primary={label} />
+              <ListItemText>
+                <Link style={{ textDecoration: 'none', color: 'inherit' }} href={toItem}>
+                  {label}
+                </Link>
+              </ListItemText>
             </ListItemButton>
           </ListItem>
 
@@ -35,7 +40,11 @@ export function SharedDrawerMobileListItem({ items, dense, showSubList }: Shared
                       <subItem.Icon />
                     </ListItemIcon>
                   )}
-                  <ListItemText primary={subItem.label} />
+                  <ListItemText>
+                    <Link style={{ textDecoration: 'none', color: 'inherit' }} href={subItem.to}>
+                      {subItem.label}
+                    </Link>
+                  </ListItemText>
                 </ListItemButton>
               </ListItem>
             ))}

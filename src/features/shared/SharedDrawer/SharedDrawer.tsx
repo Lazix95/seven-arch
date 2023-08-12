@@ -34,15 +34,19 @@ interface SharedDrawerProps {
 //   },
 // ]
 
-export interface SharedDrawerItem {
-  label: string;
-  Icon?: typeof SvgIcon;
-  subItems?: SharedDrawerSubItem[];
+interface SharedDrawerBaseItem {
+  readonly label: string;
+  readonly Icon?: typeof SvgIcon;
+  readonly to: string;
 }
 
-interface SharedDrawerSubItem {
-  label: string;
-  Icon?: typeof SvgIcon;
+export interface SharedDrawerItem extends SharedDrawerBaseItem {
+  readonly subItems?: SharedDrawerSubItem[];
+}
+
+interface SharedDrawerSubItem extends SharedDrawerBaseItem {
+  readonly label: string;
+  readonly Icon?: typeof SvgIcon;
 }
 
 export function SharedDrawer({ onChange, value, items, title, showSubList = true }: SharedDrawerProps) {

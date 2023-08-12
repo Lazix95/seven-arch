@@ -2,11 +2,16 @@ import { Breakpoint } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { User, signIn, signUserOut, watchForUserData } from '../firebase';
+import { User, getDocument, getImageLink, signIn, signUserOut, watchForUserData } from '../firebase';
 import { UserContextProvider } from '../firebase/context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
-import { mainDrawerItems } from '@/constants/mainDrawerItems';
-import { StaticDataProvider } from '@/hooks/useStaticPropsData';
+import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
+
+export const getStaticProps = async () => {
+  const basicInfo = await getDocument('general', 'basicInfo');
+  const savedImages = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
+  return { props: { basicInfo, savedImages } };
+};
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
@@ -41,23 +46,21 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
 
   return (
     <UserContextProvider value={user}>
-      <StaticDataProvider>
-        <FeatureIndexView
-          appBarTitle={pageProps.basicInfo.companyName}
-          splashScreenImageUrl={pageProps.savedImages.loadingScreenImage}
-          onSingInSubmit={handleSubmitSignIn}
-          onDrawerChange={setIsDrawerActive}
-          onSignOut={handleSignOut}
-          hasLoginError={hasLoginError}
-          isSignInLoading={isSignInLoading}
-          isDrawerActive={isDrawerActive}
-          isAdminPage={isAdminPage}
-          userData={user}
-          drawerItems={mainDrawerItems}
-        >
-          <Component {...pageProps} />
-        </FeatureIndexView>
-      </StaticDataProvider>
+      <FeatureIndexView
+        appBarTitle={pageProps.basicInfo.companyName}
+        splashScreenImageUrl={pageProps.savedImages.loadingScreenImage}
+        onSingInSubmit={handleSubmitSignIn}
+        onDrawerChange={setIsDrawerActive}
+        onSignOut={handleSignOut}
+        hasLoginError={hasLoginError}
+        isSignInLoading={isSignInLoading}
+        isDrawerActive={isDrawerActive}
+        isAdminPage={isAdminPage}
+        userData={user}
+        drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
+      >
+        <Component {...pageProps} />
+      </FeatureIndexView>
     </UserContextProvider>
   );
 }

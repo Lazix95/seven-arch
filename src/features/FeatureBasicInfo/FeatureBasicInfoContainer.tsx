@@ -1,14 +1,15 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment } from 'react';
 import { FeatureBasicInfoView } from './FeatureBasicInfoView';
 import { FeatureBasicInfoAdminView, FeatureBasicInfoAdminViewFields } from './FeatureBasicInfoAdminView';
 import { getDocument, getImageLink, storeDocument, storeImages } from '../firebase/firebase';
 import { SharedIf } from '../shared/SharedIf';
-import { useContainerData } from '../firebase/hooks/useContainerData';
+import { useContainerData } from '../../hooks/useContainerData';
+import { convertToProps } from '@/utils/ssgUtils';
 
 export const getStaticProps = async () => {
   const basicInfo = await getDocument('general', 'basicInfo');
   const savedImages = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
-  return { props: { basicInfo, savedImages } };
+  return convertToProps({ basicInfo, savedImages });
 };
 
 interface FeatureBasicInfoState {
@@ -24,7 +25,7 @@ interface FeatureBasicInfoContainerProps {
 }
 
 export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: FeatureBasicInfoContainerProps) {
-  const { setState, updateState, state } = useContainerData<FeatureBasicInfoState>({
+  const { updateState, state } = useContainerData<FeatureBasicInfoState>({
     isSubmitLoading: false,
     basicInfo,
     savedImages,

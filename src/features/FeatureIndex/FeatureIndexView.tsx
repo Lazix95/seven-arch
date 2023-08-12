@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useCallback } from 'react';
+import { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { FirebaseAuth } from '../firebase/components/FirebaseAuth';
 import { SharedHead } from '../shared/SharedHead';
 import { SharedSplashScreen } from '../shared/SharedSplashScreen/SharedSplashScreen';
@@ -44,6 +44,10 @@ export function FeatureIndexView({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSignInLoading]);
 
+  const hasAnySubItem = useMemo(() => {
+    return drawerItems.some((item) => item.subItems?.length && item.subItems?.length > 0);
+  }, [drawerItems]);
+
   return (
     <Fragment>
       <SharedHead title="Welcome to Sevenarch!" />
@@ -53,7 +57,7 @@ export function FeatureIndexView({
         <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
           <SharedMainLayout title={appBarTitle} onDrawerChange={onDrawerChange} onSignOut={onSignOut}>
             <SharedNamedChild name="drawer">
-              <SharedDrawer title={'Menu'} items={drawerItems} value={isDrawerActive} showSubList={false} onChange={onDrawerChange} />
+              <SharedDrawer title={'Menu'} items={drawerItems} value={isDrawerActive} showSubList={hasAnySubItem} onChange={onDrawerChange} />
             </SharedNamedChild>
             {children}
           </SharedMainLayout>

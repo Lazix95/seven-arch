@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, doc, addDoc, getDocs, getDoc, CollectionReference, setDoc, deleteDoc } from 'firebase/firestore';
-import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, listAll } from 'firebase/storage';
 import { EntityKeys, GenericPayload, FolderKeys, DocumentKeys } from './models/firebaseBaseModels';
 export type { User } from 'firebase/auth';
 
@@ -64,6 +64,16 @@ export async function getImageLink({ folder, name }: { name: string; folder: Fol
   try {
     const imageRef = storageRef(firebaseStorage, `/images/${folder}/${name}`);
     return await getDownloadURL(imageRef);
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function getAllImageLinks({ folder }: { folder: FolderKeys }) {
+  try {
+    const bucketRef = storageRef(firebaseStorage, `/images/${folder}`);
+    const images = await (await listAll(bucketRef)).items;
+    return await images.map((image) => getDownloadURL(image));
   } catch (e) {
     return null;
   }

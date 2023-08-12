@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, ThemeOptions } from '@mui/material/styles';
 
 // Create a theme instance.
 export const sharedThemeDefaultDark = createTheme({
@@ -12,6 +12,24 @@ export const sharedThemeDefaultDark = createTheme({
       main: '#0933F5',
       dark: '#ff0000',
     },
+  },
+});
+
+export const sharedThemeDarkTransparent = createTheme({
+  palette: {
+    text: {
+      secondary: '#ffffff',
+    },
+    mode: 'light',
+    background: {
+      default: '#1a1a1a',
+    },
+    primary: {
+      main: '#d5df265f',
+    },
+    // secondary: {
+    //   main: '#0933F5',
+    // },
   },
 });
 

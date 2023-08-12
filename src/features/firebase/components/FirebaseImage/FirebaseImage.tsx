@@ -10,9 +10,10 @@ interface SharedContentImageProps {
   folder: FolderKeys;
   name: string;
   text?: string;
+  type?: 'img' | 'div';
 }
 
-export function FirebaseImage({ folder, name, text }: SharedContentImageProps) {
+export function FirebaseImage({ folder, name, text, type = 'img' }: SharedContentImageProps) {
   const [image, setImage] = useState('');
 
   useEffect(() => {
@@ -26,14 +27,28 @@ export function FirebaseImage({ folder, name, text }: SharedContentImageProps) {
 
   return (
     <SharedIf RIf={!!image}>
-      <div className={styles.SharedContentImage_container} style={{ aspectRatio: '16/9' }}>
+      <div className={`${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
         <SharedIf RIf={!!text}>
           <div className={styles.SharedContentImage_overlay} />
           <Typography variant={'subtitle1'} className={styles['SharedContentImage_text']}>
             {text}
           </Typography>
         </SharedIf>
-        <Image style={{ width: '100%', height: '100%', objectFit: 'cover', aspectRatio: '16/9' }} width={1000} height={1000} src={image} alt={name} />
+        <SharedIf RIf={type === 'img'}>
+          <Image style={{ width: '100%', height: '100%', objectFit: 'cover', aspectRatio: '16/9' }} width={1000} height={1000} src={image} alt={name} />
+        </SharedIf>
+
+        <SharedIf RIf={type === 'div'}>
+          <div
+            style={{
+              backgroundImage: `url('${image}')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </SharedIf>
       </div>
     </SharedIf>
   );
