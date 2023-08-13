@@ -14,18 +14,16 @@ export function SharedDrawerDesktopListItem({ items, selectedIndex, onHover, den
     <List>
       {items.map(({ label, Icon, to }, index) => (
         <ListItem key={label} disablePadding>
-          <ListItemButton selected={selectedIndex === index} dense={dense} onMouseEnter={() => onHover?.(index)}>
-            {Icon && (
-              <ListItemIcon>
-                <Icon />
-              </ListItemIcon>
-            )}
-            <ListItemText>
-              <Link style={{ textDecoration: 'none', color: 'inherit' }} href={to}>
-                {label}
-              </Link>
-            </ListItemText>
-          </ListItemButton>
+          <Link style={{ textDecoration: 'none', color: 'inherit', width: '100%' }} href={to}>
+            <ListItemButton selected={selectedIndex === index} dense={dense} onMouseEnter={() => onHover?.(index)}>
+              {Icon && (
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+              )}
+              <ListItemText>{label}</ListItemText>
+            </ListItemButton>
+          </Link>
         </ListItem>
       ))}
     </List>

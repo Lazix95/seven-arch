@@ -1,20 +1,18 @@
 import React, { Fragment } from 'react';
 import { FeatureBasicInfoView } from './FeatureBasicInfoView';
 import { FeatureBasicInfoAdminView, FeatureBasicInfoAdminViewFields } from './FeatureBasicInfoAdminView';
-import { getDocument, getImageLink, storeDocument, storeImages } from '../firebase/firebase';
+import { storeDocument, storeImages } from '../firebase/firebase';
 import { SharedIf } from '../shared/SharedIf';
 import { useContainerData } from '../../hooks/useContainerData';
-import { convertToProps } from '@/utils/ssgUtils';
+import { createGetStaticProps } from '@/utils/ssgUtils';
+import { fetchBasicInfo, fetchSliderImages } from '../firebase/api/basicDataApi';
 
-export const getStaticProps = async () => {
-  const basicInfo = await getDocument('general', 'basicInfo');
-  const savedImages = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
-  return convertToProps({ basicInfo, savedImages });
-};
+export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 
 interface FeatureBasicInfoState {
   readonly basicInfo: { companyName: string };
   readonly savedImages: { loadingScreenImage: string | null };
+  readonly sliderImages: { sliderImage1: string | null; sliderImage2: string | null; sliderImage3: string | null };
   readonly isSubmitLoading: boolean;
 }
 
@@ -22,13 +20,15 @@ interface FeatureBasicInfoContainerProps {
   readonly admin: boolean;
   readonly basicInfo: FeatureBasicInfoState['basicInfo'];
   readonly savedImages: FeatureBasicInfoState['savedImages'];
+  readonly sliderImages: FeatureBasicInfoState['sliderImages'];
 }
 
-export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: FeatureBasicInfoContainerProps) {
+export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages, sliderImages }: FeatureBasicInfoContainerProps) {
   const { updateState, state } = useContainerData<FeatureBasicInfoState>({
     isSubmitLoading: false,
     basicInfo,
     savedImages,
+    sliderImages,
   });
 
   async function handleSubmitBasicInfo(payload: FeatureBasicInfoAdminViewFields) {
@@ -52,7 +52,12 @@ export function FeatureBasicInfoContainer({ admin, basicInfo, savedImages }: Fea
   return (
     <Fragment>
       <SharedIf RIf={admin}>
-        <FeatureBasicInfoAdminView isSubmitLoading={state.isSubmitLoading} onSubmit={handleSubmitBasicInfo} images={state.savedImages} data={{ ...state.basicInfo }} />
+        <FeatureBasicInfoAdminView
+          isSubmitLoading={state.isSubmitLoading}
+          onSubmit={handleSubmitBasicInfo}
+          images={{ ...state.savedImages, ...state.sliderImages }}
+          data={{ ...state.basicInfo }}
+        />
       </SharedIf>
 
       <SharedIf RIf={!admin}>

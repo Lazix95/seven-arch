@@ -11,6 +11,7 @@ import { SharedIf } from '../../SharedIf';
 import { getNamedChild } from '@/utils/SharedReactUtils';
 import { useUserContext } from '@/features/firebase/context/userContext';
 import { SharedButton } from '../../SharedButton';
+import { useLocalRouter } from '@/hooks/useLocalRouter';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
@@ -27,6 +28,7 @@ interface SharedMainLayoutProps {
 export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter, UpperNavList, LowerNavList, drawerValue, onDrawerChange, onSignOut }: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
   const user = useUserContext();
+  const { isAdminPage } = useLocalRouter();
   const showUpper = UpperNavList !== undefined;
   const showLower = LowerNavList !== undefined;
   const showDrawer = Drawer !== undefined;
@@ -47,7 +49,7 @@ export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter
             <nav>{showUpper && <UpperNavList />}</nav>
           </SharedIf>
 
-          <SharedIf RIf={!!user}>
+          <SharedIf RIf={isAdminPage && !!user}>
             <SharedButton btnType={'Icon'} aria-label={'Logout'} edge="end" onClick={onSignOut} sx={{ mr: 2 }}>
               <LogoutIcon />
             </SharedButton>

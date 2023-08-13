@@ -1,13 +1,12 @@
-import { sharedThemeDefaultDark, sharedThemeDefaultLight, sharedThemeDarkTransparent } from '@/themes/sharedThemeDefault';
-import { CssBaseline, ThemeProvider, useMediaQuery } from '@mui/material';
+import { sharedThemeDefaultLight, sharedThemeTransparent } from '@/themes/sharedThemeDefault';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import { useLocalRouter } from '@/hooks/useLocalRouter';
 
 export function SharedThemeProvider({ mode, children }: { mode?: 'light' | 'dark'; children: ReactNode }) {
-  const router = useRouter();
-  const isHomePage = router.pathname === '/';
+  const { isHomePage } = useLocalRouter();
 
-  const theme = isHomePage ? sharedThemeDarkTransparent : sharedThemeDefaultLight;
+  const theme = isHomePage ? sharedThemeTransparent : sharedThemeDefaultLight;
 
   return (
     <ThemeProvider theme={theme}>

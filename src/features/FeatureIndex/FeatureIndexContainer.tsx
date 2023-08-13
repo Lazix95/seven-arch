@@ -1,11 +1,10 @@
-import { Breakpoint } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
-import { useRouter } from 'next/router';
 import { User, getDocument, getImageLink, signIn, signUserOut, watchForUserData } from '../firebase';
 import { UserContextProvider } from '../firebase/context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
+import { useLocalRouter } from '@/hooks/useLocalRouter';
 
 export const getStaticProps = async () => {
   const basicInfo = await getDocument('general', 'basicInfo');
@@ -18,8 +17,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
   const [user, setUser] = useState<User | null | undefined>(undefined);
-  const { asPath, push } = useRouter();
-  const isAdminPage = asPath.includes('admin');
+  const { push, isAdminPage } = useLocalRouter();
 
   useEffect(() => {
     watchForUserData((user) => {
@@ -47,8 +45,8 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   return (
     <UserContextProvider value={user}>
       <FeatureIndexView
-        appBarTitle={pageProps.basicInfo.companyName}
-        splashScreenImageUrl={pageProps.savedImages.loadingScreenImage}
+        appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
+        splashScreenImageUrl={pageProps?.savedImages?.loadingScreenImage}
         onSingInSubmit={handleSubmitSignIn}
         onDrawerChange={setIsDrawerActive}
         onSignOut={handleSignOut}

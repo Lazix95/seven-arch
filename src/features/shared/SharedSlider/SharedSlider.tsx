@@ -21,10 +21,9 @@ export function SharedSlider() {
       <div style={{ position: 'absolute', width: '100vw', height: '100vh', top: 0, left: 0 }}>
         <div className={'overlay'} />
         <Slider {...settings}>
-          <SharedSliderImage />
-          <SharedSliderImage />
-          <SharedSliderImage />
-          <SharedSliderImage />
+          <SharedSliderImage name={'sliderImage1'} />
+          <SharedSliderImage name={'sliderImage2'} />
+          <SharedSliderImage name={'sliderImage3'} />
         </Slider>
       </div>
     </div>

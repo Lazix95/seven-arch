@@ -12,11 +12,17 @@ export interface FeatureBasicInfoAdminViewData extends Record<string, unknown> {
 
 export interface FeatureBasicInfoAdminViewImages {
   loadingScreenImage: string | null;
+  sliderImage1: string | null;
+  sliderImage2: string | null;
+  sliderImage3: string | null;
 }
 
 export interface FeatureBasicInfoAdminViewFields extends FeatureBasicInfoAdminViewData {
   images: {
     loadingScreenImage?: File | null;
+    sliderImage1?: File | null;
+    sliderImage2?: File | null;
+    sliderImage3?: File | null;
   };
 }
 
@@ -31,6 +37,9 @@ const initFields: FeatureBasicInfoAdminViewFields = {
   companyName: '',
   images: {
     loadingScreenImage: null,
+    sliderImage1: null,
+    sliderImage2: null,
+    sliderImage3: null,
   },
 };
 
@@ -65,6 +74,10 @@ export function FeatureBasicInfoAdminView({ onSubmit, data, images, isSubmitLoad
 
       <SharedGridInput required name={'companyName'} label={'Company Name'} value={fields.companyName} onChange={handleInputChange} />
       <SharedImageUpload label={'Splash Screen Image'} name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage} onChange={handleImageUpload} />
+
+      <SharedImageUpload label={'Slider Image 1'} name={'sliderImage1'} previewUrl={images?.sliderImage1} onChange={handleImageUpload} />
+      <SharedImageUpload label={'Slider Image 2'} name={'sliderImage2'} previewUrl={images?.sliderImage2} onChange={handleImageUpload} />
+      <SharedImageUpload label={'Slider Image 3'} name={'sliderImage3'} previewUrl={images?.sliderImage3} onChange={handleImageUpload} />
 
       <SharedButton btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
         Save

@@ -1,21 +1,8 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
+import { components } from './componentStyling';
 
-// Create a theme instance.
-export const sharedThemeDefaultDark = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#ffffff',
-      dark: '#000000',
-    },
-    secondary: {
-      main: '#0933F5',
-      dark: '#ff0000',
-    },
-  },
-});
-
-export const sharedThemeDarkTransparent = createTheme({
+export const sharedThemeTransparent = createTheme({
+  components,
   palette: {
     text: {
       secondary: '#ffffff',
@@ -34,6 +21,7 @@ export const sharedThemeDarkTransparent = createTheme({
 });
 
 export const sharedThemeDefaultLight = createTheme({
+  components,
   palette: {
     mode: 'light',
     primary: {

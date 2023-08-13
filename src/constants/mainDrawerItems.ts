@@ -26,13 +26,13 @@ export const mainDrawerItems: SharedDrawerItem[] = [
 
 export const adminDrawerItems: SharedDrawerItem[] = [
   {
-    label: 'Test',
+    label: 'Basic Info',
     Icon: InboxIcon,
-    to: '#',
+    to: '/admin',
   },
   {
-    label: 'Test 2',
+    label: 'Main Page',
     Icon: InboxIcon,
-    to: '#',
+    to: 'admin/main-page',
   },
 ];

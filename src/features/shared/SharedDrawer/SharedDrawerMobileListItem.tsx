@@ -14,38 +14,34 @@ interface SharedDrawerItemListProps {
 export function SharedDrawerMobileListItem({ items, dense, showSubList }: SharedDrawerItemListProps) {
   return (
     <List sx={{ pt: 0 }}>
-      {items.map(({ label, Icon, subItems, toItem }, index) => (
+      {items.map(({ label, Icon, subItems, to }, index) => (
         <Fragment key={`${label} - fragment`}>
           <ListItem key={label} disablePadding>
-            <ListItemButton dense={dense}>
-              {Icon && (
-                <ListItemIcon>
-                  <Icon />
-                </ListItemIcon>
-              )}
-              <ListItemText>
-                <Link style={{ textDecoration: 'none', color: 'inherit' }} href={toItem}>
-                  {label}
-                </Link>
-              </ListItemText>
-            </ListItemButton>
+            <Link style={{ textDecoration: 'none', color: 'inherit', width: '100%' }} href={to}>
+              <ListItemButton dense={dense}>
+                {Icon && (
+                  <ListItemIcon>
+                    <Icon />
+                  </ListItemIcon>
+                )}
+                <ListItemText>{label}</ListItemText>
+              </ListItemButton>
+            </Link>
           </ListItem>
 
           <SharedIf RIf={showSubList}>
             {subItems?.map((subItem) => (
               <ListItem style={{ paddingLeft: 15 }} key={subItem.label} disablePadding>
-                <ListItemButton dense>
-                  {subItem.Icon && (
-                    <ListItemIcon>
-                      <subItem.Icon />
-                    </ListItemIcon>
-                  )}
-                  <ListItemText>
-                    <Link style={{ textDecoration: 'none', color: 'inherit' }} href={subItem.to}>
-                      {subItem.label}
-                    </Link>
-                  </ListItemText>
-                </ListItemButton>
+                <Link style={{ textDecoration: 'none', color: 'inherit' }} href={subItem.to}>
+                  <ListItemButton dense>
+                    {subItem.Icon && (
+                      <ListItemIcon>
+                        <subItem.Icon />
+                      </ListItemIcon>
+                    )}
+                    <ListItemText>{subItem.label}</ListItemText>
+                  </ListItemButton>
+                </Link>
               </ListItem>
             ))}
             <SharedIf RIf={index < items.length - 1}>
