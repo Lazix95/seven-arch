@@ -7,7 +7,7 @@ export function createGetStaticProps(getMethods: (() => Promise<any>)[]) {
     let responses = {};
     const rawResponses = await Promise.all(getMethods.map((meth) => meth()));
     rawResponses.forEach((rawResponse) => {
-      responses = { ...rawResponse };
+      responses = { ...responses, ...rawResponse };
     });
     return convertToProps(responses);
   };

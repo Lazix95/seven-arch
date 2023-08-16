@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
-import { User, getDocument, getImageLink, signIn, signUserOut, watchForUserData } from '../firebase';
+import { User, signIn, signUserOut, watchForUserData } from '../firebase';
 import { UserContextProvider } from '../firebase/context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
+import { createGetStaticProps } from '@/utils/ssgUtils';
+import { fetchBasicInfo } from '../firebase/api/basicDataApi';
 
-export const getStaticProps = async () => {
-  const basicInfo = await getDocument('general', 'basicInfo');
-  const savedImages = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
-  return { props: { basicInfo, savedImages } };
-};
+export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
@@ -46,7 +44,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     <UserContextProvider value={user}>
       <FeatureIndexView
         appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
-        splashScreenImageUrl={pageProps?.savedImages?.loadingScreenImage}
+        splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
         onSingInSubmit={handleSubmitSignIn}
         onDrawerChange={setIsDrawerActive}
         onSignOut={handleSignOut}

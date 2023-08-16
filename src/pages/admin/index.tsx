@@ -1,6 +1,4 @@
-import { FeatureBasicInfoContainer, getStaticProps } from '../../features/FeatureBasicInfo/FeatureBasicInfoContainer';
+import { FeatureAdminBasicInfoContainer, getStaticProps } from '@/features/FeatureAdmin/FeatureAdminBasicInfo/FeatureAdminBasicInfoContainer';
 
 export { getStaticProps };
-export default function FeatureBasicInfoAdminContainer(props: any) {
-  return <FeatureBasicInfoContainer admin={true} {...props} />;
-}
+export default FeatureAdminBasicInfoContainer;

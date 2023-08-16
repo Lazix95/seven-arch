@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, useCallback, useMemo } from 'react';
+import { Fragment, ReactNode, useCallback, useEffect, useMemo } from 'react';
 import { FirebaseAuth } from '../firebase/components/FirebaseAuth';
 import { SharedHead } from '../shared/SharedHead';
 import { SharedSplashScreen } from '../shared/SharedSplashScreen/SharedSplashScreen';

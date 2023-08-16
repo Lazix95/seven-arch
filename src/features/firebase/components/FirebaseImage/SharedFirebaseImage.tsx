@@ -1,30 +1,19 @@
 import Image from 'next/image';
 import styles from './FirebaseImage.module.scss';
 import { Typography } from '@mui/material';
-import { getImageLink } from '../../firebase';
 import { useEffect, useState } from 'react';
 import { FolderKeys } from '../../models/firebaseBaseModels';
 import { SharedIf } from '@/features/shared/SharedIf';
+import { FirebaseImage, getImageLink } from '../../utils/firebaseImageUtils';
 
-interface SharedContentImageProps {
-  folder: FolderKeys;
-  name: string;
+export interface SharedFirebaseImage {
+  image?: FirebaseImage;
+  alt?: string;
   text?: string;
   type?: 'img' | 'div';
 }
 
-export function FirebaseImage({ folder, name, text, type = 'img' }: SharedContentImageProps) {
-  const [image, setImage] = useState('');
-
-  useEffect(() => {
-    getImage();
-  });
-
-  async function getImage() {
-    const imgUrl = await getImageLink({ folder, name });
-    setImage(imgUrl || '');
-  }
-
+export function SharedFirebaseImage({ image, text, type = 'img', alt }: SharedFirebaseImage) {
   return (
     <SharedIf RIf={!!image}>
       <div className={`${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
@@ -35,17 +24,21 @@ export function FirebaseImage({ folder, name, text, type = 'img' }: SharedConten
           </Typography>
         </SharedIf>
         <SharedIf RIf={type === 'img'}>
-          <Image style={{ width: '100%', height: '100%', objectFit: 'cover', aspectRatio: '16/9' }} width={1000} height={1000} src={image} alt={name} />
+          <Image
+            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-zoom']}`}
+            style={{ objectFit: 'cover', aspectRatio: '16/9' }}
+            width={1000}
+            height={1000}
+            src={image?.url ?? ''}
+            alt={alt ?? ''}
+          />
         </SharedIf>
 
         <SharedIf RIf={type === 'div'}>
           <div
+            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${styles['SharedContentImage__image-zoom']}`}
             style={{
-              backgroundImage: `url('${image}')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              width: '100%',
-              height: '100%',
+              backgroundImage: `url('${image?.url}')`,
             }}
           />
         </SharedIf>

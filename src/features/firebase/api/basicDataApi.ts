@@ -1,23 +1,13 @@
-import { getDocument, getImageLink } from '../firebase';
+import { getDocument } from '../utils/firebaseDocumentUtils';
+import { FirebaseImage, getImageLink } from '../utils/firebaseImageUtils';
 
-export async function fetchBasicInfo(): Promise<FetchBasicInfo> {
-  const basicInfo = await getDocument<FetchBasicInfo['basicInfo']>('general', 'basicInfo');
-  const images = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
-  const sliderImage1 = await getImageLink({ folder: 'general', name: 'sliderImage1' });
-  const sliderImage2 = await getImageLink({ folder: 'general', name: 'sliderImage2' });
-  const sliderImage3 = await getImageLink({ folder: 'general', name: 'sliderImage3' });
-  return { basicInfo, savedImages: images, sliderImages: { sliderImage1, sliderImage2, sliderImage3 } };
+export async function fetchBasicInfo(): Promise<DataBasicInfo> {
+  const basicInfo = await getDocument<DataBasicInfo['basicInfo']>('general', 'basicInfo');
+  const basicInfoImages = { loadingScreenImage: await getImageLink({ folder: 'general', name: 'loadingScreenImage' }) };
+  return { basicInfo, basicInfoImages };
 }
 
-export async function fetchSliderImages(): Promise<{ sliderImages: { sliderImage1: string | null; sliderImage2: string | null; sliderImage3: string | null } }> {
-  const sliderImage1 = await getImageLink({ folder: 'general', name: 'sliderImage1' });
-  const sliderImage2 = await getImageLink({ folder: 'general', name: 'sliderImage2' });
-  const sliderImage3 = await getImageLink({ folder: 'general', name: 'sliderImage3' });
-  return { sliderImages: { sliderImage1, sliderImage2, sliderImage3 } };
-}
-
-interface FetchBasicInfo {
-  basicInfo: { companyName: string };
-  savedImages: { loadingScreenImage: string | null };
-  sliderImages: { sliderImage1: string | null; sliderImage2: string | null; sliderImage3: string | null };
+export interface DataBasicInfo {
+  readonly basicInfo: { companyName: string };
+  readonly basicInfoImages: { loadingScreenImage: FirebaseImage | null };
 }

@@ -36,7 +36,9 @@ export function SharedDrawerDesktopList({ items, showSubList, onChange, title }:
     <Box sx={{ height: '100%', width: showSubList ? 500 : 250 }} role="presentation" {...handlers}>
       <Grid container spacing={2} sx={{ height: '100%' }}>
         <Grid item xs={showSubList ? 6 : 12}>
-          <Typography>{title}</Typography>
+          <Typography variant={'h6'} style={{ marginLeft: '18px', marginTop: '12px' }}>
+            {title}
+          </Typography>
           <SharedDrawerDesktopListItem selectedIndex={subItems.index} items={items ?? []} onHover={handleHoverOnDrawerItem} />
         </Grid>
 

@@ -26,4 +26,16 @@
     font-size: 1.3rem;
     font-weight: 500;
   }
+
+  &__image-zoom {
+    transition: transform 0.3s;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  &__image-div {
+    background-size: cover;
+    background-position: center;
+  }
 }

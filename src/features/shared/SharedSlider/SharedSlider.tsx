@@ -4,8 +4,13 @@ import { SharedSliderImage } from './SharedSliderImage';
 import classes from './SharedSlider.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 
-export function SharedSlider() {
+interface SharedSliderProps {
+  images?: FirebaseImage[];
+}
+
+export function SharedSlider({ images = [] }: SharedSliderProps) {
   const settings: Settings = {
     dots: true,
     infinite: true,
@@ -13,17 +18,17 @@ export function SharedSlider() {
     adaptiveHeight: true,
     autoplaySpeed: 10000,
     arrows: false,
-    autoplay: false,
+    autoplay: true,
     customPaging: SharedSliderDot,
   };
   return (
     <div style={{ width: 'auto', height: 'calc(100vh - 64px)' }} className={classes.slider}>
-      <div style={{ position: 'absolute', width: '100vw', height: '100vh', top: 0, left: 0 }}>
+      <div style={{ position: 'absolute', width: '100vw', height: '100vh', maxWidth: '100%', top: 0, left: 0 }}>
         <div className={'overlay'} />
         <Slider {...settings}>
-          <SharedSliderImage name={'sliderImage1'} />
-          <SharedSliderImage name={'sliderImage2'} />
-          <SharedSliderImage name={'sliderImage3'} />
+          {images.map((image) => (
+            <SharedSliderImage key={image.dbPath} image={image} />
+          ))}
         </Slider>
       </div>
     </div>

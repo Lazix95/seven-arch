@@ -1,4 +1,4 @@
-import { FeatureAdminMainPageContainer, getStaticProps } from '@/features/FeatureAdmin/FeatureAdminSlider/FeatureAdminMainPageContailer';
+import { FeatureAdminMainPageContainer, getStaticProps } from '@/features/FeatureAdmin/FeatureAdminMainPage/FeatureAdminMainPageContailer';
 
 export { getStaticProps };
 

@@ -11,13 +11,14 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { SharedButton } from '../SharedButton';
 
 interface SharedImageUploadProps {
-  name: string;
+  name?: string;
   previewUrl?: string | null;
   label: string;
+  noPreview?: boolean;
   onChange?: (name: string, file: File) => void;
 }
 
-export const SharedImageUpload = ({ onChange, previewUrl, name, label }: SharedImageUploadProps) => {
+export const SharedImageUpload = ({ onChange, previewUrl, name, label, noPreview }: SharedImageUploadProps) => {
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -27,8 +28,9 @@ export const SharedImageUpload = ({ onChange, previewUrl, name, label }: SharedI
   const handleDrop = async (e: DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer?.files[0];
+    onChange?.(name ?? '', file);
+    if (noPreview) return;
     setImage(await getFilePreviewURL(file));
-    onChange?.(name, file);
   };
 
   const handleDragOver = (e: DragEvent) => {
@@ -44,7 +46,8 @@ export const SharedImageUpload = ({ onChange, previewUrl, name, label }: SharedI
   };
 
   async function handleUploadImage(file: File, previewUrl: string) {
-    onChange?.(name, file);
+    onChange?.(name ?? '', file);
+    if (noPreview) return;
     setImage(previewUrl);
   }
 

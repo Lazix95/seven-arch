@@ -1,12 +1,13 @@
 import { FirebaseImage } from '@/features/firebase/components/FirebaseImage';
+import { FirebaseImage as FirebaseImageType } from '@/features/firebase/utils/firebaseImageUtils';
 export interface SharedSliderImageProps {
-  name: string;
+  image: FirebaseImageType;
 }
 
-export function SharedSliderImage({ name }: SharedSliderImageProps) {
+export function SharedSliderImage({ image }: SharedSliderImageProps) {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <FirebaseImage type={'div'} folder={'general'} name={name} />
+      <FirebaseImage type={'div'} image={image} />
     </div>
   );
 }

@@ -19,7 +19,6 @@ export function SharedForm({ onSubmit, children, validation = true, grid = true 
 
     const data = new FormData(event.currentTarget);
 
-    console.log('data', convertFormDataToObject(data));
     onSubmit?.();
   }
 
