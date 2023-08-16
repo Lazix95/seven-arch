@@ -4,11 +4,11 @@ import { SharedGridContainer } from '../shared/SharedDrawer/SharedGridContainer'
 import { SharedSlider } from '../shared/SharedSlider/SharedSlider';
 import { SharedGridItem } from '../shared/grid/SharedGridItem';
 
-interface FeatureBasicInfoViewProps {
+interface FeatureHomePageViewProps {
   images: FirebaseImage[];
 }
 
-export function FeatureBasicInfoView({ images }: FeatureBasicInfoViewProps) {
+export function FeatureHomePageView({ images }: FeatureHomePageViewProps) {
   return (
     <>
       <div>

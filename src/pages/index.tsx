@@ -1,4 +1,4 @@
-import { FeatureBasicInfoContainer, getStaticProps } from '../features/FeatureBasicInfo/FeatureBasicInfoContainer';
+import { FeatureHomePageContainer, getStaticProps } from '../features/FeatureHomePage/FeatureHomePageContainer';
 
 export { getStaticProps };
-export default FeatureBasicInfoContainer;
+export default FeatureHomePageContainer;

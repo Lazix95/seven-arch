@@ -1,4 +1,5 @@
 .SharedContentImage {
+  overflow: hidden;
   &_container {
     cursor: pointer;
     position: relative;
@@ -16,6 +17,7 @@
     width: 100%;
     height: 100%;
     background: linear-gradient(to bottom, transparent 65%, black 100%);
+    z-index: 2;
   }
 
   &_text {
@@ -25,6 +27,7 @@
     color: white;
     font-size: 1.3rem;
     font-weight: 500;
+    z-index: 3;
   }
 
   &__image-zoom {
@@ -37,5 +40,10 @@
   &__image-div {
     background-size: cover;
     background-position: center;
+  }
+  &:hover {
+    .SharedContentImage__image-zoom {
+      transform: scale(1.1);
+    }
   }
 }

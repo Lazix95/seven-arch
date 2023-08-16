@@ -2,8 +2,8 @@ import { StorageReference } from 'firebase/storage';
 import { FirebaseImage, getAllImageLinks } from '../utils/firebaseImageUtils';
 import { FolderKeys } from '../models/firebaseBaseModels';
 
-export async function fetchSliderImages(folder?: FolderKeys): Promise<DataSliderImages> {
-  const sliderImages = await getAllImageLinks({ folder: folder ?? 'sliderImages' });
+export async function fetchSliderImages(): Promise<DataSliderImages> {
+  const sliderImages = await getAllImageLinks({ folder: 'sliderImages' });
   return { sliderImages };
 }
 

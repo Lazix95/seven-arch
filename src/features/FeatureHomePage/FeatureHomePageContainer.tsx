@@ -1,4 +1,4 @@
-import { FeatureBasicInfoView } from './FeatureBasicInfoView';
+import { FeatureHomePageView } from './FeatureHomePageView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo, DataBasicInfo } from '../firebase/api/basicDataApi';
 import { DataSliderImages, fetchSliderImages } from '../firebase/api/mainPageApi';
@@ -7,18 +7,18 @@ import { FirebaseImage } from '../firebase/utils/firebaseImageUtils';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages]);
 
-interface FeatureBasicInfoContainerProps extends DataBasicInfo, DataSliderImages {}
+interface FeatureHomePageContainerProps extends DataBasicInfo, DataSliderImages {}
 
-export function FeatureBasicInfoContainer({ sliderImages }: FeatureBasicInfoContainerProps) {
+export function FeatureHomePageContainer({ sliderImages }: FeatureHomePageContainerProps) {
   const [localImages, setLocalImages] = useState<FirebaseImage[]>(sliderImages ?? []);
 
   useEffect(() => {
     async function getImages() {
-      const images = await fetchSliderImages('general');
+      const images = await fetchSliderImages();
       setLocalImages(images.sliderImages ?? []);
     }
     getImages();
   }, []);
 
-  return <FeatureBasicInfoView images={localImages} />;
+  return <FeatureHomePageView images={localImages} />;
 }
