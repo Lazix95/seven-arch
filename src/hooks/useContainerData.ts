@@ -1,4 +1,5 @@
-import { Reducer, useReducer } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useReducer, useState } from 'react';
 
 interface ReduceActionAddToArray<T> {
   type: 'ADD_TO_ARRAY';
@@ -41,10 +42,29 @@ function conteinerDataReducer<T>(state: T, action: ReduceActions<T>): T {
   }
 }
 
-export function useContainerData<T extends object = object>(initState: T) {
+export function useContainerData<T extends object = object>(initState: T, hydrationFunctions: Array<() => object> = []) {
   const [state, dispatch] = useReducer(conteinerDataReducer<T>, initState);
+  const [initialLoading, setInitialLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchAllData() {
+      try {
+        setInitialLoading(true);
+        const requests = hydrationFunctions.map((fnc) => fnc());
+        await new Promise((resolve) => setInterval(resolve, 4000));
+        const dataArray = await Promise.all(requests);
+        const data = dataArray.reduce((acc, curren) => ({ ...acc, ...curren }), {});
+        setState(data as T);
+      } finally {
+        setInitialLoading(false);
+      }
+    }
+
+    fetchAllData();
+  }, []);
 
   function setState(payload: T) {
+    console.log('payload');
     dispatch({ type: 'SET_DATA', payload });
   }
 
@@ -63,7 +83,7 @@ export function useContainerData<T extends object = object>(initState: T) {
     dispatch({ type: 'CLEAR' });
   }
 
-  return { state: state as T, setState, updateState, clearState, addToArrayInState, deleteFromArrayInState };
+  return { state: state, initialLoading, setState, updateState, clearState, addToArrayInState, deleteFromArrayInState };
 }
 
 type KeyWithArrayValue<T> = {

@@ -31,8 +31,13 @@ export const adminDrawerItems: SharedDrawerItem[] = [
     to: '/admin',
   },
   {
-    label: 'Main Page',
+    label: 'Home',
     Icon: InboxIcon,
-    to: 'admin/main-page',
+    to: 'admin/home',
+  },
+  {
+    label: 'News',
+    Icon: InboxIcon,
+    to: 'admin/news',
   },
 ];

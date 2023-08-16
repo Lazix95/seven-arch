@@ -4,14 +4,15 @@ import { SharedImageUpload } from '@/features/shared/SharedImageUpload/SharedIma
 import { SharedForm } from '@/features/shared/form/SharedForm';
 import { SharedGridHeading } from '@/features/shared/grid/SharedGridHeading';
 
-export interface FeatureAdminMainPageViewProps {
+export interface FeatureAdminHomeViewProps {
   images: FirebaseImage[];
   isUploadLoading: boolean;
   onUploadImage: (file: File) => void;
   onRemoveImage: (image: FirebaseImage) => void;
+  isLoading?: boolean;
 }
 
-export function FeatureAdminMainPageView({ images, isUploadLoading, onUploadImage, onRemoveImage }: FeatureAdminMainPageViewProps) {
+export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUploadImage, onRemoveImage }: FeatureAdminHomeViewProps) {
   function handleImageUpload(name: string, file: File) {
     onUploadImage(file);
   }
@@ -21,7 +22,7 @@ export function FeatureAdminMainPageView({ images, isUploadLoading, onUploadImag
   }
 
   return (
-    <SharedForm>
+    <SharedForm isLoading={isLoading}>
       <SharedGridHeading level={4} text={'Main Page'} />
       <SharedGalery loading={isUploadLoading} onRemoveImage={handleRemoveImage} images={images} />
       <SharedImageUpload label={'Splash Screen Image'} noPreview={true} onChange={handleImageUpload} />

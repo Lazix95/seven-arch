@@ -1,7 +1,7 @@
 import { FeatureHomePageView } from './FeatureHomePageView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo, DataBasicInfo } from '../firebase/api/basicDataApi';
-import { DataSliderImages, fetchSliderImages } from '../firebase/api/mainPageApi';
+import { DataSliderImages, fetchSliderImages } from '../firebase/api/homeApi';
 import { useEffect, useState } from 'react';
 import { FirebaseImage } from '../firebase/utils/firebaseImageUtils';
 

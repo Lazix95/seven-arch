@@ -5,7 +5,6 @@ import { fetchBasicInfo, DataBasicInfo } from '../../firebase/api/basicDataApi';
 import { updateObjectEnteries } from '@/utils/objectUtils';
 import { storeImages } from '@/features/firebase/utils/firebaseImageUtils';
 import { storeDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
-import { deleteByDbPath } from '@/features/firebase/utils/firebaseGeneralUtils';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 

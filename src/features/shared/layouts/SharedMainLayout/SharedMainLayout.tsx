@@ -71,8 +71,8 @@ export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter
       </AppBar>
 
       {/* Main view */}
-      <Container maxWidth={'sm'} sx={{ flexGrow: 1 }}>
-        <main style={{ paddingLeft: 0, paddingRight: 0 }}>{children}</main>
+      <Container maxWidth={'sm'} sx={{ display: 'flex', flex: 'auto', flexDirection: 'column' }}>
+        <main style={{ paddingLeft: 0, paddingRight: 0, display: 'flex', flexDirection: 'column', flex: 'auto' }}>{children}</main>
       </Container>
 
       {/* Footer */}

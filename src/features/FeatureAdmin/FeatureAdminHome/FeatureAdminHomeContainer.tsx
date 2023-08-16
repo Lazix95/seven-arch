@@ -1,13 +1,14 @@
 import { fetchBasicInfo, DataBasicInfo } from '@/features/firebase/api/basicDataApi';
 import { createGetStaticProps } from '@/utils/ssgUtils';
-import { FeatureAdminMainPageView } from './FeatureAdminMainPageView';
-import { useEffect } from 'react';
-import { DataSliderImages, fetchSliderImages } from '@/features/firebase/api/mainPageApi';
+import { FeatureAdminHomeView } from './FeatureAdminHomeView';
+import { DataSliderImages, fetchSliderImages } from '@/features/firebase/api/homeApi';
 import { useContainerData } from '@/hooks/useContainerData';
 import { FirebaseImage, storeImage } from '@/features/firebase/utils/firebaseImageUtils';
 import { deleteByDbPath } from '@/features/firebase/utils/firebaseGeneralUtils';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages]);
+const hydrationFncs = [fetchBasicInfo, fetchSliderImages];
+
+export const getStaticProps = createGetStaticProps(hydrationFncs);
 
 interface FeatureAdminMainPageContainerState {
   sliderImages: FirebaseImage[];
@@ -15,10 +16,13 @@ interface FeatureAdminMainPageContainerState {
   isDeleteLoading?: boolean;
 }
 
-export interface FeatureAdminMainPageContainerProps extends DataBasicInfo, DataSliderImages {}
+export interface FeatureAdminHomeContainerProps extends DataBasicInfo, DataSliderImages {}
 
-export function FeatureAdminMainPageContainer({ sliderImages }: FeatureAdminMainPageContainerProps) {
-  const { state, addToArrayInState, updateState, deleteFromArrayInState } = useContainerData<FeatureAdminMainPageContainerState>({ sliderImages: sliderImages ?? [] });
+export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeContainerProps) {
+  const { state, addToArrayInState, updateState, deleteFromArrayInState, initialLoading } = useContainerData<FeatureAdminMainPageContainerState>(
+    { sliderImages: sliderImages ?? [] },
+    hydrationFncs
+  );
 
   async function handleAddNewImage(image: File) {
     try {
@@ -41,6 +45,12 @@ export function FeatureAdminMainPageContainer({ sliderImages }: FeatureAdminMain
   }
 
   return (
-    <FeatureAdminMainPageView isUploadLoading={state.isSaveLoading ?? false} onUploadImage={handleAddNewImage} onRemoveImage={handleDeleteImage} images={state.sliderImages} />
+    <FeatureAdminHomeView
+      isLoading={initialLoading}
+      isUploadLoading={state.isSaveLoading ?? false}
+      onUploadImage={handleAddNewImage}
+      onRemoveImage={handleDeleteImage}
+      images={state.sliderImages}
+    />
   );
 }

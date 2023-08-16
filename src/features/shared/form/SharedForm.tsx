@@ -1,16 +1,17 @@
-import { FormEvent, ReactNode, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { SharedIf } from '../SharedIf';
-import { convertFormDataToObject } from '@/utils/formUtils';
+import { SharedCircularLoader } from './../loaders/SharedCircularLoader';
 
 export interface SharedFormProps {
   onSubmit?: () => void;
   validation?: boolean;
   children?: ReactNode;
   grid?: boolean;
+  isLoading?: boolean;
 }
 
-export function SharedForm({ onSubmit, children, validation = true, grid = true }: SharedFormProps) {
+export function SharedForm({ onSubmit, children, validation = true, grid = true, isLoading }: SharedFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -21,6 +22,8 @@ export function SharedForm({ onSubmit, children, validation = true, grid = true 
 
     onSubmit?.();
   }
+
+  if (isLoading) return <SharedCircularLoader />;
 
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
