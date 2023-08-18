@@ -36,8 +36,43 @@ export const adminDrawerItems: SharedDrawerItem[] = [
     to: 'admin/home',
   },
   {
+    label: 'Projects',
+    Icon: InboxIcon,
+    to: 'admin/projects',
+  },
+  {
+    label: 'Expertise',
+    Icon: InboxIcon,
+    to: 'admin/expertise',
+  },
+  {
+    label: 'Studio',
+    Icon: InboxIcon,
+    to: 'admin/studio',
+  },
+  {
+    label: 'People',
+    Icon: InboxIcon,
+    to: 'admin/people',
+  },
+  {
     label: 'News',
     Icon: InboxIcon,
     to: 'admin/news',
+  },
+  {
+    label: 'Insights',
+    Icon: InboxIcon,
+    to: 'admin/insights',
+  },
+  {
+    label: 'Careers',
+    Icon: InboxIcon,
+    to: 'admin/careers',
+  },
+  {
+    label: 'Contact',
+    Icon: InboxIcon,
+    to: 'admin/contact',
   },
 ];
