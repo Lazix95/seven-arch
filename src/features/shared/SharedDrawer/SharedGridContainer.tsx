@@ -19,7 +19,7 @@ interface Optionals {
 
 export function SharedGridContainer({ children, centerX = true, centerY, column, spacing = 3, mt = 0, mb = 3, ...rest }: SharedGridContainerProps) {
   const optionals: Optionals = {
-    ...(centerX && { justifyContent: 'center', margin: 'auto' }),
+    ...(centerX && { justifyContent: 'center' }),
     ...(centerY && { alignItems: 'center' }),
     ...(column && { direction: 'column' }),
   };

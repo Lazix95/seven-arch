@@ -1,7 +1,7 @@
-import { Avatar, Box, Button, Checkbox, Container, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Checkbox, Container, FormControlLabel, Typography } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
-import { useState, ReactElement, ReactEventHandler, FormEvent, ChangeEvent } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { SharedButton } from '@/features/shared/SharedButton';
 
 export interface FirebaseAuthProps {

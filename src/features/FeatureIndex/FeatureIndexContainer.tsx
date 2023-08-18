@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { AppProps } from 'next/app';
 import { User, signIn, signUserOut, watchForUserData } from '../firebase';
-import { UserContextProvider } from '../firebase/context/userContext';
+import { UserContextProvider } from '../../context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo } from '../firebase/api/basicDataApi';
+import { SystemContextProvider } from '@/context/SystemContext';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 
@@ -41,22 +42,24 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <UserContextProvider value={user}>
-      <FeatureIndexView
-        appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
-        splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
-        onSingInSubmit={handleSubmitSignIn}
-        onDrawerChange={setIsDrawerActive}
-        onSignOut={handleSignOut}
-        hasLoginError={hasLoginError}
-        isSignInLoading={isSignInLoading}
-        isDrawerActive={isDrawerActive}
-        isAdminPage={isAdminPage}
-        userData={user}
-        drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
-      >
-        <Component {...pageProps} />
-      </FeatureIndexView>
-    </UserContextProvider>
+    <SystemContextProvider>
+      <UserContextProvider value={user}>
+        <FeatureIndexView
+          appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
+          splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
+          onSingInSubmit={handleSubmitSignIn}
+          onDrawerChange={setIsDrawerActive}
+          onSignOut={handleSignOut}
+          hasLoginError={hasLoginError}
+          isSignInLoading={isSignInLoading}
+          isDrawerActive={isDrawerActive}
+          isAdminPage={isAdminPage}
+          userData={user}
+          drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
+        >
+          <Component {...pageProps} />
+        </FeatureIndexView>
+      </UserContextProvider>
+    </SystemContextProvider>
   );
 }

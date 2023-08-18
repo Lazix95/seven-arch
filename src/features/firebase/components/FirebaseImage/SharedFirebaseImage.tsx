@@ -14,13 +14,14 @@ export interface SharedFirebaseImage {
 export function SharedFirebaseImage({ image, text, type = 'img', alt }: SharedFirebaseImage) {
   return (
     <SharedIf RIf={!!image}>
-      <div className={`${styles['SharedContentImage']} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
+      <div className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
         <SharedIf RIf={!!text}>
           <div className={styles.SharedContentImage_overlay} />
           <Typography variant={'subtitle1'} className={styles['SharedContentImage_text']}>
             {text}
           </Typography>
         </SharedIf>
+
         <SharedIf RIf={type === 'img'}>
           <Image
             className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-zoom']}`}

@@ -5,18 +5,20 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Container } from '@mui/material';
+import { Breakpoint, Container } from '@mui/material';
 import { SharedDefaultFooter } from '../../SharedDefaultFooter';
 import { SharedIf } from '../../SharedIf';
 import { getNamedChild } from '@/utils/SharedReactUtils';
-import { useUserContext } from '@/features/firebase/context/userContext';
+import { useUserContext } from '@/context/userContext';
 import { SharedButton } from '../../SharedButton';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
+import classes from './SharedMainLayout.module.scss';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
   readonly drawerValue?: boolean;
   readonly title: string;
+  readonly maxMainWidth?: Breakpoint;
   readonly onDrawerChange?: (state: boolean) => void;
   readonly onSignOut?: () => void;
   readonly Footer?: () => JSX.Element;
@@ -25,7 +27,17 @@ interface SharedMainLayoutProps {
   readonly Drawer?: (() => JSX.Element) | undefined;
 }
 
-export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter, UpperNavList, LowerNavList, drawerValue, onDrawerChange, onSignOut }: SharedMainLayoutProps) {
+export function SharedMainLayout({
+  children,
+  title,
+  drawerValue,
+  maxMainWidth = 'sm',
+  Footer = SharedDefaultFooter,
+  UpperNavList,
+  LowerNavList,
+  onDrawerChange,
+  onSignOut,
+}: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
   const user = useUserContext();
   const { isAdminPage } = useLocalRouter();
@@ -38,7 +50,7 @@ export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className={classes.sharedMainLayout}>
       <AppBar position={'sticky'} elevation={2} sx={{ mb: '24px', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
         <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
@@ -71,8 +83,9 @@ export function SharedMainLayout({ children, title, Footer = SharedDefaultFooter
       </AppBar>
 
       {/* Main view */}
-      <Container maxWidth={'sm'} sx={{ display: 'flex', flex: 'auto', flexDirection: 'column' }}>
-        <main style={{ paddingLeft: 0, paddingRight: 0, display: 'flex', flexDirection: 'column', flex: 'auto' }}>{children}</main>
+      <Container component={'main'} className={classes['sharedMainLayout__MainContainer']} maxWidth={maxMainWidth}>
+        {/* <main style={{ paddingLeft: 0, paddingRight: 0, display: 'flex', flexDirection: 'column', flex: 'auto' }}>{children}</main> */}
+        {children}
       </Container>
 
       {/* Footer */}

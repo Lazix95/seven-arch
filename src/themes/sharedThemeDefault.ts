@@ -1,8 +1,8 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
-import { components } from './componentStyling';
+import { dakrComponents, baseComponents } from './componentStyling';
 
 export const sharedThemeTransparent = createTheme({
-  components,
+  components: dakrComponents,
   palette: {
     text: {
       secondary: '#ffffff',
@@ -21,7 +21,7 @@ export const sharedThemeTransparent = createTheme({
 });
 
 export const sharedThemeDefaultLight = createTheme({
-  components,
+  components: baseComponents,
   palette: {
     mode: 'light',
     primary: {
