@@ -96,6 +96,7 @@ export const adminDrawerItems: SharedDrawerItem[] = [
     type: 'MainItem',
     label: 'Basic Info',
     to: '/admin',
+    subItems: [{ id: 701, type: 'SubItem', label: 'Social Networks', to: '/admin/social-networks' }],
   },
   {
     id: 2000,

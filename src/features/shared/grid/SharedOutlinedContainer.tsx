@@ -1,11 +1,11 @@
-import { InputBaseComponentProps, TextField } from '@mui/material';
+import { InputBaseComponentProps, TextField, TextFieldProps } from '@mui/material';
 import React, { ElementType, ReactNode } from 'react';
 import { SharedGridItem, SharedGridItemProps } from './SharedGridItem';
 
 interface SharedOutlineContainerProps extends SharedGridItemProps {
   children: ReactNode;
   centerText?: boolean;
-  label: string;
+  label: React.ReactNode;
   style?: Record<string, unknown>;
 }
 
@@ -20,7 +20,7 @@ export const SharedOutlinedContainer = ({ children, label, ...rest }: SharedOutl
         variant="outlined"
         label={label}
         multiline
-        InputLabelProps={{ shrink: true }}
+        InputLabelProps={{ component: 'span', shrink: true } as unknown as TextFieldProps['InputLabelProps']}
         InputProps={{
           inputComponent: InputComponent as ElementType<InputBaseComponentProps>,
         }}

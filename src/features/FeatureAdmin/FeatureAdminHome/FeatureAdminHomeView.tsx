@@ -23,9 +23,9 @@ export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUpl
 
   return (
     <SharedForm isLoading={isLoading}>
-      <SharedGridHeading level={4} text={'Main Page'} />
+      <SharedGridHeading level={4} text={'Home Page'} />
       <SharedGalery loading={isUploadLoading} onRemoveImage={handleRemoveImage} images={images} />
-      <SharedImageUpload label={'Splash Screen Image'} noPreview={true} onChange={handleImageUpload} />
+      <SharedImageUpload label={'Add Slider Image'} noPreview={true} onChange={handleImageUpload} />
     </SharedForm>
   );
 }

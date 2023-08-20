@@ -6,7 +6,7 @@ import { SharedButton } from '../SharedButton';
 import { mainDrawerItems } from '@/constants/mainDrawerItems';
 import { SharedCopyright } from './SharedCopyright';
 import { SharedDrawerItem } from '../SharedDrawer/SharedDrawer';
-import { SocialNetwork } from '@/models/generalModels';
+import { SocialNetwork } from '@/models/socialNetworks';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 import { useMemo } from 'react';
 

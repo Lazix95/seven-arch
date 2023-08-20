@@ -1,5 +1,5 @@
-import { socialNetworkItems } from '@/constants/socialNetworkItems';
-import { DivProps, SocialNetwork } from '@/models/generalModels';
+import { DivProps } from '@/models/generalModels';
+import { SocialNetwork } from '@/models/socialNetworks';
 import { SharedButton, SharedButtonIconProps } from '../SharedButton';
 
 export interface SharedCardSocialNetworksProps {
@@ -9,7 +9,7 @@ export interface SharedCardSocialNetworksProps {
   onClick?: (socialNetwork: SocialNetwork) => void;
 }
 
-export function SharedCardSocialNetworks({ socialNetworks = socialNetworkItems, containerProps, btnsProps, onClick }: SharedCardSocialNetworksProps) {
+export function SharedCardSocialNetworks({ socialNetworks = [], containerProps, btnsProps, onClick }: SharedCardSocialNetworksProps) {
   return (
     <div {...containerProps}>
       {socialNetworks.map((social) => (

@@ -9,17 +9,5 @@ export function SharedTextField(props: SharedTextFieldProps) {
     ...(props.password && { type: 'password' }),
   };
 
-  return (
-    <TextField
-      margin={'none'}
-      variant={'outlined'}
-      required
-      fullWidth
-      size={'small'}
-      error={!!errorText}
-      helperText={errorText || ' '}
-      {...optionals}
-      {...rest}
-    />
-  );
+  return <TextField margin={'none'} variant={'outlined'} required fullWidth size={'small'} error={!!errorText} helperText={errorText || ' '} {...optionals} {...rest} />;
 }

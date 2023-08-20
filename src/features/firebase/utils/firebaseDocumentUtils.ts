@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, collection } from 'firebase/firestore';
 import { firebaseDB } from '../firebase';
 import { DocumentKeys, FolderKeys } from '../models/firebaseBaseModels';
 
@@ -21,3 +21,9 @@ export async function getDocument<T = object>(folder: FolderKeys, docName: Docum
   const docSnap = await getDoc(docRef);
   return docSnap.data() as T;
 }
+
+// TODO: Implement this function
+// export async function getAllDocuments<T = object[]>(folder: FolderKeys): Promise<T> {
+//   const docRef = await collection(firebaseDB, folder).firestore.toJSON();
+//   return docRef as T;
+// }

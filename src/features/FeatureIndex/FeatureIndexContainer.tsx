@@ -9,6 +9,7 @@ import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo } from '../firebase/api/basicDataApi';
 import { SystemContextProvider } from '@/context/SystemContext';
 import { ThemeType } from '@/themes/sharedThemeDefault';
+import { useRouter } from 'next/router';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 
@@ -17,8 +18,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
   const [user, setUser] = useState<User | null | undefined>(undefined);
-  const { push, isAdminPage, isHomePage } = useLocalRouter();
-
+  const { push, isAdminPage, isHomePage, currentRoute } = useLocalRouter();
   const themeType: ThemeType = useMemo(() => (isHomePage ? 'transparentDark' : 'light'), [isHomePage]);
 
   useEffect(() => {
@@ -49,6 +49,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
       <UserContextProvider value={user}>
         <FeatureIndexView
           themeType={themeType}
+          currentDrawerItem={currentRoute}
           appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
           splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
           onSingInSubmit={handleSubmitSignIn}

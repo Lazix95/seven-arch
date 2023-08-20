@@ -1,4 +1,6 @@
+import { adminDrawerItems, mainDrawerItems } from '@/constants/mainDrawerItems';
 import { useRouter } from 'next/router';
+import path from 'path';
 import { useMemo } from 'react';
 
 export function useLocalRouter() {
@@ -12,5 +14,11 @@ export function useLocalRouter() {
     return pathname === '/';
   }, [pathname]);
 
-  return { push, isAdminPage, isHomePage };
+  const currentRoute = useMemo(() => {
+    return [...mainDrawerItems, ...adminDrawerItems].find((item) => {
+      return path.join(item.to) === pathname;
+    });
+  }, [pathname]);
+
+  return { push, isAdminPage, isHomePage, currentRoute };
 }

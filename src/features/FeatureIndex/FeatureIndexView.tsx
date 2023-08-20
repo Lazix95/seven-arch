@@ -11,7 +11,7 @@ import { SharedDrawer, SharedDrawerItem, SharedDrawerSubItem } from '../shared/S
 import { User } from '../firebase';
 import { useSystemContext } from '@/context/SystemContext';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
-import { SocialNetwork } from '@/models/generalModels';
+import { SocialNetwork } from '@/models/socialNetworks';
 import { SharedDefaultFooter } from '../shared/footer/SharedDefaultFooter';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 
@@ -26,6 +26,7 @@ export interface FeatureIndexViewProps {
   readonly children: ReactNode;
   readonly appBarTitle: string;
   readonly themeType?: ThemeType;
+  readonly currentDrawerItem?: SharedDrawerItem;
   readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
   readonly onDrawerChange: (state: boolean) => void;
   readonly onSignOut: () => void;
@@ -34,7 +35,7 @@ export interface FeatureIndexViewProps {
 }
 
 export function FeatureIndexView(props: FeatureIndexViewProps) {
-  const { children, hasLoginError, isSignInLoading, userData, isAdminPage, drawerItems, isDrawerActive, splashScreenImageUrl, appBarTitle, themeType } = props;
+  const { children, hasLoginError, isSignInLoading, userData, isAdminPage, drawerItems, isDrawerActive, splashScreenImageUrl, appBarTitle, themeType, currentDrawerItem } = props;
   const { onSingInSubmit, onDrawerChange, onSignOut, onSocialNetworkClick, onLegalAndPoliciesClick } = props;
 
   const { mainViewMaxWidth } = useSystemContext();
@@ -75,6 +76,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
                 items={drawerItems}
                 value={isDrawerActive}
                 showSubList={hasAnySubItem}
+                currentDrawerItem={currentDrawerItem}
                 onChange={onDrawerChange}
                 onMenuItemClick={handleDrawerItemClick}
                 onSocialNetworkClick={handleSocialNetworkClick}

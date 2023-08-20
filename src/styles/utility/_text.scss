@@ -9,4 +9,16 @@
   &--gray {
     color: #ccc !important;
   }
+
+  &--align-start {
+    text-align: start !important;
+  }
+
+  &--align-center {
+    text-align: center !important;
+  }
+
+  &--align-end {
+    text-align: end !important;
+  }
 }

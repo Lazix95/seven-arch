@@ -4,15 +4,15 @@ import { SharedDrawerDesktopList } from './SharedDrawerDeskropList';
 import { SharedDrawerMobileList } from './SharedDrawerMobileList';
 import { SharedIf } from '../SharedIf';
 import styled from './SharedDriver.module.scss';
-import { SharedButton } from '../SharedButton';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
-import { SocialNetwork } from '@/models/generalModels';
+import { SocialNetwork } from '@/models/socialNetworks';
 
 interface SharedDrawerProps {
   readonly title: string;
   readonly value: boolean;
   readonly showSubList?: boolean;
   readonly items?: SharedDrawerItem[];
+  readonly currentDrawerItem?: SharedDrawerItem;
   readonly onChange: (state: boolean) => void;
   readonly onMenuItemClick: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
   readonly onSocialNetworkClick: (socialNetwork: SocialNetwork) => void;
@@ -34,14 +34,14 @@ export interface SharedDrawerSubItem extends SharedDrawerBaseItem {
   readonly label: string;
 }
 
-export function SharedDrawer({ value, items, title, showSubList = true, onChange, onMenuItemClick, onSocialNetworkClick }: SharedDrawerProps) {
+export function SharedDrawer({ value, items, title, currentDrawerItem, showSubList = true, onChange, onMenuItemClick, onSocialNetworkClick }: SharedDrawerProps) {
   const theme = useTheme();
   const isDesktopView = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Drawer keepMounted={true} className={styled.sharedDrawer} anchor={'right'} open={value} onClose={() => onChange(false)}>
+    <Drawer className={styled.sharedDrawer} anchor={'right'} open={value} onClose={() => onChange(false)}>
       <SharedIf RIf={isDesktopView}>
-        <SharedDrawerDesktopList title={title} items={items || []} showSubList={showSubList} onChange={onChange} onItemClick={onMenuItemClick} />
+        <SharedDrawerDesktopList title={title} items={items || []} showSubList={showSubList} currentItem={currentDrawerItem} onChange={onChange} onItemClick={onMenuItemClick} />
       </SharedIf>
 
       <SharedIf RIf={!isDesktopView}>

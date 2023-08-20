@@ -10,12 +10,13 @@ interface SharedDrawerDesktopListProps {
   readonly items: SharedDrawerItem[];
   readonly showSubList: boolean;
   readonly title: string;
+  readonly currentItem?: SharedDrawerItem;
   readonly onChange?: (event: boolean) => void;
   readonly onItemClick?: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
 }
 
-export function SharedDrawerDesktopList({ items, showSubList, onChange, onItemClick, title }: SharedDrawerDesktopListProps) {
-  const [hoveredItem, setHoveredItem] = useState<SharedDrawerItem>(items[0]);
+export function SharedDrawerDesktopList({ items, showSubList, currentItem, title, onChange, onItemClick }: SharedDrawerDesktopListProps) {
+  const [hoveredItem, setHoveredItem] = useState<SharedDrawerItem>(currentItem ?? items[0]);
 
   function handleCloseDrawer() {
     onChange?.(false);
@@ -37,7 +38,7 @@ export function SharedDrawerDesktopList({ items, showSubList, onChange, onItemCl
   }
 
   return (
-    <Box sx={{ height: '100%', width: showSubList ? 600 : 250, paddingTop: '80px' }} role="presentation">
+    <Box sx={{ width: showSubList ? 600 : 250, paddingTop: '80px' }} role="presentation">
       <SharedButton className={'closeBtn'} btnType={'Icon'} onClick={handleCloseDrawer}>
         <CloseIcon />
       </SharedButton>
