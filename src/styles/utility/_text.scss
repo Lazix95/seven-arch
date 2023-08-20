@@ -3,6 +3,10 @@
     color: #ffffff !important;
   }
   &--black {
-    color: #000000;
+    color: #000000 !important;
+  }
+
+  &--gray {
+    color: #ccc !important;
   }
 }

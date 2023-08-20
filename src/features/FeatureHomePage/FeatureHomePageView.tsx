@@ -9,9 +9,10 @@ import { SharedGridItem } from '../shared/grid/SharedGridItem';
 
 interface FeatureHomePageViewProps {
   images: FirebaseImage[];
+  onSubscribe: (email: string) => Promise<void>;
 }
 
-export function FeatureHomePageView({ images }: FeatureHomePageViewProps) {
+export function FeatureHomePageView({ images, onSubscribe }: FeatureHomePageViewProps) {
   return (
     <>
       <div>
@@ -21,7 +22,7 @@ export function FeatureHomePageView({ images }: FeatureHomePageViewProps) {
         <SharedGridItem>
           <SharedArticle image={images[0]} title={'News'} text={'All News'}>
             <SharedNamedChild name={SharedArticleChildrenNames.prepend}>
-              <SharedCardSubscribeToNewsteller />
+              <SharedCardSubscribeToNewsteller text={'Stay up to date with the latest Seven Arch projects and news.'} btnText={'Subscribe'} onSubscribe={onSubscribe} />
             </SharedNamedChild>
           </SharedArticle>
         </SharedGridItem>

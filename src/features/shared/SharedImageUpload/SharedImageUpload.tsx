@@ -6,7 +6,7 @@ import { SharedIf } from '../SharedIf';
 import { getFilePreviewURL } from '@/utils/uploadUtils';
 import { SharedGridBreak } from '../grid/SharedGridBreak';
 import { SharedUploadFile } from '../form/SharedUploadFile';
-import { SharedOutlinedContainer } from '../SharedOutlinedContainer';
+import { SharedOutlinedContainer } from '../grid/SharedOutlinedContainer';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { SharedButton } from '../SharedButton';
 

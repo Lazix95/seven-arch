@@ -1,6 +1,6 @@
 import { InputBaseComponentProps, TextField } from '@mui/material';
 import React, { ElementType, ReactNode } from 'react';
-import { SharedGridItem, SharedGridItemProps } from './grid/SharedGridItem';
+import { SharedGridItem, SharedGridItemProps } from './SharedGridItem';
 
 interface SharedOutlineContainerProps extends SharedGridItemProps {
   children: ReactNode;

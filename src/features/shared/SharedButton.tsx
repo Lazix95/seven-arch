@@ -1,4 +1,4 @@
-import { Button, IconButton, IconButtonProps, ButtonProps } from '@mui/material';
+import { Button, IconButton, IconButtonProps, ButtonProps, Link } from '@mui/material';
 import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { ReactNode } from 'react';
 
@@ -7,19 +7,23 @@ interface SharedButtonBase {
   submit?: boolean;
 }
 
-interface SharedButtonIconProps extends IconButtonProps, SharedButtonBase {
-  btnType?: 'Icon';
+export interface SharedButtonIconProps extends IconButtonProps, SharedButtonBase {
+  btnType: 'Icon';
 }
 
-interface SharedButtonProps extends ButtonProps, SharedButtonBase {
+export interface SharedButtonProps extends ButtonProps, SharedButtonBase {
   btnType?: 'Button';
 }
 
-interface SharedLoadingButtonProps extends LoadingButtonProps, SharedButtonBase {
-  btnType?: 'LoadingButton';
+export interface SharedLoadingButtonProps extends LoadingButtonProps, SharedButtonBase {
+  btnType: 'LoadingButton';
 }
 
-export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps | SharedButtonIconProps) {
+export interface SharedLinkButtonProps extends ButtonProps, SharedButtonBase {
+  btnType: 'Link';
+}
+
+export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps | SharedButtonIconProps | SharedLinkButtonProps) {
   const { children, submit, btnType = 'Button', ...rest } = props;
 
   const optionals: any = {
@@ -36,7 +40,7 @@ export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps
 
   if (btnType === 'Button') {
     return (
-      <Button variant={'contained'} {...optionals} {...(rest as ButtonProps)}>
+      <Button variant={'contained'} {...optionals} {...rest}>
         {children}
       </Button>
     );
@@ -44,9 +48,17 @@ export function SharedButton(props: SharedButtonProps | SharedLoadingButtonProps
 
   if (btnType === 'LoadingButton') {
     return (
-      <LoadingButton {...optionals} variant={'contained'} {...(rest as ButtonProps)}>
+      <LoadingButton {...optionals} variant={'contained'} {...rest}>
         {children}
       </LoadingButton>
+    );
+  }
+
+  if (btnType === 'Link') {
+    return (
+      <Link underline={'none'} component={'button'} {...optionals} {...rest}>
+        {children}
+      </Link>
     );
   }
 }

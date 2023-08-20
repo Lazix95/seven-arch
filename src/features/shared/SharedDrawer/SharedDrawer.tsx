@@ -1,67 +1,54 @@
 import Drawer from '@mui/material/Drawer';
-import { SvgIcon, useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery, useTheme } from '@mui/material';
 import { SharedDrawerDesktopList } from './SharedDrawerDeskropList';
 import { SharedDrawerMobileList } from './SharedDrawerMobileList';
 import { SharedIf } from '../SharedIf';
+import styled from './SharedDriver.module.scss';
+import { SharedButton } from '../SharedButton';
+import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
+import { SocialNetwork } from '@/models/generalModels';
 
 interface SharedDrawerProps {
-  readonly onChange: (state: boolean) => void;
   readonly title: string;
   readonly value: boolean;
   readonly showSubList?: boolean;
   readonly items?: SharedDrawerItem[];
+  readonly onChange: (state: boolean) => void;
+  readonly onMenuItemClick: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
+  readonly onSocialNetworkClick: (socialNetwork: SocialNetwork) => void;
 }
 
-// items array example
-// const items = [
-//     {
-//       label: 'Test',
-//       Icon: InboxIcon,
-//       subItems: [
-//         { label: 'Test a', Icon: InboxIcon },
-//         { label: 'Test b', Icon: InboxIcon },
-//         { label: 'Test c', Icon: InboxIcon },
-//       ],
-//     },
-//     {
-//       label: 'Test 2',
-//       Icon: InboxIcon,
-//       subItems: [
-//         { label: 'Test 2 a', Icon: InboxIcon },
-//         { label: 'Test 2 b', Icon: InboxIcon },
-//         { label: 'Test 2 c', Icon: InboxIcon },
-//       ],
-//   },
-// ]
-
 interface SharedDrawerBaseItem {
+  readonly id: number;
   readonly label: string;
-  readonly Icon?: typeof SvgIcon;
   readonly to: string;
 }
 
 export interface SharedDrawerItem extends SharedDrawerBaseItem {
+  readonly type: 'MainItem';
   readonly subItems?: SharedDrawerSubItem[];
 }
 
-interface SharedDrawerSubItem extends SharedDrawerBaseItem {
+export interface SharedDrawerSubItem extends SharedDrawerBaseItem {
+  readonly type: 'SubItem';
   readonly label: string;
-  readonly Icon?: typeof SvgIcon;
 }
 
-export function SharedDrawer({ onChange, value, items, title, showSubList = true }: SharedDrawerProps) {
+export function SharedDrawer({ value, items, title, showSubList = true, onChange, onMenuItemClick, onSocialNetworkClick }: SharedDrawerProps) {
   const theme = useTheme();
   const isDesktopView = useMediaQuery(theme.breakpoints.up('sm'));
 
   return (
-    <Drawer anchor={'right'} open={value} onClose={() => onChange(false)}>
+    <Drawer keepMounted={true} className={styled.sharedDrawer} anchor={'right'} open={value} onClose={() => onChange(false)}>
       <SharedIf RIf={isDesktopView}>
-        <SharedDrawerDesktopList title={title} onChange={onChange} items={items || []} showSubList={showSubList} />
+        <SharedDrawerDesktopList title={title} items={items || []} showSubList={showSubList} onChange={onChange} onItemClick={onMenuItemClick} />
       </SharedIf>
 
       <SharedIf RIf={!isDesktopView}>
         <SharedDrawerMobileList title={title} showSubList={showSubList} onChange={onChange} items={items || []} />
       </SharedIf>
+
+      <SharedCardSocialNetworks containerProps={{ style: { marginLeft: '65px', marginBottom: '20px', marginTop: '50px' } }} onClick={onSocialNetworkClick} />
     </Drawer>
   );
 }

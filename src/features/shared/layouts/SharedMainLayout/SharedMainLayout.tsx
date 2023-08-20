@@ -6,13 +6,14 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Breakpoint, Container } from '@mui/material';
-import { SharedDefaultFooter } from '../../SharedDefaultFooter';
+import { SharedDefaultFooter } from '../../footer/SharedDefaultFooter';
 import { SharedIf } from '../../SharedIf';
 import { getNamedChild } from '@/utils/SharedReactUtils';
 import { useUserContext } from '@/context/userContext';
 import { SharedButton } from '../../SharedButton';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import classes from './SharedMainLayout.module.scss';
+import { ThemeType } from '../../../../themes/sharedThemeDefault';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
@@ -21,24 +22,15 @@ interface SharedMainLayoutProps {
   readonly maxMainWidth?: Breakpoint;
   readonly onDrawerChange?: (state: boolean) => void;
   readonly onSignOut?: () => void;
-  readonly Footer?: () => JSX.Element;
   readonly UpperNavList?: (() => JSX.Element) | undefined;
   readonly LowerNavList?: (() => JSX.Element) | undefined;
   readonly Drawer?: (() => JSX.Element) | undefined;
 }
 
-export function SharedMainLayout({
-  children,
-  title,
-  drawerValue,
-  maxMainWidth = 'sm',
-  Footer = SharedDefaultFooter,
-  UpperNavList,
-  LowerNavList,
-  onDrawerChange,
-  onSignOut,
-}: SharedMainLayoutProps) {
+export function SharedMainLayout({ children, title, drawerValue, maxMainWidth = 'sm', UpperNavList, LowerNavList, onDrawerChange, onSignOut }: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
+  const Footer = getNamedChild(children, 'footer');
+  const defaultChildren = getNamedChild(children);
   const user = useUserContext();
   const { isAdminPage } = useLocalRouter();
   const showUpper = UpperNavList !== undefined;
@@ -82,16 +74,11 @@ export function SharedMainLayout({
         </SharedIf>
       </AppBar>
 
-      {/* Main view */}
       <Container component={'main'} className={classes['sharedMainLayout__MainContainer']} maxWidth={maxMainWidth}>
-        {/* <main style={{ paddingLeft: 0, paddingRight: 0, display: 'flex', flexDirection: 'column', flex: 'auto' }}>{children}</main> */}
-        {children}
+        {defaultChildren}
       </Container>
 
-      {/* Footer */}
-      <footer style={{ marginTop: '24px' }}>
-        <Footer />
-      </footer>
+      <footer className={classes['sharedMainLayout__footer']}>{Footer && Footer}</footer>
     </div>
   );
 }

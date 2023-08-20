@@ -27,5 +27,7 @@ export function FeatureHomePageContainer({ sliderImages }: FeatureHomePageContai
     getImages();
   }, []);
 
-  return <FeatureHomePageView images={localImages} />;
+  async function handleSubscribe(email: string) {}
+
+  return <FeatureHomePageView images={localImages} onSubscribe={handleSubscribe} />;
 }

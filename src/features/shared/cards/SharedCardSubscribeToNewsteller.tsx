@@ -1,7 +1,6 @@
 import { Typography } from '@mui/material';
 import { SharedButton } from '../SharedButton';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
-import { SharedGridInput } from '../form/SharedGridInput';
 import { SharedTextField } from '../form/SharedTextField';
 import { SharedGridItem } from '../grid/SharedGridItem';
 import { useState } from 'react';

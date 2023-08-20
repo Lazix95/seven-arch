@@ -1,17 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  assetPrefix: "",
-  output: "export",
+  assetPrefix: '',
+  output: 'export',
+  trailingSlash: true,
   reactStrictMode: true,
   images: {
     unoptimized: true,
-    formats: ["image/avif", "image/webp"],
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "firebasestorage.googleapis.com",
-        port: "",
-        pathname: "**",
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '**',
       },
     ],
   },

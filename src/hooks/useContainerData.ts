@@ -60,11 +60,10 @@ export function useContainerData<T extends object = object>(initState: T, hydrat
       }
     }
 
-    fetchAllData();
+    if (hydrationFunctions && hydrationFunctions.length > 0) fetchAllData();
   }, []);
 
   function setState(payload: T) {
-    console.log('payload');
     dispatch({ type: 'SET_DATA', payload });
   }
 

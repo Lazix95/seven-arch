@@ -26,6 +26,7 @@ export interface FeatureAdminBasicInfoAdminViewFields {
 export interface FeatureAdminBasicInfoAdminViewFormPayload extends GeneralFormSubmitModel<FeatureAdminBasicInfoAdminViewData, FeatureAdminBasicInfoAdminViewFields['images']> {}
 
 export interface FeatureAdminBasicInfoAdminViewProps {
+  readonly ilitialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
   readonly onSubmit: (payload: FeatureAdminBasicInfoAdminViewFormPayload) => void;
   readonly data: FeatureAdminBasicInfoAdminViewData;
@@ -39,7 +40,7 @@ const initFields: FeatureAdminBasicInfoAdminViewFields = {
   },
 };
 
-export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmitLoading }: FeatureAdminBasicInfoAdminViewProps) {
+export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmitLoading, ilitialLoading }: FeatureAdminBasicInfoAdminViewProps) {
   const [fields, setFields] = useState<FeatureAdminBasicInfoAdminViewFields>(initFields);
 
   useEffect(() => {
@@ -64,7 +65,7 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
   }
 
   return (
-    <SharedForm onSubmit={handleSubmit}>
+    <SharedForm isLoading={ilitialLoading} onSubmit={handleSubmit}>
       <SharedGridItem centerText>
         <SharedHeading level={4}> Basic Info </SharedHeading>
       </SharedGridItem>
@@ -72,9 +73,11 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
       <SharedGridInput required name={'companyName'} label={'Company Name'} value={fields.data.companyName} onChange={handleDataChange} />
       <SharedImageUpload label={'Splash Screen Image'} name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage?.url} onChange={handleImageUpload} />
 
-      <SharedButton btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
-        Save
-      </SharedButton>
+      <SharedGridItem>
+        <SharedButton fullWidth btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
+          Save
+        </SharedButton>
+      </SharedGridItem>
     </SharedForm>
   );
 }

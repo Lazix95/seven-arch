@@ -18,4 +18,11 @@
     flex: auto;
     flex-direction: column;
   }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    padding-left: 60px;
+    padding-right: 60px;
+  }
 }

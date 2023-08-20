@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from 'react';
-import styles from './SharedSplashScreen.module.scss'; // Import the CSS file for styling
+import styles from './SharedSplashScreen.module.scss';
 import clsx from 'clsx';
 import { LinearProgress } from '@mui/material';
 

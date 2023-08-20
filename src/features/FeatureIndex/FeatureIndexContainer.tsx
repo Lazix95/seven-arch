@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AppProps } from 'next/app';
 import { User, signIn, signUserOut, watchForUserData } from '../firebase';
 import { UserContextProvider } from '../../context/userContext';
@@ -8,6 +8,7 @@ import { useLocalRouter } from '@/hooks/useLocalRouter';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo } from '../firebase/api/basicDataApi';
 import { SystemContextProvider } from '@/context/SystemContext';
+import { ThemeType } from '@/themes/sharedThemeDefault';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
 
@@ -16,7 +17,9 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
   const [user, setUser] = useState<User | null | undefined>(undefined);
-  const { push, isAdminPage } = useLocalRouter();
+  const { push, isAdminPage, isHomePage } = useLocalRouter();
+
+  const themeType: ThemeType = useMemo(() => (isHomePage ? 'transparentDark' : 'light'), [isHomePage]);
 
   useEffect(() => {
     watchForUserData((user) => {
@@ -45,6 +48,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     <SystemContextProvider>
       <UserContextProvider value={user}>
         <FeatureIndexView
+          themeType={themeType}
           appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
           splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
           onSingInSubmit={handleSubmitSignIn}

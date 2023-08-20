@@ -17,11 +17,14 @@ interface FeatureAdminBasicInfoContainerProps extends DataBasicInfo {
 }
 
 export function FeatureAdminBasicInfoContainer({ basicInfo, basicInfoImages }: FeatureAdminBasicInfoContainerProps) {
-  const { updateState, state } = useContainerData<FeatureAdminBasicInfoState>({
-    isSubmitLoading: false,
-    basicInfo,
-    basicInfoImages,
-  });
+  const { updateState, state, initialLoading } = useContainerData<FeatureAdminBasicInfoState>(
+    {
+      isSubmitLoading: false,
+      basicInfo,
+      basicInfoImages,
+    },
+    [fetchBasicInfo]
+  );
 
   async function handleSubmitBasicInfo(payload: FeatureAdminBasicInfoAdminViewFormPayload) {
     let newImages = basicInfoImages;

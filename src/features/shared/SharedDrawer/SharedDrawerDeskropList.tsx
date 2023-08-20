@@ -1,52 +1,60 @@
-import { useEffect, useState } from 'react';
+import { useState, PointerEvent } from 'react';
 import { SharedDrawerDesktopListItem } from './SharedDrawerDesktopListItem';
-import { Box, Divider, Grid, Typography } from '@mui/material';
-import { SharedDrawerItem } from './SharedDrawer';
+import { Box, Grid, Typography } from '@mui/material';
+import { SharedDrawerItem, SharedDrawerSubItem } from './SharedDrawer';
 import { SharedIf } from '../SharedIf';
+import { SharedButton } from '../SharedButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface SharedDrawerDesktopListProps {
   readonly items: SharedDrawerItem[];
   readonly showSubList: boolean;
   readonly title: string;
-  readonly onChange: (event: boolean) => void;
+  readonly onChange?: (event: boolean) => void;
+  readonly onItemClick?: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
 }
 
-export function SharedDrawerDesktopList({ items, showSubList, onChange, title }: SharedDrawerDesktopListProps) {
-  const [subItems, setSubItems] = useState<{ items: SharedDrawerItem[]; index: number | null }>({
-    items: [],
-    index: null,
-  });
+export function SharedDrawerDesktopList({ items, showSubList, onChange, onItemClick, title }: SharedDrawerDesktopListProps) {
+  const [hoveredItem, setHoveredItem] = useState<SharedDrawerItem>(items[0]);
 
-  useEffect(() => {
-    if (subItems.items.length > 0 || !items || items.length === 0) return;
-    setSubItems({ items: items[0].subItems || [], index: 0 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  function handleCloseDrawer() {
+    onChange?.(false);
+  }
 
-  const handlers = {
-    onClick: () => onChange(false),
-    onKeyDown: () => onChange(false),
-  };
+  function handleHoverOnDrawerItem(item: SharedDrawerItem | SharedDrawerSubItem) {
+    if (item.type === 'MainItem') setHoveredItem(item);
+  }
 
-  function handleHoverOnDrawerItem(index: number) {
-    setSubItems({ items: items?.[index]?.subItems || [], index });
+  function handleMenuClick(e: PointerEvent, item: SharedDrawerItem | SharedDrawerSubItem) {
+    if (e.nativeEvent.pointerType === 'touch' && item.type === 'MainItem') {
+      if (!hoveredItem || hoveredItem.id !== item.id) {
+        setHoveredItem(item);
+        return;
+      }
+    }
+    onItemClick?.(item);
+    onChange?.(false);
   }
 
   return (
-    <Box sx={{ height: '100%', width: showSubList ? 500 : 250 }} role="presentation" {...handlers}>
+    <Box sx={{ height: '100%', width: showSubList ? 600 : 250, paddingTop: '80px' }} role="presentation">
+      <SharedButton className={'closeBtn'} btnType={'Icon'} onClick={handleCloseDrawer}>
+        <CloseIcon />
+      </SharedButton>
       <Grid container spacing={2} sx={{ height: '100%' }}>
-        <Grid item xs={showSubList ? 6 : 12}>
+        <Grid style={{ paddingLeft: '70px' }} item xs={showSubList ? 6 : 12}>
           <Typography variant={'h6'} style={{ marginLeft: '18px', marginTop: '12px' }}>
             {title}
           </Typography>
-          <SharedDrawerDesktopListItem selectedIndex={subItems.index} items={items ?? []} onHover={handleHoverOnDrawerItem} />
+          <SharedDrawerDesktopListItem mainItems={true} selectedItemId={hoveredItem.id} items={items ?? []} onHover={handleHoverOnDrawerItem} onClick={handleMenuClick} />
         </Grid>
 
         <SharedIf RIf={showSubList}>
-          <Divider orientation="vertical" flexItem sx={{ mr: '-1px' }} />
-
           <Grid style={{ paddingLeft: 0 }} item xs={6}>
-            <SharedDrawerDesktopListItem dense items={subItems.items} />
+            <Typography variant={'h6'} style={{ marginLeft: '18px', marginTop: '12px' }}>
+              {hoveredItem.label}
+            </Typography>
+            <SharedDrawerDesktopListItem dense items={hoveredItem.subItems || []} onClick={handleMenuClick} />
           </Grid>
         </SharedIf>
       </Grid>
