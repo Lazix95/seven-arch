@@ -1,5 +1,5 @@
 import { fetchBasicInfo } from '@/features/firebase/api/basicDataApi';
-import { FeatureSocialNetworksView } from './FeatureSocialNetworksView';
+import { FeatureAdminSocialNetworksView } from './FeatureAdminSocialNetworksView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { useContainerData } from '@/hooks/useContainerData';
 import { fetchSocialNetworks, saveSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
@@ -14,7 +14,7 @@ export interface FeatureSocialNetworksContainerState extends DataSocialNetworks 
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
 
-export function FeatureSocialNetworksContainer({ socialNetworks }: FeatureSocialNetworksContainerProps) {
+export function FeatureAdminSocialNetworksContainer({ socialNetworks }: FeatureSocialNetworksContainerProps) {
   const { initialLoading, state, updateState } = useContainerData<FeatureSocialNetworksContainerState>({ socialNetworks, isSubmitLoading: false }, [
     fetchBasicInfo,
     () => fetchSocialNetworks({ withIcons: true }),
@@ -30,21 +30,14 @@ export function FeatureSocialNetworksContainer({ socialNetworks }: FeatureSocial
       order: item.order,
     }));
 
-   try {
-     updateState({isSubmitLoading: true})
-     const socialNetworks = await saveSocialNetworks(socialNetworksPayload);
-     updateState({socialNetworks})
-   } finally {
-      updateState({isSubmitLoading: false})
-   }
+    try {
+      updateState({ isSubmitLoading: true });
+      const socialNetworks = await saveSocialNetworks(socialNetworksPayload);
+      updateState({ socialNetworks });
+    } finally {
+      updateState({ isSubmitLoading: false });
+    }
   }
 
-  return (
-    <FeatureSocialNetworksView
-      socialNetworks={state.socialNetworks}
-      initLoading={initialLoading}
-      isSubmitLoading={state.isSubmitLoading}
-      onSubmit={handleSubmit}
-    />
-  );
+  return <FeatureAdminSocialNetworksView socialNetworks={state.socialNetworks} initLoading={initialLoading} isSubmitLoading={state.isSubmitLoading} onSubmit={handleSubmit} />;
 }

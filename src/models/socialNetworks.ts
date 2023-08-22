@@ -8,6 +8,7 @@ export interface SocialNetwork {
   link?: string;
   Icon: ReactComponent;
   slug: SocialNetworkSlug;
+  order?: number;
 }
 
 export interface DocumentSocialNetwork {

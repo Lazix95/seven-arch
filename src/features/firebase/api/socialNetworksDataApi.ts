@@ -18,7 +18,7 @@ export async function fetchSocialNetworks(options: { withIcons?: boolean } = {})
       state: socialNetwork.data?.state || false,
       slug: socialNetwork.localSocNet.slug,
       link: socialNetwork.data?.link || '',
-      order: socialNetwork.data?.order || 0,
+      order: socialNetwork.data?.order || socialNetwork.localSocNet.order,
       ...(options.withIcons && { Icon: socialNetwork.localSocNet.Icon }),
     };
 

@@ -1,5 +1,5 @@
-import { FeatureSocialNetworksContainer, getStaticProps } from '@/features/FeatureAdmin/FeatureSocialNetworks/FeatureSocialNetworksContainer';
+import { FeatureAdminSocialNetworksContainer, getStaticProps } from '@/features/FeatureAdmin/FeatureAdminSocialNetworks/FeatureAdminSocialNetworksContainer';
 
 export { getStaticProps };
 
-export default FeatureSocialNetworksContainer;
+export default FeatureAdminSocialNetworksContainer;

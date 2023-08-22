@@ -39,9 +39,9 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     }
   }
 
-  function handleSignOut() {
-    push('/');
-    signUserOut();
+  async function handleSignOut() {
+    await push('/');
+    await signUserOut();
   }
 
   return (
