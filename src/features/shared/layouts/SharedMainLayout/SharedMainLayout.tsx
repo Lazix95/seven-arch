@@ -6,14 +6,13 @@ import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Breakpoint, Container } from '@mui/material';
-import { SharedDefaultFooter } from '../../footer/SharedDefaultFooter';
 import { SharedIf } from '../../SharedIf';
 import { getNamedChild } from '@/utils/SharedReactUtils';
 import { useUserContext } from '@/context/userContext';
 import { SharedButton } from '../../SharedButton';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import classes from './SharedMainLayout.module.scss';
-import { ThemeType } from '../../../../themes/sharedThemeDefault';
+import { ReactComponent } from '@/models/generalModels';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
@@ -22,9 +21,9 @@ interface SharedMainLayoutProps {
   readonly maxMainWidth?: Breakpoint;
   readonly onDrawerChange?: (state: boolean) => void;
   readonly onSignOut?: () => void;
-  readonly UpperNavList?: (() => JSX.Element) | undefined;
-  readonly LowerNavList?: (() => JSX.Element) | undefined;
-  readonly Drawer?: (() => JSX.Element) | undefined;
+  readonly UpperNavList?: ReactComponent | undefined;
+  readonly LowerNavList?: ReactComponent | undefined;
+  readonly Drawer?: ReactComponent | undefined;
 }
 
 export function SharedMainLayout({ children, title, drawerValue, maxMainWidth = 'sm', UpperNavList, LowerNavList, onDrawerChange, onSignOut }: SharedMainLayoutProps) {
@@ -74,7 +73,7 @@ export function SharedMainLayout({ children, title, drawerValue, maxMainWidth = 
         </SharedIf>
       </AppBar>
 
-      <Container component={'main'} className={classes['sharedMainLayout__MainContainer']} maxWidth={maxMainWidth}>
+      <Container component={'main'} className={classes.mainContainer} maxWidth={maxMainWidth}>
         {defaultChildren}
       </Container>
 

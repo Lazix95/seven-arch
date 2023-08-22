@@ -5,7 +5,7 @@ import { SharedDrawerMobileList } from './SharedDrawerMobileList';
 import { SharedIf } from '../SharedIf';
 import styled from './SharedDriver.module.scss';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
-import { SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
 
 interface SharedDrawerProps {
   readonly title: string;
@@ -13,9 +13,10 @@ interface SharedDrawerProps {
   readonly showSubList?: boolean;
   readonly items?: SharedDrawerItem[];
   readonly currentDrawerItem?: SharedDrawerItem;
+  readonly socialNetworks?: DocumentSocialNetworkWithIcon[];
   readonly onChange: (state: boolean) => void;
   readonly onMenuItemClick: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
-  readonly onSocialNetworkClick: (socialNetwork: SocialNetwork) => void;
+  readonly onSocialNetworkClick: (socialNetwork: DocumentSocialNetwork) => void;
 }
 
 interface SharedDrawerBaseItem {
@@ -34,7 +35,7 @@ export interface SharedDrawerSubItem extends SharedDrawerBaseItem {
   readonly label: string;
 }
 
-export function SharedDrawer({ value, items, title, currentDrawerItem, showSubList = true, onChange, onMenuItemClick, onSocialNetworkClick }: SharedDrawerProps) {
+export function SharedDrawer({ value, items, title, currentDrawerItem, socialNetworks, showSubList = true, onChange, onMenuItemClick, onSocialNetworkClick }: SharedDrawerProps) {
   const theme = useTheme();
   const isDesktopView = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -48,7 +49,7 @@ export function SharedDrawer({ value, items, title, currentDrawerItem, showSubLi
         <SharedDrawerMobileList title={title} showSubList={showSubList} onChange={onChange} items={items || []} />
       </SharedIf>
 
-      <SharedCardSocialNetworks containerProps={{ style: { marginLeft: '65px', marginBottom: '20px', marginTop: '50px' } }} onClick={onSocialNetworkClick} />
+      <SharedCardSocialNetworks socialNetworks={socialNetworks} containerProps={{ style: { marginLeft: '65px', marginBottom: '20px', marginTop: '50px' } }} onClick={onSocialNetworkClick} />
     </Drawer>
   );
 }

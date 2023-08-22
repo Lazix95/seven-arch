@@ -44,6 +44,12 @@ export function FeatureAdminBasicInfoContainer({ basicInfo, basicInfoImages }: F
   }
 
   return (
-    <FeatureAdminBasicInfoAdminView isSubmitLoading={state.isSubmitLoading} onSubmit={handleSubmitBasicInfo} images={{ ...state.basicInfoImages }} data={{ ...state.basicInfo }} />
+    <FeatureAdminBasicInfoAdminView
+      initialLoading={initialLoading}
+      isSubmitLoading={state.isSubmitLoading}
+      onSubmit={handleSubmitBasicInfo}
+      images={{ ...state.basicInfoImages }}
+      data={{ ...state.basicInfo }}
+    />
   );
 }

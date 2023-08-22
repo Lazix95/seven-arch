@@ -26,7 +26,7 @@ export interface FeatureAdminBasicInfoAdminViewFields {
 export interface FeatureAdminBasicInfoAdminViewFormPayload extends GeneralFormSubmitModel<FeatureAdminBasicInfoAdminViewData, FeatureAdminBasicInfoAdminViewFields['images']> {}
 
 export interface FeatureAdminBasicInfoAdminViewProps {
-  readonly ilitialLoading?: boolean;
+  readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
   readonly onSubmit: (payload: FeatureAdminBasicInfoAdminViewFormPayload) => void;
   readonly data: FeatureAdminBasicInfoAdminViewData;
@@ -40,7 +40,7 @@ const initFields: FeatureAdminBasicInfoAdminViewFields = {
   },
 };
 
-export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmitLoading, ilitialLoading }: FeatureAdminBasicInfoAdminViewProps) {
+export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmitLoading, initialLoading }: FeatureAdminBasicInfoAdminViewProps) {
   const [fields, setFields] = useState<FeatureAdminBasicInfoAdminViewFields>(initFields);
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
   }
 
   return (
-    <SharedForm isLoading={ilitialLoading} onSubmit={handleSubmit}>
+    <SharedForm isLoading={initialLoading} onSubmit={handleSubmit}>
       <SharedGridItem centerText>
         <SharedHeading level={4}> Basic Info </SharedHeading>
       </SharedGridItem>

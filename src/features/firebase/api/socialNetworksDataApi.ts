@@ -1,5 +1,5 @@
 import { socialNetworksMap } from '@/constants/socialNetworkItems';
-import { getDocument } from '../utils/firebaseDocumentUtils';
+import { getDocument, storeDocument } from '../utils/firebaseDocumentUtils';
 import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon } from '@/models/socialNetworks';
 
 export async function fetchSocialNetworks(options: { withIcons?: boolean } = {}): Promise<DataSocialNetworks> {
@@ -17,14 +17,21 @@ export async function fetchSocialNetworks(options: { withIcons?: boolean } = {})
       name: socialNetwork.data?.name || socialNetwork.localSocNet.name,
       state: socialNetwork.data?.state || false,
       slug: socialNetwork.localSocNet.slug,
-      ...(socialNetwork.data?.link && { link: socialNetwork.data.link }),
-      ...(socialNetwork.data?.order && { order: socialNetwork.data.order }),
+      link: socialNetwork.data?.link || '',
+      order: socialNetwork.data?.order || 0,
       ...(options.withIcons && { Icon: socialNetwork.localSocNet.Icon }),
     };
 
     return [...acc, socNet];
   }, []);
   return { socialNetworks };
+}
+
+export async function saveSocialNetworks(socialNetworks: DocumentSocialNetwork[]) {
+  const requests = socialNetworks.map((socialNetwork) => {
+    return storeDocument('socialNetworks', `socialNetwork_${socialNetwork.slug}`, socialNetwork);
+  });
+  return await Promise.all(requests);
 }
 
 export interface DataSocialNetworks {

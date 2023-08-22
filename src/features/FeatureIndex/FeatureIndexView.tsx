@@ -11,7 +11,7 @@ import { SharedDrawer, SharedDrawerItem, SharedDrawerSubItem } from '../shared/S
 import { User } from '../firebase';
 import { useSystemContext } from '@/context/SystemContext';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
-import { SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
 import { SharedDefaultFooter } from '../shared/footer/SharedDefaultFooter';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 
@@ -27,15 +27,16 @@ export interface FeatureIndexViewProps {
   readonly appBarTitle: string;
   readonly themeType?: ThemeType;
   readonly currentDrawerItem?: SharedDrawerItem;
+  readonly socialNetworks?: DocumentSocialNetworkWithIcon[];
   readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
   readonly onDrawerChange: (state: boolean) => void;
   readonly onSignOut: () => void;
   readonly onLegalAndPoliciesClick?: () => void;
-  readonly onSocialNetworkClick?: (socialNetwork: SocialNetwork) => void;
+  readonly onSocialNetworkClick?: (socialNetwork: DocumentSocialNetworkWithIcon) => void;
 }
 
 export function FeatureIndexView(props: FeatureIndexViewProps) {
-  const { children, hasLoginError, isSignInLoading, userData, isAdminPage, drawerItems, isDrawerActive, splashScreenImageUrl, appBarTitle, themeType, currentDrawerItem } = props;
+  const { children, hasLoginError, isSignInLoading, userData, isAdminPage, drawerItems, isDrawerActive, splashScreenImageUrl, appBarTitle, themeType, currentDrawerItem, socialNetworks } = props;
   const { onSingInSubmit, onDrawerChange, onSignOut, onSocialNetworkClick, onLegalAndPoliciesClick } = props;
 
   const { mainViewMaxWidth } = useSystemContext();
@@ -54,7 +55,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     push(item.to);
   }
 
-  function handleSocialNetworkClick(socialNetwork: SocialNetwork) {
+  function handleSocialNetworkClick(socialNetwork: DocumentSocialNetworkWithIcon) {
     onSocialNetworkClick?.(socialNetwork);
   }
 
@@ -77,6 +78,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
                 value={isDrawerActive}
                 showSubList={hasAnySubItem}
                 currentDrawerItem={currentDrawerItem}
+                socialNetworks={socialNetworks ?? []}
                 onChange={onDrawerChange}
                 onMenuItemClick={handleDrawerItemClick}
                 onSocialNetworkClick={handleSocialNetworkClick}
@@ -87,6 +89,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
 
             <SharedNamedChild name="footer">
               <SharedDefaultFooter
+                socialNetworks={socialNetworks ?? []}
                 themeType={themeType}
                 companyName={appBarTitle}
                 onMenuLinkClick={handleDrawerItemClick}

@@ -6,19 +6,20 @@ import { SharedButton } from '../SharedButton';
 import { mainDrawerItems } from '@/constants/mainDrawerItems';
 import { SharedCopyright } from './SharedCopyright';
 import { SharedDrawerItem } from '../SharedDrawer/SharedDrawer';
-import { SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 import { useMemo } from 'react';
 
 interface SharedDefaultFooterProps {
   themeType?: ThemeType;
   companyName?: string;
+  socialNetworks?: DocumentSocialNetworkWithIcon[];
   onLegalAndPoliciesClick?: () => void;
   onMenuLinkClick?: (link: SharedDrawerItem) => void;
-  onSocialNetworkClick?: (socialNetwork: SocialNetwork) => void;
+  onSocialNetworkClick?: (socialNetwork: DocumentSocialNetworkWithIcon) => void;
 }
 
-export function SharedDefaultFooter({ themeType, companyName = 'Seven Arch', onLegalAndPoliciesClick, onMenuLinkClick, onSocialNetworkClick }: SharedDefaultFooterProps) {
+export function SharedDefaultFooter({ themeType, socialNetworks, companyName = 'Seven Arch', onLegalAndPoliciesClick, onMenuLinkClick, onSocialNetworkClick }: SharedDefaultFooterProps) {
   const color = useMemo(() => {
     if (themeType === 'transparentDark') return 'white';
     return 'inherit';
@@ -34,7 +35,7 @@ export function SharedDefaultFooter({ themeType, companyName = 'Seven Arch', onL
       </SharedGridItem>
 
       <SharedGridItem xs={6}>
-        <SharedCardSocialNetworks containerProps={{ style: { textAlign: 'end' } }} btnsProps={{ style: { color: color } }} onClick={onSocialNetworkClick} />
+        <SharedCardSocialNetworks socialNetworks={socialNetworks} containerProps={{ style: { textAlign: 'end' } }} btnsProps={{ style: { color: color } }} onClick={onSocialNetworkClick} />
       </SharedGridItem>
 
       <SharedGridItem xs={6}>

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { AppProps } from 'next/app';
 import { User, signIn, signUserOut, watchForUserData } from '../firebase';
-import { UserContextProvider } from '../../context/userContext';
+import { UserContextProvider } from '@/context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
@@ -9,9 +9,9 @@ import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo } from '../firebase/api/basicDataApi';
 import { SystemContextProvider } from '@/context/SystemContext';
 import { ThemeType } from '@/themes/sharedThemeDefault';
-import { useRouter } from 'next/router';
+import { fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
+export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
@@ -50,6 +50,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
         <FeatureIndexView
           themeType={themeType}
           currentDrawerItem={currentRoute}
+          socialNetworks={pageProps?.socialNetworks}
           appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
           splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
           onSingInSubmit={handleSubmitSignIn}

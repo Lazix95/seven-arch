@@ -1,27 +1,23 @@
 import { SharedHeading } from '@/features/shared/SharedHeading';
 import { SharedForm } from '@/features/shared/form/SharedForm';
-import { SharedGridInput } from '@/features/shared/form/SharedGridInput';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
-import { FormControl, FormControlLabel, FormGroup, FormLabel, Switch } from '@mui/material';
 import clsx from 'clsx';
-import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon, SocialNetwork, SocialNetworkSlug } from '@/models/socialNetworks';
-import { socialNetworksMap } from '@/constants/socialNetworkItems';
-import { useEffect, useState } from 'react';
+import { DocumentSocialNetworkWithIcon, SocialNetworkSlug } from '@/models/socialNetworks';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { SharedButton } from '@/features/shared/SharedButton';
 
+
 export interface FeatureSocialNetworksViewProps {
-  data: DocumentSocialNetwork[];
-  socialNetworksMap?: typeof socialNetworksMap;
   socialNetworks: DocumentSocialNetworkWithIcon[];
   isSubmitLoading: boolean;
   initLoading: boolean;
-  onSocialNetworkToggle: (socialNetwork: DocumentSocialNetworkWithIcon, state: boolean) => void;
+  onSubmit?: (payload: DocumentSocialNetworkWithIcon[]) => void;
 }
 
-export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmitLoading, onSocialNetworkToggle }: FeatureSocialNetworksViewProps) {
+export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmitLoading, onSubmit }: FeatureSocialNetworksViewProps) {
   const [state, setState] = useState<{ [key in SocialNetworkSlug]: DocumentSocialNetworkWithIcon }>(
     socialNetworks.reduce((acc, item) => {
       acc[item.slug] = item;
@@ -48,7 +44,7 @@ export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmi
     }));
   }
 
-  function handleSocialNetworkLinkChange(socialNetwork: DocumentSocialNetworkWithIcon, event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSocialNetworkLinkChange(socialNetwork: DocumentSocialNetworkWithIcon, event: ChangeEvent<HTMLInputElement>) {
     const link = event.target.value;
     setState((prevState) => ({
       ...prevState,
@@ -59,7 +55,7 @@ export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmi
     }));
   }
 
-  function handleSocialNetworkOrderChange(socialNetwork: DocumentSocialNetworkWithIcon, event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSocialNetworkOrderChange(socialNetwork: DocumentSocialNetworkWithIcon, event: ChangeEvent<HTMLInputElement>) {
     const order = event.target.value;
     setState((prevState) => ({
       ...prevState,
@@ -71,7 +67,7 @@ export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmi
   }
 
   function handleSubmit() {
-    console.log(state);
+    onSubmit?.(Object.values(state));
   }
 
   return (
@@ -106,10 +102,10 @@ export function FeatureSocialNetworksView({ socialNetworks, initLoading, isSubmi
               style={{ marginTop: '20px' }}
               fullWidth
               label={'Link'}
-              value={state[item.slug].link}
+              value={state[item.slug].link ?? ''}
               onChange={(event) => handleSocialNetworkLinkChange(item, event as any)}
             />
-            <SharedTextField fullWidth label={'Order'} value={state[item.slug].order} onChange={(event) => handleSocialNetworkOrderChange(item, event as any)} />
+            <SharedTextField fullWidth label={'Order'} value={state[item.slug].order ?? ''} onChange={(event) => handleSocialNetworkOrderChange(item, event as any)} />
           </SharedOutlinedContainer>
         ))}
 

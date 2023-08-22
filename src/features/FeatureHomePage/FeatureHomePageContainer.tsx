@@ -6,28 +6,27 @@ import { DataSliderImages, fetchSliderImages } from '../firebase/api/homeApi';
 import { useEffect, useState } from 'react';
 import { FirebaseImage } from '../firebase/utils/firebaseImageUtils';
 import { useSystemContext } from '@/context/SystemContext';
+import { DataSocialNetworks, fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
+import { useContainerData } from '@/hooks/useContainerData';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages]);
+export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages, fetchSocialNetworks]);
 
-interface FeatureHomePageContainerProps extends DataBasicInfo, DataSliderImages {}
+ export interface FeatureHomePageContainerProps extends DataBasicInfo, DataSliderImages, DataSocialNetworks {}
+
+export interface FeatureHomePageContainerState extends DataSliderImages {}
 
 export function FeatureHomePageContainer({ sliderImages }: FeatureHomePageContainerProps) {
-  const [localImages, setLocalImages] = useState<FirebaseImage[]>(sliderImages ?? []);
+  const {state} = useContainerData<FeatureHomePageContainerState>({sliderImages}, [fetchSliderImages]);
   const { setFullWidth, resetMainViewMaxWidthToDefault } = useSystemContext();
 
   useEffect(() => {
-    async function getImages() {
-      const images = await fetchSliderImages();
-      setLocalImages(images.sliderImages ?? []);
-      setFullWidth();
-      return () => {
-        resetMainViewMaxWidthToDefault();
-      };
-    }
-    getImages();
+    setFullWidth();
+    return () => {
+      resetMainViewMaxWidthToDefault();
+    };
   }, []);
 
   async function handleSubscribe(email: string) {}
 
-  return <FeatureHomePageView images={localImages} onSubscribe={handleSubscribe} />;
+  return <FeatureHomePageView images={state.sliderImages || []} onSubscribe={handleSubscribe} />;
 }

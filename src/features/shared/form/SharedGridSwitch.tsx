@@ -31,7 +31,7 @@ export function SharedGridSwitch({ label, value, children, onChange }: FeatureSo
           </SharedGridItem>
 
           <SharedGridItem xs={6}>
-            <Switch value={value} onChange={handleChange} color="primary" />
+            <Switch value={true} checked={value} onChange={handleChange} color="primary" />
           </SharedGridItem>
         </SharedGridContainer>
       </FormControl>
