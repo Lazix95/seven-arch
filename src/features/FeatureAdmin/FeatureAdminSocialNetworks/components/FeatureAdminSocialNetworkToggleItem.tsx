@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
-import { DocumentSocialNetworkWithIcon } from '@/models/socialNetworks';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SharedSocialNetworkIcon } from '@/features/shared/icons/SharedSocialNetworkIcon';
 
 export interface FeatureSocialNetworkItemProps {
-  socialNetwork: DocumentSocialNetworkWithIcon;
-  onChange: (socialNetwork: DocumentSocialNetworkWithIcon, state: boolean) => void;
+  socialNetwork: DocumentSocialNetwork;
+  onChange: (socialNetwork: DocumentSocialNetwork, state: boolean) => void;
   className?: string;
   value: boolean;
 }

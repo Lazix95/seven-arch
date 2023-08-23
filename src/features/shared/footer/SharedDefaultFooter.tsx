@@ -1,25 +1,32 @@
 import { SharedGridItem } from '../grid/SharedGridItem';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
-import { Divider, Typography, useTheme } from '@mui/material';
+import { Divider, Typography } from '@mui/material';
 import { SharedButton } from '../SharedButton';
 import { mainDrawerItems } from '@/constants/mainDrawerItems';
 import { SharedCopyright } from './SharedCopyright';
 import { SharedDrawerItem } from '../SharedDrawer/SharedDrawer';
-import { DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 import { useMemo } from 'react';
 
 interface SharedDefaultFooterProps {
   themeType?: ThemeType;
   companyName?: string;
-  socialNetworks?: DocumentSocialNetworkWithIcon[];
+  socialNetworks?: DocumentSocialNetwork[];
   onLegalAndPoliciesClick?: () => void;
   onMenuLinkClick?: (link: SharedDrawerItem) => void;
-  onSocialNetworkClick?: (socialNetwork: DocumentSocialNetworkWithIcon) => void;
+  onSocialNetworkClick?: (socialNetwork: DocumentSocialNetwork) => void;
 }
 
-export function SharedDefaultFooter({ themeType, socialNetworks, companyName = 'Seven Arch', onLegalAndPoliciesClick, onMenuLinkClick, onSocialNetworkClick }: SharedDefaultFooterProps) {
+export function SharedDefaultFooter({
+  themeType,
+  socialNetworks,
+  companyName = 'Seven Arch',
+  onLegalAndPoliciesClick,
+  onMenuLinkClick,
+  onSocialNetworkClick,
+}: SharedDefaultFooterProps) {
   const color = useMemo(() => {
     if (themeType === 'transparentDark') return 'white';
     return 'inherit';
@@ -35,7 +42,12 @@ export function SharedDefaultFooter({ themeType, socialNetworks, companyName = '
       </SharedGridItem>
 
       <SharedGridItem xs={6}>
-        <SharedCardSocialNetworks socialNetworks={socialNetworks} containerProps={{ style: { textAlign: 'end' } }} btnsProps={{ style: { color: color } }} onClick={onSocialNetworkClick} />
+        <SharedCardSocialNetworks
+          socialNetworks={socialNetworks}
+          containerProps={{ style: { textAlign: 'end' } }}
+          btnsProps={{ style: { color: color } }}
+          onClick={onSocialNetworkClick}
+        />
       </SharedGridItem>
 
       <SharedGridItem xs={6}>

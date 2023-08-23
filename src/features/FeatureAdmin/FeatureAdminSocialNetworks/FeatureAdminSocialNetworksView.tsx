@@ -2,7 +2,7 @@ import { SharedHeading } from '@/features/shared/SharedHeading';
 import { SharedForm } from '@/features/shared/form/SharedForm';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
-import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon, SocialNetworkSlug } from '@/models/socialNetworks';
+import { DocumentSocialNetwork, SocialNetworkSlug } from '@/models/socialNetworks';
 import { useEffect, useMemo, useState } from 'react';
 import { SharedButton } from '@/features/shared/SharedButton';
 import { FeatureAdminSocialNetworkToggleItem } from '@/features/FeatureAdmin/FeatureAdminSocialNetworks/components/FeatureAdminSocialNetworkToggleItem';
@@ -12,22 +12,22 @@ import { arrayToObject } from '@/utils/objectUtils';
 import { sortArray } from '@/utils/arrayUtils';
 
 export interface FeatureSocialNetworksViewProps {
-  socialNetworks: DocumentSocialNetworkWithIcon[];
+  socialNetworks: DocumentSocialNetwork[];
   isSubmitLoading: boolean;
   initLoading: boolean;
-  onSubmit?: (payload: DocumentSocialNetworkWithIcon[]) => void;
+  onSubmit?: (payload: DocumentSocialNetwork[]) => void;
 }
 
-type DocumentSocialNetworkWithIconWithState = { [key in SocialNetworkSlug]: DocumentSocialNetwork };
+type FeatureAdminSocialNetworksViewState = { [key in SocialNetworkSlug]: DocumentSocialNetwork };
 
 export function FeatureAdminSocialNetworksView({ socialNetworks, initLoading, isSubmitLoading, onSubmit }: FeatureSocialNetworksViewProps) {
-  const [state, setState] = useState<DocumentSocialNetworkWithIconWithState>(arrayToObject(sortArray(socialNetworks, 'order'), 'slug'));
+  const [state, setState] = useState<FeatureAdminSocialNetworksViewState>(arrayToObject(sortArray(socialNetworks, 'order'), 'slug'));
 
   useEffect(() => {
     setState(arrayToObject(socialNetworks, 'slug'));
   }, [socialNetworks]);
 
-  function handleSocialNetworkToggle(socialNetwork: DocumentSocialNetworkWithIcon, state: boolean) {
+  function handleSocialNetworkToggle(socialNetwork: DocumentSocialNetwork, state: boolean) {
     setState((prevState) => ({
       ...prevState,
       [socialNetwork.slug]: {
@@ -37,7 +37,7 @@ export function FeatureAdminSocialNetworksView({ socialNetworks, initLoading, is
     }));
   }
 
-  function handleSocialNetworkLinkChange(socialNetwork: DocumentSocialNetworkWithIcon, link: string) {
+  function handleSocialNetworkLinkChange(socialNetwork: DocumentSocialNetwork, link: string) {
     setState((prevState) => ({
       ...prevState,
       [socialNetwork.slug]: {

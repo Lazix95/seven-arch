@@ -19,7 +19,3 @@ export interface DocumentSocialNetwork {
   slug: SocialNetworkSlug;
   state: boolean;
 }
-
-export interface DocumentSocialNetworkWithIcon extends DocumentSocialNetwork {
-  Icon?: ReactComponent;
-}

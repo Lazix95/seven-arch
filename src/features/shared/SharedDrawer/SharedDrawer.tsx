@@ -5,7 +5,7 @@ import { SharedDrawerMobileList } from './SharedDrawerMobileList';
 import { SharedIf } from '../SharedIf';
 import styled from './SharedDriver.module.scss';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
-import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
 
 interface SharedDrawerProps {
   readonly title: string;
@@ -13,7 +13,7 @@ interface SharedDrawerProps {
   readonly showSubList?: boolean;
   readonly items?: SharedDrawerItem[];
   readonly currentDrawerItem?: SharedDrawerItem;
-  readonly socialNetworks?: DocumentSocialNetworkWithIcon[];
+  readonly socialNetworks?: DocumentSocialNetwork[];
   readonly onChange: (state: boolean) => void;
   readonly onMenuItemClick: (item: SharedDrawerItem | SharedDrawerSubItem) => void;
   readonly onSocialNetworkClick: (socialNetwork: DocumentSocialNetwork) => void;
@@ -49,7 +49,11 @@ export function SharedDrawer({ value, items, title, currentDrawerItem, socialNet
         <SharedDrawerMobileList title={title} showSubList={showSubList} onChange={onChange} items={items || []} />
       </SharedIf>
 
-      <SharedCardSocialNetworks socialNetworks={socialNetworks} containerProps={{ style: { marginLeft: '65px', marginBottom: '20px', marginTop: '50px' } }} onClick={onSocialNetworkClick} />
+      <SharedCardSocialNetworks
+        socialNetworks={socialNetworks}
+        containerProps={{ style: { marginLeft: '65px', marginBottom: '20px', marginTop: '50px' } }}
+        onClick={onSocialNetworkClick}
+      />
     </Drawer>
   );
 }

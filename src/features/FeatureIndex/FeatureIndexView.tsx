@@ -11,7 +11,7 @@ import { SharedDrawer, SharedDrawerItem, SharedDrawerSubItem } from '../shared/S
 import { User } from '../firebase';
 import { useSystemContext } from '@/context/SystemContext';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
-import { DocumentSocialNetworkWithIcon, SocialNetwork } from '@/models/socialNetworks';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import { SharedDefaultFooter } from '../shared/footer/SharedDefaultFooter';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 
@@ -27,16 +27,29 @@ export interface FeatureIndexViewProps {
   readonly appBarTitle: string;
   readonly themeType?: ThemeType;
   readonly currentDrawerItem?: SharedDrawerItem;
-  readonly socialNetworks?: DocumentSocialNetworkWithIcon[];
+  readonly socialNetworks?: DocumentSocialNetwork[];
   readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
   readonly onDrawerChange: (state: boolean) => void;
   readonly onSignOut: () => void;
   readonly onLegalAndPoliciesClick?: () => void;
-  readonly onSocialNetworkClick?: (socialNetwork: DocumentSocialNetworkWithIcon) => void;
+  readonly onSocialNetworkClick?: (socialNetwork: DocumentSocialNetwork) => void;
 }
 
 export function FeatureIndexView(props: FeatureIndexViewProps) {
-  const { children, hasLoginError, isSignInLoading, userData, isAdminPage, drawerItems, isDrawerActive, splashScreenImageUrl, appBarTitle, themeType, currentDrawerItem, socialNetworks } = props;
+  const {
+    children,
+    hasLoginError,
+    isSignInLoading,
+    userData,
+    isAdminPage,
+    drawerItems,
+    isDrawerActive,
+    splashScreenImageUrl,
+    appBarTitle,
+    themeType,
+    currentDrawerItem,
+    socialNetworks,
+  } = props;
   const { onSingInSubmit, onDrawerChange, onSignOut, onSocialNetworkClick, onLegalAndPoliciesClick } = props;
 
   const { mainViewMaxWidth } = useSystemContext();
@@ -55,7 +68,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     push(item.to);
   }
 
-  function handleSocialNetworkClick(socialNetwork: DocumentSocialNetworkWithIcon) {
+  function handleSocialNetworkClick(socialNetwork: DocumentSocialNetwork) {
     onSocialNetworkClick?.(socialNetwork);
   }
 

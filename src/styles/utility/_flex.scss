@@ -1,0 +1,16 @@
+.u-flex {
+  &--auto-height {
+    display: flex !important;
+    flex: auto !important;
+  }
+
+  &--column {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  &--row {
+    display: flex !important;
+    flex-direction: row !important;
+  }
+}

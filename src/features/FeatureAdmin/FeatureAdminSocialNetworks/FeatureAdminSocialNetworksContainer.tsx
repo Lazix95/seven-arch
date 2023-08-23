@@ -4,7 +4,7 @@ import { createGetStaticProps } from '@/utils/ssgUtils';
 import { useContainerData } from '@/hooks/useContainerData';
 import { fetchSocialNetworks, saveSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
 import { DataSocialNetworks } from '../../firebase/api/socialNetworksDataApi';
-import { DocumentSocialNetwork, DocumentSocialNetworkWithIcon } from '@/models/socialNetworks';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
 
 export interface FeatureSocialNetworksContainerProps extends DataSocialNetworks {}
 
@@ -20,19 +20,10 @@ export function FeatureAdminSocialNetworksContainer({ socialNetworks }: FeatureS
     fetchSocialNetworks,
   ]);
 
-  async function handleSubmit(payload: DocumentSocialNetworkWithIcon[]) {
-    const socialNetworksPayload: DocumentSocialNetwork[] = payload.map((item) => ({
-      id: item.id,
-      name: item.name,
-      slug: item.slug,
-      state: item.state,
-      link: item.link,
-      order: item.order,
-    }));
-
+  async function handleSubmit(payload: DocumentSocialNetwork[]) {
     try {
       updateState({ isSubmitLoading: true });
-      const socialNetworks = await saveSocialNetworks(socialNetworksPayload);
+      const socialNetworks = await saveSocialNetworks(payload);
       updateState({ socialNetworks });
     } finally {
       updateState({ isSubmitLoading: false });

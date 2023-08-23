@@ -38,7 +38,7 @@ export function SharedDrawerDesktopList({ items, showSubList, currentItem, title
   }
 
   return (
-    <Box sx={{ width: showSubList ? 600 : 250, paddingTop: '80px' }} role="presentation">
+    <Box className={'u-flex--auto-height'} sx={{ width: showSubList ? 600 : 250, paddingTop: '80px' }} role="presentation">
       <SharedButton className={'closeBtn'} btnType={'Icon'} onClick={handleCloseDrawer}>
         <CloseIcon />
       </SharedButton>

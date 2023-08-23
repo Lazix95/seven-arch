@@ -1,13 +1,12 @@
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
-import { DocumentSocialNetworkWithIcon } from '@/models/socialNetworks';
-import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
-import { socialNetworksMap } from '@/constants/socialNetworkItems';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
+import { SharedSocialNetworkIcon } from '@/features/shared/icons/SharedSocialNetworkIcon';
 
 export interface FeatureAdminSocialNetworkFormProps {
-  socialNetwork: DocumentSocialNetworkWithIcon;
+  socialNetwork: DocumentSocialNetwork;
   linkValue: string | undefined;
-  onLinkChange: (socialNetwork: DocumentSocialNetworkWithIcon, link: string) => void;
+  onLinkChange: (socialNetwork: DocumentSocialNetwork, link: string) => void;
 }
 
 export function FeatureAdminSocialNetworkForm({ socialNetwork, linkValue, onLinkChange }: FeatureAdminSocialNetworkFormProps) {
@@ -15,7 +14,8 @@ export function FeatureAdminSocialNetworkForm({ socialNetwork, linkValue, onLink
     <SharedOutlinedContainer
       label={
         <div className={'u-center--x'}>
-          {socialNetwork.Icon && <socialNetwork.Icon className={'u-mr--3'} />} {socialNetwork.name}
+          <SharedSocialNetworkIcon slug={socialNetwork.slug} className={'u-mr--3'} />
+          {socialNetwork.name}
         </div>
       }
     >
