@@ -4,22 +4,23 @@ import { FormControl, FormLabel, Switch } from '@mui/material';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { SharedGridItem } from '../grid/SharedGridItem';
 import { SharedIf } from '../SharedIf';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 export interface FeatureSocialNetworksViewProps {
   readonly label?: string;
   readonly value?: boolean;
-  readonly children?: React.ReactNode;
+  readonly children?: ReactNode;
+  readonly className?: string;
   readonly onChange?: (state: boolean) => void;
 }
 
-export function SharedGridSwitch({ label, value, children, onChange }: FeatureSocialNetworksViewProps) {
+export function SharedGridSwitch({ label, value, children, onChange, ...rest }: FeatureSocialNetworksViewProps) {
   function handleChange(event: ChangeEvent<HTMLInputElement>, newValue: boolean) {
     onChange?.(newValue);
   }
 
   return (
-    <SharedGridItem xs={12}>
+    <SharedGridItem xs={12} {...rest}>
       <FormControl fullWidth>
         <SharedGridContainer margin={0} centerX={false} centerY={true} spacing={0}>
           <SharedGridItem xs={6}>

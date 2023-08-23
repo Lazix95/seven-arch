@@ -35,5 +35,5 @@ export async function saveSocialNetworks(socialNetworks: DocumentSocialNetwork[]
 }
 
 export interface DataSocialNetworks {
-  readonly socialNetworks: DocumentSocialNetworkWithIcon[];
+  readonly socialNetworks: DocumentSocialNetwork[];
 }

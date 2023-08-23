@@ -1,0 +1,6 @@
+.dndHandle {
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+}

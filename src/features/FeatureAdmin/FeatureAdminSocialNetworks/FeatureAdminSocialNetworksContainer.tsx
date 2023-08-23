@@ -17,7 +17,7 @@ export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialN
 export function FeatureAdminSocialNetworksContainer({ socialNetworks }: FeatureSocialNetworksContainerProps) {
   const { initialLoading, state, updateState } = useContainerData<FeatureSocialNetworksContainerState>({ socialNetworks, isSubmitLoading: false }, [
     fetchBasicInfo,
-    () => fetchSocialNetworks({ withIcons: true }),
+    fetchSocialNetworks,
   ]);
 
   async function handleSubmit(payload: DocumentSocialNetworkWithIcon[]) {
