@@ -8,26 +8,27 @@ import { useState } from 'react';
 export interface SharedCardSubscribeToNewstellerProps {
   readonly text: string;
   readonly btnText: string;
-  readonly onSubscribe: (email: string) => Promise<void>;
+  readonly onSubscribe?: (email: string) => void;
 }
 
-export function SharedCardSubscribeToNewsteller({ text, btnText, onSubscribe }: SharedCardSubscribeToNewstellerProps) {
-  const [email, setEmail] = useState();
+export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe }: SharedCardSubscribeToNewstellerProps) {
+  const [email, setEmail] = useState('');
 
-  function handleSubscribeClick() {}
+  function handleSubscribeClick() {
+    onSubscribe?.(email);
+  }
 
   return (
     <SharedGridContainer centerX={false} centerY={false} sx={{ backgroundColor: '#333', height: '100%', width: '100%', margin: 0, padding: '24px' }}>
       <SharedGridContainer spacing={0} sx={{ margin: 'auto auto auto auto' }}>
         <SharedGridItem mb={2} xs={12}>
           <Typography fontWeight={500} color="white">
-            {/* Stay up to date with the latest Seven Arch projects and news. */}
             {text}
           </Typography>
         </SharedGridItem>
 
         <SharedGridItem xs={12}>
-          <SharedTextField />
+          <SharedTextField label={'Email'} onChange={(e) => setEmail(e.target.value)} />
         </SharedGridItem>
 
         <SharedGridItem xs={12}>

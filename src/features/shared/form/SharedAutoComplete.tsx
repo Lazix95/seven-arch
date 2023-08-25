@@ -6,18 +6,20 @@ export interface SharedAutoCompleteProps {
   readonly value: unknown;
   readonly options?: { label: string; value: unknown }[];
   readonly onChange: (value: { label: string; value: unknown } | null) => void;
+  readonly className?: string;
 }
 
-export function SharedAutoComplete({ label, value, onChange, options }: SharedAutoCompleteProps) {
+export function SharedAutoComplete({ label, value, onChange, options, ...rest }: SharedAutoCompleteProps) {
   return (
     <Autocomplete
       size={'small'}
-      value={options?.find((item) => item.value === value)}
+      value={options?.find((item) => item.value === value) ?? null}
       fullWidth
       disablePortal
       options={options || []}
       onChange={(e, v) => onChange(v)}
       renderInput={(params) => <TextField {...params} label={label} />}
+      {...rest}
     />
   );
 }

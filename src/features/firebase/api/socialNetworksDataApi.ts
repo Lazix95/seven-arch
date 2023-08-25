@@ -1,24 +1,20 @@
 import { socialNetworksMap } from '@/constants/socialNetworkItems';
-import { getDocument, storeDocument } from '../utils/firebaseDocumentUtils';
+import { storeDocument } from '../utils/firebaseDocumentUtils';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
+import { getEntities } from '@/features/firebase/utils/firebaseEntityUtils';
 
 export async function fetchSocialNetworks(): Promise<DataSocialNetworks> {
-  const requests = Object.values(socialNetworksMap).map((localSocNet) => {
-    const fnc = async () => ({
-      data: await getDocument<DocumentSocialNetwork | undefined>('socialNetworks', `socialNetwork_${localSocNet.slug}`),
-      localSocNet,
-    });
-    return fnc();
-  });
+  const socialNetworksRaw = await getEntities<DocumentSocialNetwork>('socialNetworks');
 
-  const socialNetworks: DocumentSocialNetwork[] = (await Promise.all(requests)).reduce<DocumentSocialNetwork[]>((acc, socialNetwork) => {
+  const socialNetworks: DocumentSocialNetwork[] = Object.values(socialNetworksMap).reduce<DocumentSocialNetwork[]>((acc, socialNetwork) => {
+    const socNetRaw = socialNetworksRaw.find((socNet) => socNet.slug === socialNetwork.slug);
     const socNet: DocumentSocialNetwork = {
-      id: socialNetwork.data?.id || socialNetwork.localSocNet.id,
-      name: socialNetwork.data?.name || socialNetwork.localSocNet.name,
-      state: socialNetwork.data?.state || false,
-      slug: socialNetwork.localSocNet.slug,
-      link: socialNetwork.data?.link || '',
-      order: socialNetwork.data?.order || socialNetwork.localSocNet.order,
+      id: socialNetwork.id,
+      name: socialNetwork.name,
+      state: socNetRaw?.state || false,
+      slug: socialNetwork.slug,
+      link: socNetRaw?.link || '',
+      order: socNetRaw?.order || socialNetwork.order,
     };
 
     return [...acc, socNet];

@@ -1,0 +1,7 @@
+.dialogAllowOverflow {
+  :global {
+    .MuiPaper-root {
+      overflow: visible !important;
+    }
+  }
+}

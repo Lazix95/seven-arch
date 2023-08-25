@@ -1,10 +1,8 @@
-import { DocumentReference } from 'firebase/firestore';
-import { entities, documents, folders } from '../../../constants/entitiesAndFoldersNames';
+import { entities, documents, folders } from '@/constants/entitiesAndFoldersNames';
 
+// Generic Payload need to be type of object that can receive any key and any value, but it must have key id of type string
 export type GenericPayload = {
-  [key in EntityKeys]?: DocumentReference[];
-} & {
-  [key: string]: unknown;
+  [key: string]: any;
 };
 
 type FoldersKeys = keyof typeof folders;

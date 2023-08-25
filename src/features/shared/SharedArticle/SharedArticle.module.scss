@@ -1,0 +1,8 @@
+.shared-article {
+  &__height {
+    height: 351px;
+    @media screen and (max-width: 1024px) {
+      height: 210px;
+    }
+  }
+}

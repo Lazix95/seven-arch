@@ -6,14 +6,15 @@ import { FirebaseImage } from '../../utils/firebaseImageUtils';
 
 export interface SharedFirebaseImage {
   image?: FirebaseImage;
+  url?: string;
   alt?: string;
   text?: string;
   type?: 'img' | 'div';
 }
 
-export function SharedFirebaseImage({ image, text, type = 'img', alt }: SharedFirebaseImage) {
+export function SharedFirebaseImage({ image, text, type = 'img', alt, url }: SharedFirebaseImage) {
   return (
-    <SharedIf RIf={!!image}>
+    <SharedIf RIf={!!image || !!url}>
       <div className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
         <SharedIf RIf={!!text}>
           <div className={styles.SharedContentImage_overlay} />
@@ -28,7 +29,7 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt }: SharedFi
             style={{ objectFit: 'cover', aspectRatio: '16/9' }}
             width={1000}
             height={1000}
-            src={image?.url ?? ''}
+            src={image?.url ?? url ?? ''}
             alt={alt ?? ''}
           />
         </SharedIf>
@@ -37,7 +38,7 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt }: SharedFi
           <div
             className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${styles['SharedContentImage__image-zoom']}`}
             style={{
-              backgroundImage: `url('${image?.url}')`,
+              backgroundImage: `url('${image?.url ?? url ?? ''}')`,
             }}
           />
         </SharedIf>

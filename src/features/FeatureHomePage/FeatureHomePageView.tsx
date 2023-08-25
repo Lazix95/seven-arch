@@ -4,8 +4,9 @@ import { SharedArticle, SharedArticleChildrenNames } from '../shared/SharedArtic
 import { SharedGridContainer } from '../shared/SharedDrawer/SharedGridContainer';
 import { SharedNamedChild } from '../shared/SharedNamedChild';
 import { SharedSlider } from '../shared/SharedSlider/SharedSlider';
-import { SharedCardSubscribeToNewsteller } from '../shared/cards/SharedCardSubscribeToNewsteller';
+import { SharedCardSubscribeToNewsTeller } from '../shared/cards/SharedCardSubscribeToNewsTeller';
 import { SharedGridItem } from '../shared/grid/SharedGridItem';
+import { Grid } from '@mui/material';
 
 interface FeatureHomePageViewProps {
   images: FirebaseImage[];
@@ -18,13 +19,9 @@ export function FeatureHomePageView({ images, onSubscribe }: FeatureHomePageView
       <div>
         <SharedSlider images={images} />
       </div>
-      <SharedGridContainer centerX column mt={0} mb={3} pt={0}>
-        <SharedGridItem>
-          <SharedArticle image={images[0]} title={'News'} text={'All News'}>
-            <SharedNamedChild name={SharedArticleChildrenNames.prepend}>
-              <SharedCardSubscribeToNewsteller text={'Stay up to date with the latest Seven Arch projects and news.'} btnText={'Subscribe'} onSubscribe={onSubscribe} />
-            </SharedNamedChild>
-          </SharedArticle>
+      <SharedGridContainer mt={0} mb={3} pt={0}>
+        <SharedGridItem xs={12} sm={6} md={12} lg={12}>
+          <SharedArticle />
         </SharedGridItem>
       </SharedGridContainer>
     </>

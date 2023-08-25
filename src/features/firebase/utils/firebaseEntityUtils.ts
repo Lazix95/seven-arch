@@ -1,16 +1,22 @@
-import { CollectionReference, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from 'firebase/firestore';
-import { EntityKeys, GenericPayload } from '../models/firebaseBaseModels';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { EntityKeys, FolderKeys, GenericPayload } from '../models/firebaseBaseModels';
 import { firebaseDB } from '../firebase';
+import { uuidV4 } from '@/plugins/uuid';
 
 export async function storeEntity<T extends GenericPayload>({ entity, payload }: { entity: EntityKeys; payload: T }) {
-  const entityCollection = collection(firebaseDB, entity) as CollectionReference<T>;
-  const entityRef = await addDoc(entityCollection, payload);
-  const docRef = doc(firebaseDB, entity, entityRef.id);
-  const res = await getDoc(docRef);
-  return res;
+  const id = uuidV4();
+  const docRef = doc(firebaseDB, entity, id);
+  await setDoc(docRef, { id, ...payload });
+  return (await getDoc(docRef)).data() as T;
 }
 
-export async function getEntities<T = unknown>(entity: EntityKeys): Promise<T[]> {
+export async function updateEntityById<T extends GenericPayload>({ entity, id, payload }: { entity: EntityKeys; id: string; payload: T }) {
+  const docRef = doc(firebaseDB, entity, id);
+  await setDoc(docRef, { ...payload, id }, { merge: true });
+  return await getDoc(docRef);
+}
+
+export async function getEntities<T = unknown>(entity: EntityKeys | FolderKeys): Promise<T[]> {
   let results: T[] = [];
   const query = await getDocs(collection(firebaseDB, entity));
   query.forEach((entity) => (results = [...results, entity.data() as T]));
@@ -18,12 +24,12 @@ export async function getEntities<T = unknown>(entity: EntityKeys): Promise<T[]>
 }
 
 export async function getEntityById<T = unknown>(entity: EntityKeys, id: string): Promise<T> {
-  const docRef = doc(firebaseDB, entity, `${id}`);
+  const docRef = doc(firebaseDB, entity, id);
   const docSnap = await getDoc(docRef);
   return docSnap.data() as T;
 }
 
 export async function deleteEntity(entity: EntityKeys, id: string): Promise<void> {
-  const docRef = doc(firebaseDB, entity, `${id}`);
+  const docRef = doc(firebaseDB, entity, id);
   await deleteDoc(docRef);
 }

@@ -13,16 +13,20 @@ export const folders = {
   general: 'general',
   caruselImages: 'sliderImages',
   socialNetwoeks: 'socialNetworks',
+  news: 'news',
 } as const;
 
 export const documents = {
   others: 'others',
   basicInfo: 'basicInfo',
+  news: 'news',
   ...socialNetworkDocuments,
 } as const;
 
 export const entities = {
   users: 'users',
+  news: 'news',
   projects: 'projects',
   partners: 'partners',
+  articles: 'articles',
 } as const;

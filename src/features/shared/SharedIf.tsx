@@ -1,10 +1,26 @@
 import { ReactNode, Fragment } from 'react';
+import { ReactComponent } from '@/models/generalModels';
 
-export function SharedIf({ children, RIf, Fallback }: { children: ReactNode; RIf: boolean | undefined; Fallback?: () => JSX.Element }) {
+export function SharedIf({
+  children,
+  RIf,
+  If,
+  Fallback,
+  Else,
+}: {
+  children: ReactNode;
+  RIf?: boolean | undefined;
+  If?: boolean;
+  Fallback?: ReactComponent;
+  Else?: ReactComponent;
+}) {
+  const ifValue = If || RIf; // RIf is deprecated, do not use it anymore !!
+
   return (
     <Fragment>
-      {RIf ? children : null}
-      {!RIf && Fallback && <Fallback />}
+      {ifValue ? children : null}
+      {!ifValue && Else && <Else />}
+      {!ifValue && !Else && Fallback && <Fallback />} {/* Fallback is deprecated, do not use it anymore !! */}
     </Fragment>
   );
 }
