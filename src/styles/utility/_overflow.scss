@@ -1,0 +1,13 @@
+.u-overflow {
+  &__hidden {
+    overflow: hidden !important;
+  }
+
+  &__scroll {
+    overflow: scroll !important;
+  }
+
+  &__auto {
+    overflow: auto !important;
+  }
+}

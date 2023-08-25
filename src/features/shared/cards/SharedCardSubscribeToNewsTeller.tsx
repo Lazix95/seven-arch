@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { SharedButton } from '../SharedButton';
-import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
+import { SharedGridContainer, SharedGridContainerProps } from '../SharedDrawer/SharedGridContainer';
 import { SharedTextField } from '../form/SharedTextField';
 import { SharedGridItem } from '../grid/SharedGridItem';
 import { useState } from 'react';
@@ -9,9 +9,10 @@ export interface SharedCardSubscribeToNewstellerProps {
   readonly text: string;
   readonly btnText: string;
   readonly onSubscribe?: (email: string) => void;
+  readonly containerProps?: Omit<SharedGridContainerProps, 'children'>;
 }
 
-export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe }: SharedCardSubscribeToNewstellerProps) {
+export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe, containerProps }: SharedCardSubscribeToNewstellerProps) {
   const [email, setEmail] = useState('');
 
   function handleSubscribeClick() {
@@ -19,7 +20,7 @@ export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe }: 
   }
 
   return (
-    <SharedGridContainer centerX={false} centerY={false} sx={{ backgroundColor: '#333', height: '100%', width: '100%', margin: 0, padding: '24px' }}>
+    <SharedGridContainer centerX={false} centerY={false} sx={{ backgroundColor: '#333', height: '100%', width: '100%', margin: 0, padding: '24px' }} {...containerProps}>
       <SharedGridContainer spacing={0} sx={{ margin: 'auto auto auto auto' }}>
         <SharedGridItem mb={2} xs={12}>
           <Typography fontWeight={500} color="white">

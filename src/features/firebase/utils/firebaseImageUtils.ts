@@ -3,7 +3,7 @@ import { firebaseStorage } from '../firebase';
 import { FolderKeys } from '../models/firebaseBaseModels';
 import { Optional } from '@/models/generalModels';
 
-export async function storeImage({ image, folder, name, subFolder = 'common' }: { image: File; name?: string; folder: FolderKeys; subFolder?: string }): Promise<FirebaseImage> {
+export async function storeImage({ image, folder, name }: { image: File; name?: string; folder: FolderKeys }): Promise<FirebaseImage> {
   //const imgDocRef = doc(firebaseDB, 'images', folder, subFolder, imgID);
   // await setDoc(imgDocRef, { url: result.url, dbPath: result.dbPath, id: imgID, order: 0 });
   // const imgDocs = await getDocs(collection(firebaseDB, 'images', folder, subFolder));

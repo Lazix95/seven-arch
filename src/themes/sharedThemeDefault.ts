@@ -5,6 +5,15 @@ export type ThemeType = 'light' | 'transparentDark';
 
 export const sharedThemeTransparentDark = createTheme({
   components: dakrComponents,
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1200,
+      xl: 1920,
+    },
+  },
   palette: {
     text: {
       secondary: '#ffffff',

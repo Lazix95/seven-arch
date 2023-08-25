@@ -14,6 +14,7 @@ export const folders = {
   caruselImages: 'sliderImages',
   socialNetwoeks: 'socialNetworks',
   news: 'news',
+  articles: 'articles',
 } as const;
 
 export const documents = {

@@ -9,7 +9,7 @@ type CustomGridContainerProps = {
   readonly column?: boolean;
 };
 
-type SharedGridContainerProps = CustomGridContainerProps & GridProps;
+export type SharedGridContainerProps = CustomGridContainerProps & GridProps;
 
 interface Optionals {
   justifyContent?: string;

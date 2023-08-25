@@ -3,9 +3,9 @@ import { EntityKeys, FolderKeys, GenericPayload } from '../models/firebaseBaseMo
 import { firebaseDB } from '../firebase';
 import { uuidV4 } from '@/plugins/uuid';
 
-export async function storeEntity<T extends GenericPayload>({ entity, payload }: { entity: EntityKeys; payload: T }) {
-  const id = uuidV4();
-  const docRef = doc(firebaseDB, entity, id);
+export async function storeEntity<T extends GenericPayload>({ entity, payload, id }: { entity: EntityKeys; payload: Partial<T>; id?: string }) {
+  const uuid = id ?? uuidV4();
+  const docRef = doc(firebaseDB, entity, uuid);
   await setDoc(docRef, { id, ...payload });
   return (await getDoc(docRef)).data() as T;
 }
@@ -13,7 +13,7 @@ export async function storeEntity<T extends GenericPayload>({ entity, payload }:
 export async function updateEntityById<T extends GenericPayload>({ entity, id, payload }: { entity: EntityKeys; id: string; payload: T }) {
   const docRef = doc(firebaseDB, entity, id);
   await setDoc(docRef, { ...payload, id }, { merge: true });
-  return await getDoc(docRef);
+  return (await getDoc(docRef)).data() as T;
 }
 
 export async function getEntities<T = unknown>(entity: EntityKeys | FolderKeys): Promise<T[]> {
