@@ -30,8 +30,7 @@ export function useArticleData({ entity, link, subEntity }: { entity: EntityKeys
     async function fetchArticles() {
       try {
         updateState({ isArticleLoading: true });
-        const article = await fetchArticleByEntity('news');
-        console.log(article);
+        const article = await fetchArticleByEntity(entity);
         updateState({ article });
       } finally {
         updateState({ isArticleLoading: false });

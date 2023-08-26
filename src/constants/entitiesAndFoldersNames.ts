@@ -30,4 +30,5 @@ export const entities = {
   projects: 'projects',
   partners: 'partners',
   articles: 'articles',
+  expertise: 'expertise',
 } as const;

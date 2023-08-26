@@ -13,6 +13,11 @@ export async function fetchArticleByEntity(entity: EntityKeys): Promise<Article>
   return await getEntityById<Article>('articles', id);
 }
 
+export async function fetchSubArticleByEntity(entity: EntityKeys, subEntity: EntityKeys): Promise<Article> {
+  const id = `article-${entity}`;
+  return await getEntityById<Article>('articles', id);
+}
+
 export async function saveArticleApi(payload: SaveArticlePayload): Promise<Article> {
   const { image, ...dataPayload } = payload;
   const id = `article-${payload.entity}`;
