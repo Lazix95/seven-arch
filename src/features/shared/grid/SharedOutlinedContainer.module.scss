@@ -1,0 +1,7 @@
+.noPaddings {
+  :global {
+    .MuiOutlinedInput-root {
+      padding: 0 !important;
+    }
+  }
+}

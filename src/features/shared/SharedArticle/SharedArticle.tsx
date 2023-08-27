@@ -21,7 +21,8 @@ export const SharedArticleChildrenNames = {
 
 export function SharedArticle({ article, onSubscribe }: SharedArticleProps) {
   const imageWidth = useMemo(() => {
-    if (article && article.size == 'large' && !article.feature && (!article.subArticles || article.subArticles.length === 0)) return 12;
+    // && (!article.subArticles || article.subArticles.length === 0)
+    if (article && article.size == 'large' && !article.feature) return 12;
     return 8;
   }, [article]);
 
@@ -34,7 +35,7 @@ export function SharedArticle({ article, onSubscribe }: SharedArticleProps) {
           </SharedHeading>
         </SharedGridItem>
 
-        <SharedGridItem xs={12} sm={12} md={imageWidth} xl={imageWidth < 12 ? 9 : 12} className={classes['sharedArticle__height']}>
+        <SharedGridItem xs={12} sm={6} md={imageWidth} xl={imageWidth < 12 ? 9 : 12} className={classes['sharedArticle__height']}>
           <SharedFirebaseImage url={article?.image?.url} text={article?.content} />
         </SharedGridItem>
 
@@ -59,10 +60,10 @@ export function SharedArticle({ article, onSubscribe }: SharedArticleProps) {
           </SharedIf>
         </Hidden>
 
-        <Hidden mdDown>
+        <Hidden smDown>
           <SharedIf If={!!article?.subArticles && article.subArticles.length > 0}>
             {article?.subArticles?.map((subArticle) => (
-              <SharedGridItem key={subArticle.id} xs={4} xl={3} className={`classes.sharedArticle__height`}>
+              <SharedGridItem key={subArticle.id} xs={6} sm={6} md={4} xl={3} className={classes.sharedArticle__height}>
                 <SharedFirebaseImage url={subArticle.image?.url} text={subArticle.content} />
               </SharedGridItem>
             ))}

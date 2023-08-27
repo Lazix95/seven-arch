@@ -6,3 +6,15 @@ export function sortArray<T>(array: T[], key: keyof T, { mode = 'asc' }: { mode?
     return a[key] < b[key] ? 1 : -1;
   });
 }
+
+export function addOrUpdateEntityInArray<T extends object>(array: Array<T>, entity: T, key: keyof T): Array<T> {
+  const index = array.findIndex((item) => item[key] === entity[key]);
+  if (index === -1) {
+    return [...array, entity];
+  }
+  return array.map((item) => (item[key] === entity[key] ? entity : item));
+}
+
+export function removeEntityFromArray<T extends object>(array: Array<T>, entity: T, key: keyof T): Array<T> {
+  return array.filter((item) => item[key] !== entity[key]);
+}

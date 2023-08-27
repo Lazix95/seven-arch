@@ -18,7 +18,6 @@ export interface SubArticle {
   readonly id: string;
   readonly content: string;
   readonly state: boolean;
-  readonly subEntity: EntityKeys;
   readonly image?: FirebaseImage;
   readonly link: string;
 }

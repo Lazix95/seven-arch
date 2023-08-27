@@ -22,7 +22,7 @@ export function FeatureHomePageView({ images, articles, onSubscribe }: FeatureHo
         <SharedSlider images={images} />
       </div>
       <SharedGridContainer mt={0} mb={3} pt={0}>
-        <SharedGridItem xs={12} sm={6} md={12} lg={12}>
+        <SharedGridItem xs={12}>
           {(articles || []).map((article) => (
             <SharedArticle key={article.id} article={article} onSubscribe={onSubscribe} />
           ))}

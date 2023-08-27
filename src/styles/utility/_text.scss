@@ -1,5 +1,5 @@
 .u-text {
-  &--white {
+  § &--white {
     color: #ffffff !important;
   }
   &--black {
@@ -21,4 +21,24 @@
   &--align-end {
     text-align: end !important;
   }
+}
+
+.u-text--font-10 {
+  font-size: 10px !important;
+}
+
+.u-text--font-11 {
+  font-size: 11px !important;
+}
+
+.u-text--font-12 {
+  font-size: 12px !important;
+}
+
+.u-text--font-14 {
+  font-size: 14px !important;
+}
+
+.u-text--font-16 {
+  font-size: 16px !important;
 }

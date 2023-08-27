@@ -1,18 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MainArticleSubmitPayload, SubArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
-import {
-  fetchArticleByEntity,
-  saveArticleApi,
-  SaveArticlePayload,
-  saveSubArticleApi,
-  SaveSubArticlePayload,
-  updateArticleApi,
-  UpdateArticlePayload,
-  updateSubArticleApi,
-  UpdateSubArticlePayload,
-} from '@/features/firebase/api/articleApi';
+import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
+import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticleApi, UpdateArticlePayload } from '@/features/firebase/api/articleApi';
 import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
-import { Article, SubArticle } from '@/models/articleModels';
+import { Article } from '@/models/articleModels';
 import { useContainerData } from '@/hooks/useContainerData';
 import { useEffect } from 'react';
 
@@ -23,7 +13,7 @@ export interface UseArticleDataState {
   article?: Article;
 }
 
-export function useArticleData({ entity, link, subEntity }: { entity: EntityKeys; link: string; subEntity?: EntityKeys }) {
+export function useArticleData({ entity, link }: { entity: EntityKeys; link: string }) {
   const { state, updateState } = useContainerData<UseArticleDataState>({});
 
   useEffect(() => {
@@ -41,6 +31,7 @@ export function useArticleData({ entity, link, subEntity }: { entity: EntityKeys
   }, []);
 
   async function saveArticle(payload: MainArticleSubmitPayload): Promise<Article> {
+    console.log('saveArticle', payload);
     const formattedPayload: SaveArticlePayload = {
       ...payload,
       link,
@@ -51,40 +42,15 @@ export function useArticleData({ entity, link, subEntity }: { entity: EntityKeys
   }
 
   async function updateArticle(payload: MainArticleSubmitPayload, id: string): Promise<Article> {
+    console.log('updateArticle', payload);
     const formattedPayload: UpdateArticlePayload = {
       id: id,
       ...payload,
       link,
       entity,
-    };
+    } as UpdateArticlePayload;
 
     return await updateArticleApi(formattedPayload);
-  }
-
-  async function saveSubArticle(payload: SubArticleSubmitPayload): Promise<SubArticle> {
-    if (!subEntity) throw new Error('subEntity is required');
-
-    const formattedPayload: SaveSubArticlePayload = {
-      ...payload,
-      link,
-      entity,
-      subEntity,
-    };
-
-    return await saveSubArticleApi(formattedPayload);
-  }
-
-  async function updateSubArticle(payload: SubArticleSubmitPayload, id?: string): Promise<SubArticle> {
-    if (!subEntity) throw new Error('subEntity is required');
-
-    const formattedPayload: UpdateSubArticlePayload = {
-      id: id ?? state.article?.id ?? '',
-      ...payload,
-      link,
-      entity,
-      subEntity,
-    };
-    return await updateSubArticleApi(formattedPayload);
   }
 
   async function handleSubmitArticle(payload: MainArticleSubmitPayload) {
@@ -102,30 +68,12 @@ export function useArticleData({ entity, link, subEntity }: { entity: EntityKeys
     }
   }
 
-  async function handleSubmitSubArticle(payload: SubArticleSubmitPayload) {
-    try {
-      updateState({ isArticleSubmitLoading: true });
-      if (state.article) {
-        await updateSubArticle(payload, state.article.id);
-        return;
-      }
-      await saveSubArticle(payload);
-    } catch (error) {
-      updateState({ hasArticleSubmitError: true });
-    } finally {
-      updateState({ isArticleSubmitLoading: false });
-    }
-  }
-
   return {
     saveArticle,
     updateArticle,
-    saveSubArticle,
-    updateSubArticle,
     article: state.article,
     isArticleSubmitLoading: state.isArticleSubmitLoading,
     isArticleLoading: state.isArticleLoading,
     handleSubmitArticle,
-    handleSubmitSubArticle,
   };
 }

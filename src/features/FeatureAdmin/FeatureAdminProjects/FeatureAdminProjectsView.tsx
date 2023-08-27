@@ -16,6 +16,7 @@ export function FeatureAdminProjectsView({ article, initialLoading, isSubmitLoad
   const [articlePayload, setArticlePayload] = useState<MainArticleSubmitPayload | null>(null);
 
   function handleFormSubmit() {
+    console.log('handleFormSubmit', articlePayload);
     if (articlePayload) {
       onArticleSubmit?.(articlePayload);
     }

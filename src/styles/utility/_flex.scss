@@ -13,4 +13,9 @@
     display: flex !important;
     flex-direction: row !important;
   }
+
+  &--space-between {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
 }

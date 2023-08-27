@@ -16,9 +16,10 @@ interface SharedImageUploadProps {
   label: string;
   noPreview?: boolean;
   onChange?: (name: string, file: File) => void;
+  onPreviewUrlChange?: (previewUrl: string | null) => void;
 }
 
-export const SharedImageUpload = ({ onChange, previewUrl, name, label, noPreview }: SharedImageUploadProps) => {
+export const SharedImageUpload = ({ onChange, previewUrl, name, label, noPreview, onPreviewUrlChange }: SharedImageUploadProps) => {
   const [image, setImage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -43,11 +44,13 @@ export const SharedImageUpload = ({ onChange, previewUrl, name, label, noPreview
 
   const handleRemoveImage = () => {
     setImage(null);
+    onPreviewUrlChange?.(null);
   };
 
   async function handleUploadImage(file: File, previewUrl: string) {
     onChange?.(name ?? '', file);
     if (noPreview) return;
+    onPreviewUrlChange?.(previewUrl);
     setImage(previewUrl);
   }
 

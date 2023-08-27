@@ -1,20 +1,24 @@
 import { InputBaseComponentProps, TextField, TextFieldProps } from '@mui/material';
 import React, { ElementType, ReactNode } from 'react';
 import { SharedGridItem, SharedGridItemProps } from './SharedGridItem';
+import styles from './SharedOutlinedContainer.module.scss';
+import clsx from 'clsx';
 
 interface SharedOutlineContainerProps extends SharedGridItemProps {
   children: ReactNode;
   centerText?: boolean;
-  label: React.ReactNode;
+  label?: React.ReactNode;
+  noPadding?: boolean;
+  center?: boolean;
   style?: Record<string, unknown>;
 }
 
 // eslint-disable-next-line react/display-name
 const InputComponent = React.forwardRef<HTMLDivElement>((props, ref) => <div {...props} ref={ref} />);
 
-export const SharedOutlinedContainer = ({ children, label, ...rest }: SharedOutlineContainerProps) => {
+export const SharedOutlinedContainer = ({ children, noPadding, label, className, center = true, ...rest }: SharedOutlineContainerProps) => {
   return (
-    <SharedGridItem centerText {...rest}>
+    <SharedGridItem className={clsx({ [styles.noPaddings]: noPadding }, className)} centerText={center} {...rest}>
       <TextField
         fullWidth={true}
         variant="outlined"
