@@ -59,7 +59,7 @@ export function SharedDefaultFooter({
       </SharedGridItem>
 
       <SharedGridItem xs={6}>
-        <SharedCopyright style={{ textAlign: 'end', color }} onLegalAndPoliciesClick={onLegalAndPoliciesClick} />
+        <SharedCopyright style={{ textAlign: 'end', color }} companyName={companyName} onLegalAndPoliciesClick={onLegalAndPoliciesClick} />
       </SharedGridItem>
     </SharedGridContainer>
   );

@@ -10,12 +10,17 @@ export interface SharedFirebaseImage {
   alt?: string;
   text?: string;
   type?: 'img' | 'div';
+  onClick?: () => void;
 }
 
-export function SharedFirebaseImage({ image, text, type = 'img', alt, url }: SharedFirebaseImage) {
+export function SharedFirebaseImage({ image, text, type = 'img', alt, url, onClick }: SharedFirebaseImage) {
   return (
     <SharedIf RIf={!!image || !!url}>
-      <div className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`} style={{ aspectRatio: '16/9' }}>
+      <div
+        className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`}
+        style={{ aspectRatio: '16/9' }}
+        onClick={onClick}
+      >
         <SharedIf RIf={!!text}>
           <div className={styles.SharedContentImage_overlay} />
           <Typography variant={'subtitle1'} className={styles['SharedContentImage_text']}>

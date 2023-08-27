@@ -253,6 +253,10 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitMainArticle
             </SharedGridItem>
 
             <SharedGridItem xs={12}>
+              <SharedTextField label={'Link'} value={subArticle?.link} onChange={(e) => handleChangeSubArticle('link', e.target.value)} />
+            </SharedGridItem>
+
+            <SharedGridItem xs={12}>
               <SharedImageUpload
                 label={'Article Image'}
                 previewUrl={subArticle?.imagePreviewUrl}

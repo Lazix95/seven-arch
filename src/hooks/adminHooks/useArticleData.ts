@@ -31,14 +31,15 @@ export function useArticleData({ entity, link }: { entity: EntityKeys; link: str
   }, []);
 
   async function saveArticle(payload: MainArticleSubmitPayload): Promise<Article> {
-    console.log('saveArticle', payload);
     const formattedPayload: SaveArticlePayload = {
       ...payload,
       link,
       entity,
     };
 
-    return await saveArticleApi(formattedPayload);
+    const article = await saveArticleApi(formattedPayload);
+    updateState({ article });
+    return article;
   }
 
   async function updateArticle(payload: MainArticleSubmitPayload, id: string): Promise<Article> {
@@ -50,7 +51,9 @@ export function useArticleData({ entity, link }: { entity: EntityKeys; link: str
       entity,
     } as UpdateArticlePayload;
 
-    return await updateArticleApi(formattedPayload);
+    const article = await updateArticleApi(formattedPayload);
+    updateState({ article });
+    return article;
   }
 
   async function handleSubmitArticle(payload: MainArticleSubmitPayload) {

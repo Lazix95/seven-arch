@@ -9,6 +9,8 @@ import { DataSocialNetworks, fetchSocialNetworks } from '@/features/firebase/api
 import { useContainerData } from '@/hooks/useContainerData';
 import { DataArticles, fetchArticles } from '@/features/firebase/api/articleApi';
 import { filterActiveArticles } from '@/utils/articleUtils';
+import { Article, SubArticle } from '@/models/articleModels';
+import { useLinks } from '@/hooks/useLinks';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages, fetchSocialNetworks, fetchArticles]);
 
@@ -19,6 +21,7 @@ export interface FeatureHomePageContainerState extends DataSliderImages, DataArt
 export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHomePageContainerProps) {
   const { state } = useContainerData<FeatureHomePageContainerState>({ sliderImages, articles }, [fetchSliderImages, fetchArticles]);
   const { setFullWidth, resetMainViewMaxWidthToDefault } = useSystemContext();
+  const { openInternalLink, openExternalLink, isExternalLink } = useLinks();
 
   useEffect(() => {
     setFullWidth();
@@ -31,9 +34,25 @@ export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHome
     return filterActiveArticles(state.articles);
   }, [state.articles]);
 
+  function handleArticleClick(article: Article | SubArticle) {
+    if (isExternalLink(article.link)) {
+      openExternalLink(article.link);
+      return;
+    }
+    openInternalLink(article.link);
+  }
+
   async function handleSubscribe(email: string) {
     console.log(email);
   }
 
-  return <FeatureHomePageView articles={activeArticles} images={state.sliderImages || []} onSubscribe={handleSubscribe} />;
+  return (
+    <FeatureHomePageView
+      articles={activeArticles}
+      images={state.sliderImages || []}
+      onSubscribe={handleSubscribe}
+      onSubArticleClick={handleArticleClick}
+      onArticleCLick={handleArticleClick}
+    />
+  );
 }

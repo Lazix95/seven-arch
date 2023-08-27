@@ -10,10 +10,13 @@ import { fetchBasicInfo } from '../firebase/api/basicDataApi';
 import { SystemContextProvider } from '@/context/SystemContext';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 import { fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
+import { DocumentSocialNetwork } from '@/models/socialNetworks';
+import { useLinks } from '@/hooks/useLinks';
 
 export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
+  const { openExternalLink } = useLinks();
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
@@ -44,6 +47,10 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     await signUserOut();
   }
 
+  function handleSocialNetworkClick(socialNetwork: DocumentSocialNetwork) {
+    openExternalLink(socialNetwork.link);
+  }
+
   return (
     <SystemContextProvider>
       <UserContextProvider value={user}>
@@ -61,6 +68,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
           isDrawerActive={isDrawerActive}
           isAdminPage={isAdminPage}
           userData={user}
+          onSocialNetworkClick={handleSocialNetworkClick}
           drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
         >
           <Component {...pageProps} />
