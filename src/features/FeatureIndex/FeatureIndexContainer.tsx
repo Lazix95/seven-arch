@@ -51,6 +51,8 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     openExternalLink(socialNetwork.link);
   }
 
+  console.log(process.env);
+
   return (
     <SystemContextProvider>
       <UserContextProvider value={user}>
