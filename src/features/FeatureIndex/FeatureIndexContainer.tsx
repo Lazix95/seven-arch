@@ -52,8 +52,8 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     openExternalLink(socialNetwork.link);
   }
 
-  console.log('awdawd => ', process.env);
-  console.log(process.env.FIREBASE_MESSUREMENT_ID);
+  console.log('awdawd => ', process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+  console.log(process.env.FIREBASE_API_KEY);
 
   return (
     <SystemContextProvider>
