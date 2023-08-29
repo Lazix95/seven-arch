@@ -17,6 +17,7 @@ export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialN
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const { openExternalLink } = useLinks();
+  const [a, b] = useState(process.env);
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
@@ -51,7 +52,8 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     openExternalLink(socialNetwork.link);
   }
 
-  console.log(process.env.SECRET_TOKEN);
+  console.log('awdawd => ', process.env);
+  console.log(process.env.FIREBASE_MESSUREMENT_ID);
 
   return (
     <SystemContextProvider>
