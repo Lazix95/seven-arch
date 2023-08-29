@@ -12,8 +12,8 @@ import { ThemeType } from '@/themes/sharedThemeDefault';
 import { fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import { useLinks } from '@/hooks/useLinks';
-
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
+import { fetchSliderImages } from '@/features/firebase/api/homeApi';
+import { fetchArticles } from '@/features/firebase/api/articleApi';
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const { openExternalLink } = useLinks();

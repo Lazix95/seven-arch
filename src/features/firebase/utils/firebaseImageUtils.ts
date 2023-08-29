@@ -44,7 +44,7 @@ export async function storeImageList({ images, folder }: { folder: FolderKeys; i
 export async function getImageLink({ folder, name }: { name: string; folder: FolderKeys }): Promise<FirebaseImage | null> {
   try {
     const imageRef = storageRef(firebaseStorage, `/images/${folder}/${name}`);
-    return { url: await getDownloadURL(imageRef), dbPath: imageRef.fullPath };
+    return { url: (await getDownloadURL(imageRef)) ?? null, dbPath: imageRef?.fullPath ?? null };
   } catch (e) {
     return null;
   }

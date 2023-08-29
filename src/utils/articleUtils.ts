@@ -2,7 +2,7 @@ import { Article, SubArticle } from '@/models/articleModels';
 import { MainArticleSubmitPayload, SubArticleEditPayload, SubArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 
 export function filterActiveArticles(articles: Article[]) {
-  return articles.reduce((acc, article) => {
+  return (articles || []).reduce((acc, article) => {
     if (article.state) {
       const subArticles = article.subArticles ? article.subArticles.filter((subArticle) => subArticle.state) : undefined;
       acc.push({ ...article, subArticles });

@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "cp .env.development .env.local && next dev",
+    "dev:production": "cp .env.production .env.local && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -37,7 +38,8 @@
     "sass": "^1.64.0",
     "slick-carousel": "^1.8.1",
     "typescript": "5.1.6",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vercel": "^32.1.0"
   },
   "devDependencies": {
     "@types/react-slick": "^0.23.10"

@@ -19,7 +19,7 @@ export async function replaceDocument<T = object>(folder: FolderKeys, docName: D
 export async function getDocument<T = object>(folder: FolderKeys, docName: DocumentKeys): Promise<T> {
   const docRef = doc(firebaseDB, folder, docName);
   const docSnap = await getDoc(docRef);
-  return docSnap.data() as T;
+  return (docSnap.data() || null) as T;
 }
 
 // TODO: Implement this function
