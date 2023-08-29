@@ -80,7 +80,7 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitMainArticle
       title,
       subArticles: subArticles.map((subArticle) => {
         const { imagePreviewUrl, oldFirebaseImage, ...restData } = subArticle;
-        return { ...restData, image: subArticle.image ?? oldFirebaseImage };
+        return { ...restData, image: subArticle.image || oldFirebaseImage };
       }),
       feature: feature ? { type: feature, content: featureContent } : null,
       size,
@@ -126,14 +126,7 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitMainArticle
   }
 
   function handleEditSubArticle(subArticle: SubArticleEditPayload) {
-    setSubArticle({
-      id: subArticle.id,
-      content: subArticle.content,
-      state: subArticle.state,
-      image: undefined,
-      link: subArticle.link,
-      imagePreviewUrl: subArticle.imagePreviewUrl,
-    });
+    setSubArticle({ ...subArticle });
     setIsSubModalOpen(true);
   }
 

@@ -3,6 +3,7 @@ import styles from './FirebaseImage.module.scss';
 import { Typography } from '@mui/material';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { FirebaseImage } from '../../utils/firebaseImageUtils';
+import { DivProps } from '@/models/generalModels';
 
 export interface SharedFirebaseImage {
   image?: FirebaseImage;
@@ -10,14 +11,16 @@ export interface SharedFirebaseImage {
   alt?: string;
   text?: string;
   type?: 'img' | 'div';
+  noZoom?: boolean;
   onClick?: () => void;
+  imageProps?: DivProps;
 }
 
-export function SharedFirebaseImage({ image, text, type = 'img', alt, url, onClick }: SharedFirebaseImage) {
+export function SharedFirebaseImage({ image, text, type = 'img', alt, url, noZoom, imageProps, onClick }: SharedFirebaseImage) {
   return (
     <SharedIf RIf={!!image || !!url}>
       <div
-        className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']}`}
+        className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']} ${noZoom ? '' : 'u-mouse-pointer'}`}
         style={{ aspectRatio: '16/9' }}
         onClick={onClick}
       >
@@ -30,7 +33,7 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt, url, onCli
 
         <SharedIf RIf={type === 'img'}>
           <Image
-            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-zoom']}`}
+            className={`${styles['SharedContentImage_fullSize']} ${noZoom ? '' : styles['SharedContentImage__image-zoom']}`}
             style={{ objectFit: 'cover', aspectRatio: '16/9' }}
             width={1000}
             height={1000}
@@ -41,9 +44,12 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt, url, onCli
 
         <SharedIf RIf={type === 'div'}>
           <div
-            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${styles['SharedContentImage__image-zoom']}`}
+            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${noZoom ? '' : styles['SharedContentImage__image-zoom']} ${
+              imageProps?.className ?? ''
+            }`}
             style={{
               backgroundImage: `url('${image?.url ?? url ?? ''}')`,
+              ...(imageProps?.style ?? {}),
             }}
           />
         </SharedIf>

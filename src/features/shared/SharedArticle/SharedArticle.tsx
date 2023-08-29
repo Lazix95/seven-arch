@@ -43,7 +43,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
 
         <Hidden mdDown>
           <SharedIf If={!!article?.feature && article.feature.type === 'newsTeller'}>
-            <SharedGridItem xs={4} xl={3} className={classes.sharedArticle__height}>
+            <SharedGridItem xs={6} sm={4} xl={3} className={classes.sharedArticle__height}>
               <SharedCardSubscribeToNewsTeller
                 containerProps={{ className: `u-overflow__auto` }}
                 text={article?.feature?.content || ''}
@@ -56,7 +56,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
 
         <Hidden mdDown>
           <SharedIf If={!!article?.feature && article.feature.type === 'description'}>
-            <SharedGridItem xs={4} xl={3} className={`${classes.sharedArticle__height} u-overflow__auto`}>
+            <SharedGridItem xs={6} sm={4} xl={3} className={`${classes.sharedArticle__height} u-overflow__auto`}>
               <SharedCardDescription text={article?.feature?.content || ''} />
             </SharedGridItem>
           </SharedIf>

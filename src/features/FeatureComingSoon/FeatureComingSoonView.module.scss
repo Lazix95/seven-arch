@@ -1,0 +1,20 @@
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 187px);
+}
+
+// .text meed to be in the middle of the image and it needs to looks like a watermark
+.text {
+  position: absolute;
+  top: calc(90% - 90px);
+  transform: translate(0, -50%);
+  color: black;
+  font-size: 5rem;
+  font-weight: bold;
+  z-index: 999;
+  width: 590px;
+  right: 0;
+}

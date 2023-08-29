@@ -20,7 +20,7 @@ export function subArticleToSubArticlePayload(subArticles: SubArticle[]): SubArt
       link: subArticle.link,
       image: null,
       imagePreviewUrl: subArticle.image?.url,
-      oldFirebaseImage: subArticle.image ?? null,
+      oldFirebaseImage: subArticle.image ? { ...subArticle.image } : null,
     });
     return acc;
   }, [] as SubArticleEditPayload[]);
