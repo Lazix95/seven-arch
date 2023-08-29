@@ -51,7 +51,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     openExternalLink(socialNetwork.link);
   }
 
-  console.log(process.env);
+  console.log(process.env.SECRET_TOKEN);
 
   return (
     <SystemContextProvider>
