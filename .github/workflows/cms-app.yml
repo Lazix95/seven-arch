@@ -63,8 +63,6 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
-        env:
-          SECRET_TOKEN: ${{ secrets.FIREBASE_API_KEY }}
         run: ${{ steps.detect-package-manager.outputs.runner }} build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
@@ -76,6 +74,8 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      SECRET_TOKEN: ${{ secrets.FIREBASE_API_KEY }}
     runs-on: ubuntu-latest
     needs: build
     steps:
