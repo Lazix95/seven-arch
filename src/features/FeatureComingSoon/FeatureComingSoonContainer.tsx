@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FeatureComingSoonView } from '@/features/FeatureComingSoon/FeatureComingSoonView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo } from '@/features/firebase/api/basicDataApi';

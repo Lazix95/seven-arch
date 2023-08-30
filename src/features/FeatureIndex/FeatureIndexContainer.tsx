@@ -14,13 +14,14 @@ import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import { useLinks } from '@/hooks/useLinks';
 import { fetchSliderImages } from '@/features/firebase/api/homeApi';
 import { fetchArticles } from '@/features/firebase/api/articleApi';
+import { triggerVarcelDeploy } from '@/api/varcelApi';
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const { openExternalLink } = useLinks();
-  const [a, b] = useState(process.env);
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
+  const [isPublishLoading, setIsPublishLoading] = useState(false);
   const [user, setUser] = useState<User | null | undefined>(undefined);
   const { push, isAdminPage, isHomePage, currentRoute } = useLocalRouter();
   const themeType: ThemeType = useMemo(() => (isHomePage ? 'transparentDark' : 'light'), [isHomePage]);
@@ -52,6 +53,17 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     openExternalLink(socialNetwork.link);
   }
 
+  async function handlePublishClick() {
+    try {
+      if (user) {
+        setIsPublishLoading(true);
+        await triggerVarcelDeploy();
+      }
+    } finally {
+      setIsPublishLoading(false);
+    }
+  }
+
   return (
     <SystemContextProvider>
       <UserContextProvider value={user}>
@@ -69,8 +81,10 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
           isDrawerActive={isDrawerActive}
           isAdminPage={isAdminPage}
           userData={user}
+          isPublishLoading={isPublishLoading}
           onSocialNetworkClick={handleSocialNetworkClick}
           drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
+          onPublishClick={handlePublishClick}
         >
           <Component {...pageProps} />
         </FeatureIndexView>

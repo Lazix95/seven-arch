@@ -28,11 +28,13 @@ export interface FeatureIndexViewProps {
   readonly themeType?: ThemeType;
   readonly currentDrawerItem?: SharedDrawerItem;
   readonly socialNetworks?: DocumentSocialNetwork[];
+  readonly isPublishLoading?: boolean;
   readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
   readonly onDrawerChange: (state: boolean) => void;
   readonly onSignOut: () => void;
   readonly onLegalAndPoliciesClick?: () => void;
   readonly onSocialNetworkClick?: (socialNetwork: DocumentSocialNetwork) => void;
+  readonly onPublishClick?: () => void;
 }
 
 export function FeatureIndexView(props: FeatureIndexViewProps) {
@@ -49,6 +51,8 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     themeType,
     currentDrawerItem,
     socialNetworks,
+    isPublishLoading,
+    onPublishClick,
   } = props;
   const { onSingInSubmit, onDrawerChange, onSignOut, onSocialNetworkClick, onLegalAndPoliciesClick } = props;
 
@@ -83,7 +87,14 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
         <SharedSplashScreen imageUrl={splashScreenImageUrl} />
         <CssBaseline />
         <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
-          <SharedMainLayout maxMainWidth={mainViewMaxWidth} title={appBarTitle} onDrawerChange={onDrawerChange} onSignOut={onSignOut}>
+          <SharedMainLayout
+            maxMainWidth={mainViewMaxWidth}
+            title={appBarTitle}
+            isPublishLoading={isPublishLoading}
+            onDrawerChange={onDrawerChange}
+            onSignOut={onSignOut}
+            onPublishClick={onPublishClick}
+          >
             <SharedNamedChild name="drawer">
               <SharedDrawer
                 title={'Menu'}

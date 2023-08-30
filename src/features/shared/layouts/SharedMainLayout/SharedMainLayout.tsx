@@ -19,14 +19,27 @@ interface SharedMainLayoutProps {
   readonly drawerValue?: boolean;
   readonly title: string;
   readonly maxMainWidth?: Breakpoint;
+  readonly isPublishLoading?: boolean;
   readonly onDrawerChange?: (state: boolean) => void;
   readonly onSignOut?: () => void;
   readonly UpperNavList?: ReactComponent | undefined;
   readonly LowerNavList?: ReactComponent | undefined;
+  readonly onPublishClick?: () => void;
   readonly Drawer?: ReactComponent | undefined;
 }
 
-export function SharedMainLayout({ children, title, drawerValue, maxMainWidth = 'sm', UpperNavList, LowerNavList, onDrawerChange, onSignOut }: SharedMainLayoutProps) {
+export function SharedMainLayout({
+  children,
+  title,
+  drawerValue,
+  maxMainWidth = 'sm',
+  isPublishLoading,
+  UpperNavList,
+  LowerNavList,
+  onDrawerChange,
+  onSignOut,
+  onPublishClick,
+}: SharedMainLayoutProps) {
   const Drawer = getNamedChild(children, 'drawer');
   const Footer = getNamedChild(children, 'footer');
   const defaultChildren = getNamedChild(children);
@@ -53,6 +66,10 @@ export function SharedMainLayout({ children, title, drawerValue, maxMainWidth = 
           </SharedIf>
 
           <SharedIf RIf={isAdminPage && !!user}>
+            <SharedButton btnType={'LoadingButton'} color={'secondary'} loading={isPublishLoading} onClick={onPublishClick} sx={{ mr: 2 }}>
+              Publish
+            </SharedButton>
+
             <SharedButton btnType={'Icon'} aria-label={'Logout'} edge="end" onClick={onSignOut} sx={{ mr: 2 }}>
               <LogoutIcon />
             </SharedButton>

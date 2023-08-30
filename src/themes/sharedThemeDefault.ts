@@ -37,6 +37,11 @@ export const sharedThemeDefaultLight = createTheme({
     mode: 'light',
     primary: {
       main: '#d5df26',
+      contrastText: '#212121',
+    },
+    secondary: {
+      main: '#00BCD4',
+      contrastText: '#212121',
     },
   },
 });
