@@ -20,13 +20,15 @@ export interface FeatureHomePageContainerState extends DataSliderImages, DataArt
 
 export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHomePageContainerProps) {
   const { state } = useContainerData<FeatureHomePageContainerState>({ sliderImages, articles }, [fetchSliderImages, fetchArticles]);
-  const { setFullWidth, resetMainViewMaxWidthToDefault } = useSystemContext();
+  const { setFullWidth, resetMainViewMaxWidthToDefault, setIsTransparentAppBar } = useSystemContext();
   const { openInternalLink, openExternalLink, isExternalLink } = useLinks();
 
   useEffect(() => {
     setFullWidth();
+    setIsTransparentAppBar(true);
     return () => {
       resetMainViewMaxWidthToDefault();
+      setIsTransparentAppBar(false);
     };
   }, []);
 

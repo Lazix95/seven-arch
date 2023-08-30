@@ -35,6 +35,7 @@ export interface FeatureIndexViewProps {
   readonly onLegalAndPoliciesClick?: () => void;
   readonly onSocialNetworkClick?: (socialNetwork: DocumentSocialNetwork) => void;
   readonly onPublishClick?: () => void;
+  readonly onLogoClick?: () => void;
 }
 
 export function FeatureIndexView(props: FeatureIndexViewProps) {
@@ -53,10 +54,11 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     socialNetworks,
     isPublishLoading,
     onPublishClick,
+    onLogoClick,
   } = props;
   const { onSingInSubmit, onDrawerChange, onSignOut, onSocialNetworkClick, onLegalAndPoliciesClick } = props;
 
-  const { mainViewMaxWidth } = useSystemContext();
+  const { mainViewMaxWidth, isTransparentAppBar } = useSystemContext();
   const { push } = useLocalRouter();
 
   const LoginFallback = useCallback(() => {
@@ -88,6 +90,8 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
         <CssBaseline />
         <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
           <SharedMainLayout
+            onLogoClick={onLogoClick}
+            isTransparentAppBar={isTransparentAppBar}
             maxMainWidth={mainViewMaxWidth}
             title={appBarTitle}
             isPublishLoading={isPublishLoading}

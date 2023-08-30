@@ -64,6 +64,10 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     }
   }
 
+  async function handleLogoClick() {
+    await push('/');
+  }
+
   return (
     <SystemContextProvider>
       <UserContextProvider value={user}>
@@ -85,6 +89,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
           onSocialNetworkClick={handleSocialNetworkClick}
           drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
           onPublishClick={handlePublishClick}
+          onLogoClick={handleLogoClick}
         >
           <Component {...pageProps} />
         </FeatureIndexView>
