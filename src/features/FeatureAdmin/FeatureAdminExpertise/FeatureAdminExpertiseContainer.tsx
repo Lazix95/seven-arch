@@ -1,11 +1,9 @@
 import { FeatureAdminExpertiseView } from './FeatureAdminExpertiseView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
-import { fetchBasicInfo } from '@/features/firebase/api/basicDataApi';
 import { useContainerData } from '@/hooks/useContainerData';
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
-import { fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
+export const getStaticProps = createGetStaticProps([]);
 
 export interface FeatureAdminExpertiseContainerProps {}
 

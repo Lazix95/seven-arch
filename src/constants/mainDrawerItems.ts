@@ -72,13 +72,13 @@ export const mainDrawerItems: SharedDrawerItem[] = [
   {
     id: 700,
     type: 'MainItem',
-    label: 'Carrers',
-    to: '/carrers',
+    label: 'Careers',
+    to: '/careers',
     subItems: [
       { id: 701, type: 'SubItem', label: 'Vacancies', to: '/careers/vacancies' },
       { id: 702, type: 'SubItem', label: 'Life at Seven Arch', to: '/careers/life-at-seven-arch' },
-      { id: 703, type: 'SubItem', label: 'Early Careers', to: '/carrers/early-careers' },
-      { id: 704, type: 'SubItem', label: 'Benefits', to: '/carrers/benefits' },
+      { id: 703, type: 'SubItem', label: 'Early Careers', to: '/careers/early-careers' },
+      { id: 704, type: 'SubItem', label: 'Benefits', to: '/careers/benefits' },
     ],
   },
   {

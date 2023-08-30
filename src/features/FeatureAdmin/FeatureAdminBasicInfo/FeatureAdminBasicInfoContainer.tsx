@@ -6,7 +6,7 @@ import { updateObjectEnteries } from '@/utils/objectUtils';
 import { storeImages } from '@/features/firebase/utils/firebaseImageUtils';
 import { storeDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo]);
+export const getStaticProps = createGetStaticProps([]);
 
 interface FeatureAdminBasicInfoState extends DataBasicInfo {
   readonly isSubmitLoading: boolean;
@@ -23,7 +23,7 @@ export function FeatureAdminBasicInfoContainer({ basicInfo, basicInfoImages }: F
       basicInfo,
       basicInfoImages,
     },
-    [fetchBasicInfo]
+    [fetchBasicInfo],
   );
 
   async function handleSubmitBasicInfo(payload: FeatureAdminBasicInfoAdminViewFormPayload) {

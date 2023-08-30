@@ -9,7 +9,7 @@ export function FeatureComingSoonView({}: FeatureComingSoonViewProps) {
       <div className={styles.image}>
         <h2 className={styles.text}>Coming soon...</h2>
         <FirebaseImage
-          imageProps={{ style: { backgroundPositionY: '72% !important', backgroundPosition: 'bottom' } }}
+          imageProps={{ className: styles.backgroundPosition }}
           noZoom={true}
           type={'div'}
           url={'https://images.pexels.com/photos/5582870/pexels-photo-5582870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'}

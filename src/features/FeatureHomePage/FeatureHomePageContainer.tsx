@@ -1,18 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { FeatureHomePageView } from './FeatureHomePageView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
-import { fetchBasicInfo, DataBasicInfo } from '../firebase/api/basicDataApi';
+import { DataBasicInfo } from '../firebase/api/basicDataApi';
 import { DataSliderImages, fetchSliderImages } from '../firebase/api/homeApi';
 import { useEffect, useMemo } from 'react';
 import { useSystemContext } from '@/context/SystemContext';
-import { DataSocialNetworks, fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
+import { DataSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
 import { useContainerData } from '@/hooks/useContainerData';
 import { DataArticles, fetchArticles } from '@/features/firebase/api/articleApi';
 import { filterActiveArticles } from '@/utils/articleUtils';
 import { Article, SubArticle } from '@/models/articleModels';
 import { useLinks } from '@/hooks/useLinks';
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSliderImages, fetchSocialNetworks, fetchArticles]);
+export const getStaticProps = createGetStaticProps([fetchSliderImages, fetchArticles]);
 
 export interface FeatureHomePageContainerProps extends DataBasicInfo, DataSliderImages, DataSocialNetworks, DataArticles {}
 

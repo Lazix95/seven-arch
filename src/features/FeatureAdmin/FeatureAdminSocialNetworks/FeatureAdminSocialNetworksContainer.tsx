@@ -12,7 +12,7 @@ export interface FeatureSocialNetworksContainerState extends DataSocialNetworks 
   readonly isSubmitLoading: boolean;
 }
 
-export const getStaticProps = createGetStaticProps([fetchBasicInfo, fetchSocialNetworks]);
+export const getStaticProps = createGetStaticProps([]);
 
 export function FeatureAdminSocialNetworksContainer({ socialNetworks }: FeatureSocialNetworksContainerProps) {
   const { initialLoading, state, updateState } = useContainerData<FeatureSocialNetworksContainerState>({ socialNetworks, isSubmitLoading: false }, [
