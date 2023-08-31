@@ -13,14 +13,24 @@ export interface FeatureAdminExpertiseContainerState {
 }
 
 export function FeatureAdminExpertiseContainer({}: FeatureAdminExpertiseContainerProps) {
-  const { state } = useContainerData<FeatureAdminExpertiseContainerState>({});
-  const { article, isArticleSubmitLoading, isArticleLoading, handleSubmitArticle } = useArticleData({ entity: 'expertise', link: '/expertise' });
+  const { state, updateState } = useContainerData<FeatureAdminExpertiseContainerState>({});
+  const { article, isArticleLoading, handleSubmitArticle, handleSavePayload } = useArticleData({ entity: 'expertise', link: '/expertise' });
+
+  async function handleFormSubmit() {
+    try {
+      updateState({ isSubmitLoading: true });
+      await handleSubmitArticle();
+    } finally {
+      updateState({ isSubmitLoading: false });
+    }
+  }
 
   return (
     <FeatureAdminExpertiseView
       article={article}
-      isSubmitLoading={isArticleSubmitLoading || state.isSubmitLoading}
-      onArticleSubmit={handleSubmitArticle}
+      isSubmitLoading={state.isSubmitLoading}
+      onArticleSubmit={handleSavePayload}
+      onSubmit={handleFormSubmit}
       initialLoading={state.isPageLoading || isArticleLoading}
     />
   );

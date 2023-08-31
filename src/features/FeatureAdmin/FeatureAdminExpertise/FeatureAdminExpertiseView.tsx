@@ -12,16 +12,6 @@ export interface FeatureAdminExpertiseViewProps {
 }
 
 export function FeatureAdminExpertiseView({ article, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: FeatureAdminExpertiseViewProps) {
-  const [articlePayload, setArticlePayload] = useState<MainArticleSubmitPayload | null>(null);
-
-  function handleFormSubmit() {
-    if (articlePayload) {
-      onArticleSubmit?.(articlePayload);
-    }
-
-    onSubmit?.();
-  }
-
   return (
     <AdminSharedForm
       title={'Expertise'}
@@ -29,8 +19,8 @@ export function FeatureAdminExpertiseView({ article, initialLoading, isSubmitLoa
       initialLoading={initialLoading}
       isSubmitLoading={isSubmitLoading}
       isMainArticle={true}
-      onMainArticleSubmit={(payload) => setArticlePayload(payload)}
-      onSubmit={handleFormSubmit}
+      onArticleSubmit={onArticleSubmit}
+      onSubmit={onSubmit}
     />
   );
 }

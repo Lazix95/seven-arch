@@ -13,13 +13,7 @@ export interface FeatureAdminProjectsViewProps {
 }
 
 export function FeatureAdminProjectsView({ article, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: FeatureAdminProjectsViewProps) {
-  const [articlePayload, setArticlePayload] = useState<MainArticleSubmitPayload | null>(null);
-
-  function handleFormSubmit() {
-    if (articlePayload) {
-      onArticleSubmit?.(articlePayload);
-    }
-
+  async function handleFormSubmit() {
     onSubmit?.();
   }
 
@@ -30,7 +24,7 @@ export function FeatureAdminProjectsView({ article, initialLoading, isSubmitLoad
       initialLoading={initialLoading}
       isSubmitLoading={isSubmitLoading}
       isMainArticle={true}
-      onMainArticleSubmit={(payload) => setArticlePayload(payload)}
+      onArticleSubmit={onArticleSubmit}
       onSubmit={handleFormSubmit}
     />
   );

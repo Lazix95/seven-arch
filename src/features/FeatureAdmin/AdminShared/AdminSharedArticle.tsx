@@ -23,8 +23,7 @@ import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 export interface AdminSharedArticleProps {
   article?: Article;
   isMainArticle?: boolean;
-  onSubmitMainArticle?: (payload: MainArticleSubmitPayload) => void;
-  onSubmitSubArticle?: (payload: SubArticleSubmitPayload) => void;
+  onSubmitArticle?: (payload: MainArticleSubmitPayload) => void;
 }
 
 const featureOptions = [
@@ -38,7 +37,7 @@ const sizeOptions = [
   { label: 'Large', value: 'large' },
 ];
 
-export function AdminSharedArticle({ isMainArticle, article, onSubmitMainArticle }: AdminSharedArticleProps) {
+export function AdminSharedArticle({ isMainArticle, article, onSubmitArticle }: AdminSharedArticleProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -90,7 +89,7 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitMainArticle
     };
 
     setIsModalOpen(false);
-    onSubmitMainArticle?.(payload);
+    onSubmitArticle?.(payload);
   }
 
   function handleCreateSubArticle() {

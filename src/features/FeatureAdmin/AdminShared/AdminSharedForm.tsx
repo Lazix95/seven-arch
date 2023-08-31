@@ -15,22 +15,11 @@ export interface AdminSharedFormProps {
   readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
   readonly onSubmit?: () => void;
-  readonly onMainArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
-  readonly onSubArticleSubmit?: (payload: SubArticleSubmitPayload) => void;
+  readonly onArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
   readonly children?: ReactNode;
 }
 
-export function AdminSharedForm({
-  title,
-  article,
-  isMainArticle,
-  noArticle,
-  initialLoading,
-  isSubmitLoading,
-  onSubmit,
-  onMainArticleSubmit,
-  onSubArticleSubmit,
-}: AdminSharedFormProps) {
+export function AdminSharedForm({ title, article, isMainArticle, noArticle, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: AdminSharedFormProps) {
   return (
     <SharedForm isLoading={initialLoading} onSubmit={onSubmit}>
       <SharedGridItem centerText>
@@ -38,7 +27,7 @@ export function AdminSharedForm({
       </SharedGridItem>
 
       <SharedIf If={!noArticle}>
-        <AdminSharedArticle article={article} isMainArticle={isMainArticle} onSubmitMainArticle={onMainArticleSubmit} onSubmitSubArticle={onSubArticleSubmit} />
+        <AdminSharedArticle article={article} isMainArticle={isMainArticle} onSubmitArticle={onArticleSubmit} />
       </SharedIf>
 
       <SharedGridItem>

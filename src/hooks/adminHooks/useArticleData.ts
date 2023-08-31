@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticleApi, UpdateArticlePayload } from '@/features/firebase/api/articleApi';
-import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
+import { DocumentKeys, EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
 import { Article } from '@/models/articleModels';
 import { useContainerData } from '@/hooks/useContainerData';
 import { useEffect } from 'react';
@@ -10,6 +10,7 @@ export interface UseArticleDataState {
   isArticleLoading?: boolean;
   isArticleSubmitLoading?: boolean;
   hasArticleSubmitError?: boolean;
+  articlePayload?: MainArticleSubmitPayload | null;
   article?: Article;
 }
 
@@ -29,6 +30,11 @@ export function useArticleData({ entity, link }: { entity: EntityKeys; link: str
 
     fetchArticles();
   }, []);
+
+  function handleSavePayload(payload: MainArticleSubmitPayload) {
+    console.log('savePayload', payload);
+    updateState({ articlePayload: payload });
+  }
 
   async function saveArticle(payload: MainArticleSubmitPayload): Promise<Article> {
     const formattedPayload: SaveArticlePayload = {
@@ -56,14 +62,18 @@ export function useArticleData({ entity, link }: { entity: EntityKeys; link: str
     return article;
   }
 
-  async function handleSubmitArticle(payload: MainArticleSubmitPayload) {
+  async function handleSubmitArticle(payload: MainArticleSubmitPayload | null | undefined = state.articlePayload) {
+    console.log(payload);
+    if (!payload) return;
     try {
       updateState({ isArticleSubmitLoading: true });
       if (state.article) {
         await updateArticle(payload, state.article.id);
+        updateState({ articlePayload: null });
         return;
       }
       await saveArticle(payload);
+      updateState({ articlePayload: null });
     } catch (error) {
       updateState({ hasArticleSubmitError: true });
     } finally {
@@ -78,5 +88,6 @@ export function useArticleData({ entity, link }: { entity: EntityKeys; link: str
     isArticleSubmitLoading: state.isArticleSubmitLoading,
     isArticleLoading: state.isArticleLoading,
     handleSubmitArticle,
+    handleSavePayload,
   };
 }

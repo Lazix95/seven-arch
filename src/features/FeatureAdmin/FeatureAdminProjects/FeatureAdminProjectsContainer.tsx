@@ -13,14 +13,24 @@ export interface FeatureAdminProjectsContainerState {
 }
 
 export function FeatureAdminProjectsContainer({}: FeatureAdminProjectsContainerProps) {
-  const { state } = useContainerData<FeatureAdminProjectsContainerState>({});
-  const { article, isArticleSubmitLoading, isArticleLoading, handleSubmitArticle } = useArticleData({ entity: 'projects', link: '/projects' });
+  const { state, updateState } = useContainerData<FeatureAdminProjectsContainerState>({});
+  const { article, isArticleLoading, handleSubmitArticle, handleSavePayload } = useArticleData({ entity: 'projects', link: '/projects' });
+
+  async function handleFormSubmit() {
+    try {
+      updateState({ isSubmitLoading: true });
+      await handleSubmitArticle();
+    } finally {
+      updateState({ isSubmitLoading: false });
+    }
+  }
 
   return (
     <FeatureAdminProjectsView
       article={article}
-      isSubmitLoading={isArticleSubmitLoading || state.isSubmitLoading}
-      onArticleSubmit={handleSubmitArticle}
+      isSubmitLoading={state.isSubmitLoading}
+      onArticleSubmit={handleSavePayload}
+      onSubmit={handleFormSubmit}
       initialLoading={state.isPageLoading || isArticleLoading}
     />
   );

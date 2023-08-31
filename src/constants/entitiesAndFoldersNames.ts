@@ -31,4 +31,9 @@ export const entities = {
   partners: 'partners',
   articles: 'articles',
   expertise: 'expertise',
+  careers: 'careers',
+  contact: 'contact',
+  insights: 'insights',
+  people: 'people',
+  studio: 'studio',
 } as const;
