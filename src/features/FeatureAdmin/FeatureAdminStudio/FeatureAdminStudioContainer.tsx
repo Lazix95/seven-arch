@@ -25,5 +25,13 @@ export function FeatureAdminStudioContainer({}: FeatureAdminStudioContainerProps
     }
   }
 
-  return <FeatureAdminStudioView />;
+  return (
+    <FeatureAdminStudioView
+      article={article}
+      initialLoading={isArticleLoading || state.isPageLoading}
+      isSubmitLoading={state.isSubmitLoading}
+      onArticleSubmit={handleSavePayload}
+      onSubmit={handleFormSubmit}
+    />
+  );
 }
