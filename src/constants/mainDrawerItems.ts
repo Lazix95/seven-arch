@@ -84,6 +84,13 @@ export const mainDrawerItems: SharedDrawerItem[] = [
   {
     id: 800,
     type: 'MainItem',
+    label: 'Partners',
+    to: '/partners',
+    subItems: [],
+  },
+  {
+    id: 900,
+    type: 'MainItem',
     label: 'Contact',
     to: '/contact',
     subItems: [],
@@ -148,6 +155,12 @@ export const adminDrawerItems: SharedDrawerItem[] = [
   },
   {
     id: 10000,
+    type: 'MainItem',
+    label: 'Partners',
+    to: '/admin/partners',
+  },
+  {
+    id: 11000,
     type: 'MainItem',
     label: 'Contact',
     to: '/admin/contact',

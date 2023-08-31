@@ -1,18 +1,18 @@
-import { Article } from '@/models/articleModels';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
+import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 
-export interface FeatureAdminPeopleViewProps {
-  readonly article?: Article;
+export interface FeatureAdminPartnersViewProps {
+  readonly article?: any;
   readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
-  readonly onArticleSubmit?: () => void;
+  readonly onArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
   readonly onSubmit?: () => void;
 }
 
-export function FeatureAdminPeopleView({ article, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: FeatureAdminPeopleViewProps) {
+export function FeatureAdminPartnersView({ article, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: FeatureAdminPartnersViewProps) {
   return (
     <AdminSharedForm
-      title={'People'}
+      title={'Partners'}
       article={article}
       initialLoading={initialLoading}
       isSubmitLoading={isSubmitLoading}

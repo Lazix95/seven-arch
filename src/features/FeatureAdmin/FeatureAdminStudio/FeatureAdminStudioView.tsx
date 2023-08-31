@@ -6,7 +6,7 @@ export interface FeatureAdminStudioViewProps {
   readonly article?: Article;
   readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
-  onArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
+  readonly onArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
   readonly onSubmit?: () => void;
 }
 
