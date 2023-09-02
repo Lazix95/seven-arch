@@ -1,9 +1,10 @@
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { useCallback, useEffect, useState } from 'react';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
-import { Article, ArticleFeature, ArticleFeatureType, SubArticle } from '@/models/articleModels';
+import { Article, ArticleFeature, ArticleFeatureType } from '@/models/articleModels';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
@@ -19,11 +20,18 @@ import AddIcon from '@mui/icons-material/Add';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import clsx from 'clsx';
 
 export interface AdminSharedArticleProps {
-  article?: Article;
-  isMainArticle?: boolean;
-  onSubmitArticle?: (payload: MainArticleSubmitPayload) => void;
+  readonly article?: Article;
+  readonly label?: string;
+  readonly isMainArticle?: boolean;
+  readonly size?: 'small' | 'large';
+  readonly order?: number;
+  readonly dragAndDrop?: boolean;
+  readonly className?: string;
+  readonly onSubmitArticle?: (payload: MainArticleSubmitPayload) => void;
+  readonly onOrderChange?: (order: number) => void;
 }
 
 const featureOptions = [
@@ -37,7 +45,17 @@ const sizeOptions = [
   { label: 'Large', value: 'large' },
 ];
 
-export function AdminSharedArticle({ isMainArticle, article, onSubmitArticle }: AdminSharedArticleProps) {
+export function AdminSharedArticle({
+  article,
+  dragAndDrop,
+  label = 'Article Settings',
+  order,
+  isMainArticle = true,
+  size: articleFormSize = 'large',
+  className,
+  onSubmitArticle,
+  onOrderChange,
+}: AdminSharedArticleProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(false);
@@ -68,24 +86,30 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitArticle }: 
     fillForm();
   }, [article, fillForm]);
 
+  useEffect(() => {
+    if (!order) return;
+    if (order !== article?.order) onOrderChange?.(order);
+  }, [order]);
+
   function handleCancel() {
     setIsModalOpen(false);
     fillForm();
   }
 
-  function handleSubmit() {
+  function handleSubmit(manualInput?: { state?: boolean }) {
     let payload: MainArticleSubmitPayload = {
       type: 'main',
       title,
+      feature: feature ? { type: feature, content: featureContent } : null,
+      size,
+      content,
+      state: manualInput?.state ?? isActive,
+      ...(image && { image }),
+      ...(order && { order }),
       subArticles: subArticles.map((subArticle) => {
         const { imagePreviewUrl, oldFirebaseImage, ...restData } = subArticle;
         return { ...restData, image: subArticle.image || oldFirebaseImage };
       }),
-      feature: feature ? { type: feature, content: featureContent } : null,
-      size,
-      ...(image && { image }),
-      content,
-      state: isActive,
     };
 
     setIsModalOpen(false);
@@ -129,19 +153,44 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitArticle }: 
     setIsSubModalOpen(true);
   }
 
-  return (
-    <SharedOutlinedContainer label={'Home page Article Settings'}>
-      <SharedGridContainer centerX={false} spacing={2}>
-        <SharedGridSwitch label={'State:'} value={isActive} onChange={setIsActive} />
-        <SharedGridItem className={'u-pt--2'} xs={12}>
-          <Divider />
-        </SharedGridItem>
+  async function handleSetIsActive(state: boolean) {
+    setIsActive(state);
+    handleSubmit({ state });
+  }
 
-        <SharedGridItem xs={12}>
-          <SharedButton disabled={!isActive} fullWidth onClick={() => setIsModalOpen(true)}>
-            Manage Article
-          </SharedButton>
-        </SharedGridItem>
+  return (
+    <SharedOutlinedContainer className={clsx({ DragElement: dragAndDrop }, className)} label={label}>
+      <SharedGridContainer centerX={false} spacing={articleFormSize === 'large' ? 2 : 0} mb={articleFormSize === 'large' ? 3 : 0}>
+        <SharedIf If={articleFormSize === 'large'}>
+          <SharedGridSwitch label={'State:'} value={isActive} onChange={handleSetIsActive} />
+          <SharedGridItem className={'u-pt--2'} xs={12}>
+            <Divider />
+          </SharedGridItem>
+
+          <SharedGridItem xs={12}>
+            <SharedButton disabled={!isActive} fullWidth onClick={() => setIsModalOpen(true)}>
+              Manage Article
+            </SharedButton>
+          </SharedGridItem>
+        </SharedIf>
+
+        <SharedIf If={articleFormSize === 'small'}>
+          <SharedGridItem className={'u-center--x'} xs={5}>
+            <SharedIf If={dragAndDrop}>
+              <DragIndicatorIcon style={{ marginRight: '-15px', zIndex: 2 }} className={'dndHandle'} />
+            </SharedIf>
+            <SharedGridSwitch label={'State:'} value={isActive} onChange={handleSetIsActive} />
+          </SharedGridItem>
+          <SharedGridItem className={'u-start--x'} xs={1}>
+            <Divider orientation={'vertical'} />
+          </SharedGridItem>
+
+          <SharedGridItem xs={6}>
+            <SharedButton disabled={!isActive} fullWidth onClick={() => setIsModalOpen(true)}>
+              Manage Article
+            </SharedButton>
+          </SharedGridItem>
+        </SharedIf>
 
         {/* Main Article Modal */}
         <SharedFormModal open={isModalOpen && !isSubModalOpen} title={'Manage Article'} onClose={() => setIsModalOpen(false)}>
@@ -229,7 +278,7 @@ export function AdminSharedArticle({ isMainArticle, article, onSubmitArticle }: 
 
           <SharedNamedChild name={SharedFormModalChildrenNames.actions}>
             <SharedButton onClick={handleCancel}>Cancel</SharedButton>
-            <SharedButton onClick={handleSubmit}>Submit</SharedButton>
+            <SharedButton onClick={() => handleSubmit()}>Submit</SharedButton>
           </SharedNamedChild>
         </SharedFormModal>
 
@@ -277,6 +326,7 @@ export interface MainArticleSubmitPayload {
   image?: File | null | undefined;
   state: boolean;
   size: 'small' | 'large';
+  order?: number;
 }
 
 export interface SubArticleEditPayload {

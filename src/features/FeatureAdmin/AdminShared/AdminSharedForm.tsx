@@ -9,32 +9,60 @@ import { SharedIf } from '@/features/shared/SharedIf';
 
 export interface AdminSharedFormProps {
   readonly title: string;
+  readonly subTitle?: string;
   readonly article?: Article;
   readonly isMainArticle?: boolean;
   readonly noArticle?: boolean;
+  readonly noSubmitBtn?: boolean;
   readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
+  readonly spacing?: number;
   readonly onSubmit?: () => void;
   readonly onArticleSubmit?: (payload: MainArticleSubmitPayload) => void;
   readonly children?: ReactNode;
+  readonly formGrid?: boolean;
 }
 
-export function AdminSharedForm({ title, article, isMainArticle, noArticle, initialLoading, isSubmitLoading, onSubmit, onArticleSubmit }: AdminSharedFormProps) {
+export function AdminSharedForm({
+  title,
+  subTitle,
+  article,
+  isMainArticle,
+  noArticle,
+  noSubmitBtn,
+  initialLoading,
+  isSubmitLoading,
+  onSubmit,
+  onArticleSubmit,
+  spacing,
+  formGrid,
+  children,
+}: AdminSharedFormProps) {
   return (
-    <SharedForm isLoading={initialLoading} onSubmit={onSubmit}>
+    <SharedForm spacing={spacing} grid={formGrid} isLoading={initialLoading} onSubmit={onSubmit}>
       <SharedGridItem centerText>
         <SharedHeading level={4}>{title}</SharedHeading>
       </SharedGridItem>
+
+      <SharedIf If={subTitle}>
+        <SharedGridItem centerText>
+          <SharedHeading level={5}>{subTitle}</SharedHeading>
+        </SharedGridItem>
+      </SharedIf>
 
       <SharedIf If={!noArticle}>
         <AdminSharedArticle article={article} isMainArticle={isMainArticle} onSubmitArticle={onArticleSubmit} />
       </SharedIf>
 
-      <SharedGridItem>
-        <SharedButton fullWidth btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
-          Save
-        </SharedButton>
-      </SharedGridItem>
+      <SharedGridItem xs={12}>{children}</SharedGridItem>
+
+      <SharedIf If={!noSubmitBtn}>
+        <SharedGridItem>
+          <SharedButton fullWidth btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
+            Save
+          </SharedButton>
+        </SharedGridItem>
+      </SharedIf>
     </SharedForm>
   );
 }

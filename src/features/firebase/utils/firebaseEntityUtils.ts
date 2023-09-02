@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { EntityKeys, FolderKeys, GenericPayload } from '../models/firebaseBaseModels';
 import { firebaseDB } from '../firebase';
 import { uuidV4 } from '@/plugins/uuid';

@@ -10,6 +10,18 @@
   }
 }
 
+.u-start {
+  &--x {
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+
+  &--y {
+    display: flex !important;
+    justify-content: flex-start !important;
+  }
+}
+
 .u-end {
   &--x {
     display: flex !important;

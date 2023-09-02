@@ -64,7 +64,7 @@ export const mainDrawerItems: SharedDrawerItem[] = [
     label: 'Insights',
     to: '/insights',
     subItems: [
-      { id: 601, type: 'SubItem', label: '+Plus Journal', to: '/insights/plus-journal' },
+      { id: 601, type: 'SubItem', label: 'Daily activities', to: '/insights/daily-activities' },
       { id: 602, type: 'SubItem', label: 'Publications', to: '/insights/publications' },
       { id: 603, type: 'SubItem', label: 'Videos', to: '/insights/videos' },
     ],
@@ -103,7 +103,15 @@ export const adminDrawerItems: SharedDrawerItem[] = [
     type: 'MainItem',
     label: 'Basic Info',
     to: '/admin',
-    subItems: [{ id: 701, type: 'SubItem', label: 'Social Networks', to: '/admin/social-networks' }],
+    subItems: [
+      { id: 701, type: 'SubItem', label: 'Social Networks', to: '/admin/social-networks' },
+      {
+        id: 702,
+        type: 'SubItem',
+        label: 'Articles',
+        to: '/admin/articles',
+      },
+    ],
   },
   {
     id: 2000,

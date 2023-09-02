@@ -28,7 +28,7 @@ export function SharedForm({ children, validation = true, grid = true, isLoading
 
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
-      <SharedIf RIf={grid} Fallback={() => <>{children}</>}>
+      <SharedIf RIf={grid} Fallback={() => <div className={'u-mb--6'}>{children}</div>}>
         <SharedGridContainer style={{ width: '100%' }} centerX column spacing={spacing} mt={0} mb={5}>
           {children}
         </SharedGridContainer>

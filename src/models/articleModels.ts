@@ -12,6 +12,7 @@ export interface Article {
   readonly link: string;
   readonly state: boolean;
   readonly entity: EntityKeys;
+  readonly order?: number;
 }
 
 export interface SubArticle {
