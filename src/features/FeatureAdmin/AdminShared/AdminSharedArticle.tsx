@@ -1,7 +1,7 @@
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
 import { Article, ArticleFeature, ArticleFeatureType } from '@/models/articleModels';
@@ -49,7 +49,6 @@ export function AdminSharedArticle({
   article,
   dragAndDrop,
   label = 'Article Settings',
-  order,
   isMainArticle = true,
   size: articleFormSize = 'large',
   className,
@@ -58,16 +57,19 @@ export function AdminSharedArticle({
 }: AdminSharedArticleProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubModalOpen, setIsSubModalOpen] = useState(false);
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(article?.state ?? false);
   const [feature, setFeature] = useState<ArticleFeatureType | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [order, setOrder] = useState(0);
   const [featureContent, setFeatureContent] = useState('');
   const [image, setImage] = useState<File | null>();
   const [size, setSize] = useState<'small' | 'large'>('large');
   const [subArticles, setSubArticles] = useState<SubArticleEditPayload[]>([]);
 
   const [subArticle, setSubArticle] = useState<SubArticleEditPayload | null>(null);
+
+  console.log(isMainArticle);
 
   const fillForm = useCallback(() => {
     if (article) {
@@ -77,6 +79,7 @@ export function AdminSharedArticle({
       setContent(article.content ?? '');
       setFeatureContent(article.feature?.content ?? '');
       setSize(article.size ?? 'large');
+      setOrder(article.order ?? 0);
 
       setSubArticles(subArticleToSubArticlePayload(article.subArticles ?? []));
     }
@@ -85,11 +88,6 @@ export function AdminSharedArticle({
   useEffect(() => {
     fillForm();
   }, [article, fillForm]);
-
-  useEffect(() => {
-    if (!order) return;
-    if (order !== article?.order) onOrderChange?.(order);
-  }, [order]);
 
   function handleCancel() {
     setIsModalOpen(false);
@@ -104,14 +102,17 @@ export function AdminSharedArticle({
       size,
       content,
       state: manualInput?.state ?? isActive,
+      order,
       ...(image && { image }),
-      ...(order && { order }),
       subArticles: subArticles.map((subArticle) => {
         const { imagePreviewUrl, oldFirebaseImage, ...restData } = subArticle;
         return { ...restData, image: subArticle.image || oldFirebaseImage };
       }),
     };
 
+    if (article?.order !== order) {
+      onOrderChange?.(order);
+    }
     setIsModalOpen(false);
     onSubmitArticle?.(payload);
   }
@@ -158,6 +159,11 @@ export function AdminSharedArticle({
     handleSubmit({ state });
   }
 
+  function handleOrderChange(e: ChangeEvent<HTMLInputElement>) {
+    const newOrder = parseInt(e.target.value);
+    setOrder(newOrder);
+  }
+
   return (
     <SharedOutlinedContainer className={clsx({ DragElement: dragAndDrop }, className)} label={label}>
       <SharedGridContainer centerX={false} spacing={articleFormSize === 'large' ? 2 : 0} mb={articleFormSize === 'large' ? 3 : 0}>
@@ -168,7 +174,7 @@ export function AdminSharedArticle({
           </SharedGridItem>
 
           <SharedGridItem xs={12}>
-            <SharedButton disabled={!isActive} fullWidth onClick={() => setIsModalOpen(true)}>
+            <SharedButton fullWidth onClick={() => setIsModalOpen(true)}>
               Manage Article
             </SharedButton>
           </SharedGridItem>
@@ -186,7 +192,7 @@ export function AdminSharedArticle({
           </SharedGridItem>
 
           <SharedGridItem xs={6}>
-            <SharedButton disabled={!isActive} fullWidth onClick={() => setIsModalOpen(true)}>
+            <SharedButton fullWidth onClick={() => setIsModalOpen(true)}>
               Manage Article
             </SharedButton>
           </SharedGridItem>
@@ -195,7 +201,7 @@ export function AdminSharedArticle({
         {/* Main Article Modal */}
         <SharedFormModal open={isModalOpen && !isSubModalOpen} title={'Manage Article'} onClose={() => setIsModalOpen(false)}>
           <SharedNamedChild name={SharedFormModalChildrenNames.content}>
-            <SharedIf If={isActive}>
+            <SharedIf If={isActive || true}>
               <SharedIf If={isMainArticle}>
                 <SharedAutoComplete
                   className={'u-mb--5'}
@@ -216,12 +222,16 @@ export function AdminSharedArticle({
                 <SharedTextField label={'Content'} value={content} onChange={(e) => setContent(e.target.value)} />
               </SharedGridItem>
 
+              <SharedGridItem xs={12}>
+                <SharedTextField label={'Order'} type={'number'} value={order} onChange={handleOrderChange} />
+              </SharedGridItem>
+
               <SharedIf RIf={isMainArticle}>
                 <SharedAutoComplete className={'u-mb--5'} label={'Size'} value={size} options={sizeOptions} onChange={(e) => setSize(e?.value as 'large' | 'small')} />
               </SharedIf>
             </SharedIf>
 
-            <SharedIf If={isActive && isMainArticle && !!feature}>
+            <SharedIf If={(isActive || true) && isMainArticle && !!feature}>
               <SharedGridItem xs={12} className={''}>
                 <SharedTextField multiline label={'Feature Content'} value={featureContent} onChange={(e) => setFeatureContent(e.target.value)} />
               </SharedGridItem>
@@ -230,7 +240,7 @@ export function AdminSharedArticle({
             <SharedIf If={isMainArticle}>
               <div className={'u-end--x u-flex--space-between u-mb--2'}>
                 <Typography className={'u-mr--5'}>Sub Articles</Typography>
-                <SharedButton color={'primary'} disabled={!isActive} onClick={handleCreateSubArticle}>
+                <SharedButton color={'primary'} disabled={!isActive && false} onClick={handleCreateSubArticle}>
                   <div className={'u-center--x'}>
                     <span>Add</span>
                     <AddIcon />

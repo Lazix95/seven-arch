@@ -27,7 +27,6 @@ export function AdminSharedForm({
   title,
   subTitle,
   article,
-  isMainArticle,
   noArticle,
   noSubmitBtn,
   initialLoading,
@@ -51,7 +50,7 @@ export function AdminSharedForm({
       </SharedIf>
 
       <SharedIf If={!noArticle}>
-        <AdminSharedArticle article={article} isMainArticle={isMainArticle} onSubmitArticle={onArticleSubmit} />
+        <AdminSharedArticle article={article} onSubmitArticle={onArticleSubmit} />
       </SharedIf>
 
       <SharedGridItem xs={12}>{children}</SharedGridItem>

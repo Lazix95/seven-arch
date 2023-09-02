@@ -1,19 +1,13 @@
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
 import { FeatureAdminArticlesView } from '@/features/FeatureAdmin/FeatureAdminArticles/FeatureAdminArticlesView';
 import { useMemo } from 'react';
-import { isAdmin } from '@firebase/util';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 
 export const getStaticProps = createGetStaticProps([]);
 
 export interface FeatureAdminArticlesContainerProps {}
 
-export interface FeatureAdminArticlesContainerState {
-  readonly isSubmitLoading?: boolean;
-  readonly isPageLoading?: boolean;
-}
-
-export function FeatureAdminArticlesContainer(props: FeatureAdminArticlesContainerProps) {
+export function FeatureAdminArticlesContainer({}: FeatureAdminArticlesContainerProps) {
   const careerArticle = useArticleData({ entity: 'careers', link: '/careers' });
   const contactArticle = useArticleData({ entity: 'contact', link: '/contact' });
   const expertiseArticle = useArticleData({ entity: 'expertise', link: '/expertise' });
@@ -31,27 +25,5 @@ export function FeatureAdminArticlesContainer(props: FeatureAdminArticlesContain
 
   const isPageLoading = useMemo(() => articles.some(({ isArticleLoading }) => isArticleLoading), [articles]);
 
-  const isSubmitLoading = useMemo(() => articles.some(({ isArticleSubmitLoading }) => isArticleSubmitLoading), [articles]);
-
-  async function onSubmit() {
-    articles.forEach(({ handleSubmitArticle }) => handleSubmitArticle());
-  }
-
-  return (
-    <FeatureAdminArticlesView
-      careerArticle={careerArticle}
-      contactArticle={contactArticle}
-      expertiseArticle={expertiseArticle}
-      insightsArticle={insightsArticle}
-      newsArticle={newsArticle}
-      partnersArticle={partnersArticle}
-      peopleArticle={peopleArticle}
-      projectsArticle={projectsArticle}
-      studioArticle={studioArticle}
-      articles={articles}
-      isPageLoading={isPageLoading}
-      isSubmitLoading={isSubmitLoading}
-      onSubmit={onSubmit}
-    />
-  );
+  return <FeatureAdminArticlesView articles={articles} isPageLoading={isPageLoading} />;
 }

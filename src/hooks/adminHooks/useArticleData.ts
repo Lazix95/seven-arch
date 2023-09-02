@@ -3,7 +3,7 @@ import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticle
 import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
 import { Article } from '@/models/articleModels';
 import { useContainerData } from '@/hooks/useContainerData';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export interface UseArticleDataProps {
   readonly entity: EntityKeys;
@@ -23,6 +23,7 @@ export interface UseArticleDataState {
 }
 
 export function useArticleData({ entity, link, options }: UseArticleDataProps) {
+  const orderRef = useRef<number>(0);
   const { state, updateState } = useContainerData<UseArticleDataState>({
     isArticleLoading: options?.initialLoading ?? false,
   });
@@ -32,13 +33,15 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
       try {
         updateState({ isArticleLoading: true });
         const article = await fetchArticleByEntity(entity);
-        updateState({ article, order: article?.order });
+        orderRef.current = article?.order ?? 0;
+        updateState({ article });
       } finally {
         updateState({ isArticleLoading: false });
       }
     }
 
     fetchArticles();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function handleSavePayload(payload: MainArticleSubmitPayload) {
@@ -52,7 +55,6 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
       link,
       entity,
     };
-
     const article = await saveArticleApi(formattedPayload);
     updateState({ article });
     return article;
@@ -76,7 +78,6 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
   const updateArticleMemo = useCallback(updateArticle, [entity, link, updateState]);
 
   async function handleSubmitArticle(payload: MainArticleSubmitPayload | null | undefined = state.articlePayload) {
-    console.log(payload, state.articlePayload);
     if (!payload) return;
     try {
       updateState({ isArticleSubmitLoading: true });
@@ -94,33 +95,23 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
     }
   }
 
-  async function handleOrderChange(order: number) {
-    if (!state.article) return;
-    console.log('handleOrderChange');
-    await updateArticleMemo({ order, subArticles: state.article.subArticles } as unknown as MainArticleSubmitPayload, state.article.id);
-  }
-
   function handleChangTempOrder(order: number) {
-    console.log(order);
-    updateState({ order });
+    if (order === orderRef.current) return;
+    orderRef.current = order ?? 0;
   }
 
   const handleSubmitArticleMemo = useCallback(handleSubmitArticle, [saveArticleMemo, state.article, state.articlePayload, updateArticleMemo, updateState]);
   const handleSavePayloadMemo = useCallback(handleSavePayload, [updateState]);
-  const handleOrderChangeMemo = useCallback(handleOrderChange, [state.article, updateArticleMemo]);
-  const handleChangTempOrderMemo = useCallback(handleChangTempOrder, [updateState]);
+  const handleChangTempOrderMemo = useCallback(handleChangTempOrder, []);
 
-  return useMemo(
-    () => ({
-      article: state.article,
-      isArticleSubmitLoading: state.isArticleSubmitLoading,
-      isArticleLoading: state.isArticleLoading,
-      handleSubmitArticle: handleSubmitArticleMemo,
-      handleSavePayload: handleSavePayloadMemo,
-      handleOrderChange: handleOrderChangeMemo,
-      handleChangTempOrder: handleChangTempOrderMemo,
-      order: state.order,
-    }),
-    [state.article, state.isArticleSubmitLoading, state.isArticleLoading, state.order, handleSubmitArticleMemo, handleSavePayloadMemo, handleOrderChangeMemo],
-  );
+  return {
+    article: state.article,
+    isArticleSubmitLoading: state.isArticleSubmitLoading,
+    isArticleLoading: state.isArticleLoading,
+    handleSubmitArticle: handleSubmitArticleMemo,
+    handleSavePayload: handleSavePayloadMemo,
+    handleChangTempOrder: handleChangTempOrderMemo,
+    order: orderRef,
+    entity,
+  };
 }
