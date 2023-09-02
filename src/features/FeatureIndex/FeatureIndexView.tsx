@@ -84,7 +84,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
 
   return (
     <Fragment>
-      <SharedHead title="Welcome to Sevenarch!" />
+      <SharedHead title="Welcome to Seven-arch!" />
       <SharedThemeProvider themeType={themeType}>
         <SharedSplashScreen imageUrl={splashScreenImageUrl} />
         <CssBaseline />
