@@ -1,5 +1,7 @@
 export function sortArray<T>(array: T[], key: keyof T, { mode = 'asc' }: { mode?: 'asc' | 'desc' } = {}) {
   return array.sort((a, b) => {
+    if (a[key] === undefined || b[key] === undefined) return 0;
+
     if (mode === 'asc') {
       return a[key] > b[key] ? 1 : -1;
     }
