@@ -48,6 +48,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
                 containerProps={{ className: `u-overflow__auto` }}
                 text={article?.feature?.content || ''}
                 btnText={'Subscribe'}
+                align={article?.feature?.align}
                 onSubscribe={onSubscribe}
               />
             </SharedGridItem>
@@ -57,7 +58,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
         <Hidden mdDown>
           <SharedIf If={!!article?.feature && article.feature.type === 'description'}>
             <SharedGridItem xs={6} sm={4} xl={3} className={`${classes.sharedArticle__height} u-overflow__auto`}>
-              <SharedCardDescription text={article?.feature?.content || ''} />
+              <SharedCardDescription text={article?.feature?.content || ''} align={article?.feature?.align} />
             </SharedGridItem>
           </SharedIf>
         </Hidden>

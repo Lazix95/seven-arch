@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
-import { Article } from '@/models/articleModels';
+import { Article, MainArticleSubmitPayload } from '@/models/articleModels';
 
 export interface FeatureAdminExpertiseViewProps {
   article?: Article;

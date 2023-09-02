@@ -1,5 +1,4 @@
-import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
-import { Article } from '@/models/articleModels';
+import { Article, MainArticleSubmitPayload } from '@/models/articleModels';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
 
 export interface FeatureAdminStudioViewProps {

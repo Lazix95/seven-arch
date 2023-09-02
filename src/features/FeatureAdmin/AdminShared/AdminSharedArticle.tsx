@@ -4,7 +4,7 @@ import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
-import { Article, ArticleFeature, ArticleFeatureType } from '@/models/articleModels';
+import { Article, ArticleFeature, ArticleFeatureType, FeatureTextAlign, MainArticleSubmitPayload, SubArticleEditPayload } from '@/models/articleModels';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
@@ -19,7 +19,6 @@ import { subArticleToSubArticlePayload } from '@/utils/articleUtils';
 import AddIcon from '@mui/icons-material/Add';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 import clsx from 'clsx';
 
 export interface AdminSharedArticleProps {
@@ -45,6 +44,13 @@ const sizeOptions = [
   { label: 'Large', value: 'large' },
 ];
 
+const alignOptions = [
+  { label: 'Left', value: 'left' },
+  { label: 'Right', value: 'right' },
+  { label: 'Center', value: 'center' },
+  { label: 'Justify', value: 'justify' },
+];
+
 export function AdminSharedArticle({
   article,
   dragAndDrop,
@@ -63,13 +69,12 @@ export function AdminSharedArticle({
   const [content, setContent] = useState('');
   const [order, setOrder] = useState(0);
   const [featureContent, setFeatureContent] = useState('');
+  const [featureAlign, setFeatureAlign] = useState<FeatureTextAlign>('center');
   const [image, setImage] = useState<File | null>();
   const [size, setSize] = useState<'small' | 'large'>('large');
   const [subArticles, setSubArticles] = useState<SubArticleEditPayload[]>([]);
 
   const [subArticle, setSubArticle] = useState<SubArticleEditPayload | null>(null);
-
-  console.log(isMainArticle);
 
   const fillForm = useCallback(() => {
     if (article) {
@@ -80,6 +85,7 @@ export function AdminSharedArticle({
       setFeatureContent(article.feature?.content ?? '');
       setSize(article.size ?? 'large');
       setOrder(article.order ?? 0);
+      setFeatureAlign(article.feature?.align ?? 'center');
 
       setSubArticles(subArticleToSubArticlePayload(article.subArticles ?? []));
     }
@@ -98,7 +104,7 @@ export function AdminSharedArticle({
     let payload: MainArticleSubmitPayload = {
       type: 'main',
       title,
-      feature: feature ? { type: feature, content: featureContent } : null,
+      feature: feature ? { type: feature, content: featureContent, align: featureAlign } : null,
       size,
       content,
       state: manualInput?.state ?? isActive,
@@ -232,6 +238,14 @@ export function AdminSharedArticle({
             </SharedIf>
 
             <SharedIf If={(isActive || true) && isMainArticle && !!feature}>
+              <SharedAutoComplete
+                className={'u-mb--5'}
+                label={'Feature Text Alignment'}
+                value={featureAlign}
+                options={alignOptions}
+                onChange={(e) => setFeatureAlign(e?.value as FeatureTextAlign)}
+              />
+
               <SharedGridItem xs={12} className={''}>
                 <SharedTextField multiline label={'Feature Content'} value={featureContent} onChange={(e) => setFeatureContent(e.target.value)} />
               </SharedGridItem>
@@ -326,27 +340,3 @@ export function AdminSharedArticle({
     </SharedOutlinedContainer>
   );
 }
-
-export interface MainArticleSubmitPayload {
-  type: 'main';
-  title?: string;
-  feature: ArticleFeature | null;
-  content: string;
-  subArticles?: SubArticleSubmitPayload[];
-  image?: File | null | undefined;
-  state: boolean;
-  size: 'small' | 'large';
-  order?: number;
-}
-
-export interface SubArticleEditPayload {
-  id: string;
-  content: string;
-  image?: File | FirebaseImage | null | undefined;
-  imagePreviewUrl?: string | null;
-  oldFirebaseImage?: FirebaseImage | null;
-  state: boolean;
-  link: string;
-}
-
-export type SubArticleSubmitPayload = Omit<SubArticleEditPayload, 'imagePreviewUrl' | 'oldFirebaseImage'>;

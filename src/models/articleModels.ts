@@ -26,12 +26,40 @@ export interface SubArticle {
 export interface ArticleFeatureDescription {
   readonly type: 'description';
   readonly content: string;
+  readonly align: FeatureTextAlign;
 }
 
 export interface ArticleFeatureNewsTeller {
   readonly type: 'newsTeller';
   readonly content: string;
+  readonly align: FeatureTextAlign;
 }
 
 export type ArticleFeature = null | ArticleFeatureDescription | ArticleFeatureNewsTeller;
 export type ArticleFeatureType = Exclude<ArticleFeature, null>['type'];
+
+export type SubArticleSubmitPayload = Omit<SubArticleEditPayload, 'imagePreviewUrl' | 'oldFirebaseImage'>;
+
+export interface MainArticleSubmitPayload {
+  type: 'main';
+  title?: string;
+  feature: ArticleFeature | null;
+  content: string;
+  subArticles?: SubArticleSubmitPayload[];
+  image?: File | null | undefined;
+  state: boolean;
+  size: 'small' | 'large';
+  order?: number;
+}
+
+export interface SubArticleEditPayload {
+  id: string;
+  content: string;
+  image?: File | FirebaseImage | null | undefined;
+  imagePreviewUrl?: string | null;
+  oldFirebaseImage?: FirebaseImage | null;
+  state: boolean;
+  link: string;
+}
+
+export type FeatureTextAlign = 'left' | 'center' | 'right' | 'justify';

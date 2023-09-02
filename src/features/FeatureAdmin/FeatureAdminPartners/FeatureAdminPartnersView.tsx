@@ -1,5 +1,6 @@
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
-import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
+
+import { MainArticleSubmitPayload } from '@/models/articleModels';
 
 export interface FeatureAdminPartnersViewProps {
   readonly article?: any;

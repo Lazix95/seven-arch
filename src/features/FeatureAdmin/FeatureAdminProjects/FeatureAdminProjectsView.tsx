@@ -1,7 +1,6 @@
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
-import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 import { useState } from 'react';
-import { Article } from '@/models/articleModels';
+import { Article, MainArticleSubmitPayload } from '@/models/articleModels';
 import { func } from 'prop-types';
 
 export interface FeatureAdminProjectsViewProps {

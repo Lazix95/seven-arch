@@ -1,7 +1,6 @@
-import { MainArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
 import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticleApi, UpdateArticlePayload } from '@/features/firebase/api/articleApi';
 import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
-import { Article } from '@/models/articleModels';
+import { Article, MainArticleSubmitPayload } from '@/models/articleModels';
 import { useContainerData } from '@/hooks/useContainerData';
 import { useCallback, useEffect, useRef } from 'react';
 

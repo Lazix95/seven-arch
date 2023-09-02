@@ -1,5 +1,4 @@
-import { Article, SubArticle } from '@/models/articleModels';
-import { MainArticleSubmitPayload, SubArticleEditPayload, SubArticleSubmitPayload } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
+import { Article, MainArticleSubmitPayload, SubArticle, SubArticleEditPayload, SubArticleSubmitPayload } from '@/models/articleModels';
 import { sortArray } from '@/utils/arrayUtils';
 
 export function filterActiveArticles(articles: Article[]) {
