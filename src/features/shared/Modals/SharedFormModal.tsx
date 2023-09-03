@@ -8,7 +8,7 @@ import { Divider } from '@mui/material';
 import styles from './SharedModals.module.scss';
 
 export interface SharedFormModalProps {
-  readonly open: boolean;
+  readonly open: boolean | undefined;
   readonly title: string;
   readonly onClose: () => void;
   readonly children: React.ReactNode;
@@ -24,7 +24,7 @@ export function SharedFormModal({ open, title, children, onClose }: SharedFormMo
   const Actions = getNamedChild(children, SharedFormModalChildrenNames.actions);
 
   return (
-    <Dialog className={styles.dialogAllowOverflow} open={open} onClose={onClose} maxWidth={'xs'} sx={{ overflow: 'visible' }} componentsProps={{}} fullWidth>
+    <Dialog className={styles.dialogAllowOverflow} open={Boolean(open)} onClose={onClose} maxWidth={'xs'} sx={{ overflow: 'visible' }} componentsProps={{}} fullWidth>
       <DialogTitle>{title}</DialogTitle>
       <Divider />
       <DialogContent>{Content}</DialogContent>

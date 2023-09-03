@@ -18,7 +18,7 @@ interface ReduceAction<T> {
 
 type ReduceActions<T> = ReduceAction<T> | ReduceActionAddToArray<T> | ReduceActionDeleteItemFromArray<T>;
 
-function conteinerDataReducer<T>(state: T, action: ReduceActions<T>): T {
+function containerDataReducer<T>(state: T, action: ReduceActions<T>): T {
   switch (action.type) {
     case 'SET_DATA':
       return { ...(action.payload as T) };
@@ -43,7 +43,7 @@ function conteinerDataReducer<T>(state: T, action: ReduceActions<T>): T {
 }
 
 export function useContainerData<T extends object = object>(initState: T, hydrationFunctions: Array<() => object> = []) {
-  const [state, dispatch] = useReducer(conteinerDataReducer<T>, initState);
+  const [state, dispatch] = useReducer(containerDataReducer<T>, initState);
   const [initialLoading, setInitialLoading] = useState(false);
 
   useEffect(() => {
