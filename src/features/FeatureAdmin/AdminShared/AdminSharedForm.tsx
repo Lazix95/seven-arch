@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedHeading } from '@/features/shared/SharedHeading';
-import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
+import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticle';
 import { SharedButton } from '@/features/shared/SharedButton';
 import { SharedForm } from '@/features/shared/form/SharedForm';
 import { Article, MainArticleSubmitPayload, SubArticleSubmitPayload } from '@/models/articleModels';

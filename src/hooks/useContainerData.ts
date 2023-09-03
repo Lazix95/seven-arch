@@ -11,12 +11,17 @@ interface ReduceActionDeleteItemFromArray<T> {
   payload: { key: KeyWithArrayValue<T>; idKey: string | number; idValue: string | number };
 }
 
+interface ReduceActionUpdateObject<T> {
+  type: 'UPDATE_OBJECT';
+  payload: { key: keyof T; value: T[keyof T] };
+}
+
 interface ReduceAction<T> {
   type: 'SET_DATA' | 'UPDATE_DATA' | 'CLEAR';
   payload?: Partial<T>;
 }
 
-type ReduceActions<T> = ReduceAction<T> | ReduceActionAddToArray<T> | ReduceActionDeleteItemFromArray<T>;
+type ReduceActions<T> = ReduceAction<T> | ReduceActionAddToArray<T> | ReduceActionDeleteItemFromArray<T> | ReduceActionUpdateObject<T>;
 
 function containerDataReducer<T>(state: T, action: ReduceActions<T>): T {
   switch (action.type) {
@@ -24,6 +29,8 @@ function containerDataReducer<T>(state: T, action: ReduceActions<T>): T {
       return { ...(action.payload as T) };
     case 'UPDATE_DATA':
       return { ...state, ...action.payload };
+    case 'UPDATE_OBJECT':
+      return { ...state, [action.payload.key]: { ...state[action.payload.key], ...action.payload.value } };
     case 'CLEAR':
       return {} as T;
     case 'ADD_TO_ARRAY':
@@ -71,6 +78,10 @@ export function useContainerData<T extends object = object>(initState: T, hydrat
     dispatch({ type: 'UPDATE_DATA', payload });
   }
 
+  function updateObjectInState(key: keyof T, value: T[keyof T]) {
+    dispatch({ type: 'UPDATE_OBJECT', payload: { key, value } });
+  }
+
   function addToArrayInState(key: KeyWithArrayValue<T>, payload: unknown) {
     dispatch({ type: 'ADD_TO_ARRAY', payload: { key, item: payload } });
   }
@@ -78,11 +89,12 @@ export function useContainerData<T extends object = object>(initState: T, hydrat
   function deleteFromArrayInState(key: KeyWithArrayValue<T>, idKey: string | number, idValue: string | number) {
     dispatch({ type: 'DELETE_ITEM_FROM_ARRAY', payload: { key, idKey, idValue } });
   }
+
   function clearState() {
     dispatch({ type: 'CLEAR' });
   }
 
-  return { state: state, initialLoading, setState, updateState, clearState, addToArrayInState, deleteFromArrayInState };
+  return { state: state, initialLoading, setState, updateState, updateObjectInState, clearState, addToArrayInState, deleteFromArrayInState };
 }
 
 type KeyWithArrayValue<T> = {

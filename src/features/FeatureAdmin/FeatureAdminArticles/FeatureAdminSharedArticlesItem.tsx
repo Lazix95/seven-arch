@@ -1,5 +1,5 @@
 import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
-import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle';
+import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticle';
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';

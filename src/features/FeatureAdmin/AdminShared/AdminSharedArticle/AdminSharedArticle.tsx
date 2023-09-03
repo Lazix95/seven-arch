@@ -1,7 +1,6 @@
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect } from 'react';
 import { SharedIf } from '@/features/shared/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
 import { Article, ArticleFeatureType, FeatureTextAlign, MainArticleSubmitPayload, SubArticleEditPayload } from '@/models/articleModels';
@@ -22,6 +21,8 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import clsx from 'clsx';
 import { useContainerData } from '@/hooks/useContainerData';
 import { alignOptions, featureOptions, sizeOptions } from '@/constants/articleOptions';
+import { AdminSharedArticleInterfaceLarge } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticleInterfaceLarge';
+import { AdminSharedArticleInterfaceSmall } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticleInterfaceSmall';
 
 export interface AdminSharedArticleProps {
   readonly article?: Article;
@@ -52,9 +53,9 @@ export interface AdminSharedArticleContainerState {
 }
 
 export function AdminSharedArticle(props: AdminSharedArticleProps) {
-  const { article, className, dragAndDrop, isMainArticle = true, size: articleFormSize = 'large', label = 'Article Settings', onSubmitArticle, onOrderChange } = props;
+  const { article, className, dragAndDrop, isMainArticle = true, size: articleFormSize = 'small', label = 'Article Settings', onSubmitArticle, onOrderChange } = props;
 
-  const { state, updateState } = useContainerData<AdminSharedArticleContainerState>({
+  const { state, updateState, updateObjectInState } = useContainerData<AdminSharedArticleContainerState>({
     isModalOpen: false,
     isSubModalOpen: false,
     isActive: article?.state ?? false,
@@ -69,8 +70,6 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
     subArticles: subArticleToSubArticlePayload(article?.subArticles ?? []),
     subArticle: null,
   });
-
-  const [subArticle, setSubArticle] = useState<SubArticleEditPayload | null>(null);
 
   const fillForm = useCallback(() => {
     if (article) {
@@ -136,19 +135,19 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
   }
 
   function handleChangeSubArticle(fieldName: keyof SubArticleEditPayload, value: any) {
-    setSubArticle((prev) => ({ ...prev, [fieldName]: value }) as SubArticleEditPayload);
+    //updateState({ subArticle: { ...state.subArticle, [fieldName]: value } as SubArticleEditPayload });
+    updateObjectInState('subArticle', { [fieldName]: value } as SubArticleEditPayload);
   }
 
   function handleSaveSubArticle() {
-    if (subArticle) {
-      updateState({ subArticles: addOrUpdateEntityInArray(state.subArticles, subArticle, 'id'), isSubModalOpen: false });
-      setSubArticle(null);
+    if (state.subArticle) {
+      updateState({ subArticles: addOrUpdateEntityInArray(state.subArticles, state.subArticle, 'id'), subArticle: null, isSubModalOpen: false });
     }
   }
 
   function handleCancelSubArticle() {
     updateState({ isSubModalOpen: false });
-    setSubArticle(null);
+    updateState({ subArticle: null });
   }
 
   function handleDeleteSubArticle(subArticle: SubArticleEditPayload) {
@@ -156,8 +155,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
   }
 
   function handleEditSubArticle(subArticle: SubArticleEditPayload) {
-    setSubArticle({ ...subArticle });
-    updateState({ isSubModalOpen: true });
+    updateState({ subArticle, isSubModalOpen: true });
   }
 
   async function handleSetIsActive(state: boolean) {
@@ -174,76 +172,56 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
     <SharedOutlinedContainer className={clsx({ DragElement: dragAndDrop }, className)} label={label}>
       <SharedGridContainer centerX={false} spacing={articleFormSize === 'large' ? 2 : 0} mb={articleFormSize === 'large' ? 3 : 0}>
         <SharedIf If={articleFormSize === 'large'}>
-          <SharedGridSwitch label={'State:'} value={state.isActive} onChange={handleSetIsActive} />
-          <SharedGridItem className={'u-pt--2'} xs={12}>
-            <Divider />
-          </SharedGridItem>
-
-          <SharedGridItem xs={12}>
-            <SharedButton fullWidth onClick={() => updateState({ isModalOpen: true })}>
-              Manage Article
-            </SharedButton>
-          </SharedGridItem>
+          <AdminSharedArticleInterfaceLarge state={state.isActive} onStateChange={handleSetIsActive} onBtnClick={() => updateState({ isModalOpen: true })} />
         </SharedIf>
 
         <SharedIf If={articleFormSize === 'small'}>
-          <SharedGridItem className={'u-center--x'} xs={5}>
-            <SharedIf If={dragAndDrop}>
-              <DragIndicatorIcon style={{ marginRight: '-15px', zIndex: 2 }} className={'dndHandle'} />
-            </SharedIf>
-            <SharedGridSwitch label={'State:'} value={state.isActive} onChange={handleSetIsActive} />
-          </SharedGridItem>
-          <SharedGridItem className={'u-start--x'} xs={1}>
-            <Divider orientation={'vertical'} />
-          </SharedGridItem>
-
-          <SharedGridItem xs={6}>
-            <SharedButton fullWidth onClick={() => updateState({ isModalOpen: true })}>
-              Manage Article
-            </SharedButton>
-          </SharedGridItem>
+          <AdminSharedArticleInterfaceSmall
+            dragAndDrop={dragAndDrop}
+            state={state.isActive}
+            onStateChange={handleSetIsActive}
+            onBtnClick={() => updateState({ isModalOpen: true })}
+          />
         </SharedIf>
 
         {/* Main Article Modal */}
         <SharedFormModal open={state.isModalOpen && !state.isSubModalOpen} title={'Manage Article'} onClose={() => updateState({ isModalOpen: false })}>
           <SharedNamedChild name={SharedFormModalChildrenNames.content}>
-            <SharedIf If={state.isActive || true}>
-              <SharedIf If={isMainArticle}>
-                <SharedAutoComplete
-                  className={'u-mb--5'}
-                  label={'Article Feature'}
-                  value={state.feature}
-                  options={featureOptions}
-                  onChange={(e) => updateState({ feature: e?.value as ArticleFeatureType })}
-                />
-              </SharedIf>
-
-              <SharedIf If={isMainArticle}>
-                <SharedGridItem xs={12}>
-                  <SharedTextField label={'Title'} value={state.title} onChange={(e) => updateState({ title: e.target.value })} />
-                </SharedGridItem>
-              </SharedIf>
-
-              <SharedGridItem xs={12}>
-                <SharedTextField label={'Content'} value={state.content} onChange={(e) => updateState({ content: e.target.value })} />
-              </SharedGridItem>
-
-              <SharedGridItem xs={12}>
-                <SharedTextField label={'Order'} type={'number'} value={state.order} onChange={handleOrderChange} />
-              </SharedGridItem>
-
-              <SharedIf RIf={isMainArticle}>
-                <SharedAutoComplete
-                  className={'u-mb--5'}
-                  label={'Size'}
-                  value={state.size}
-                  options={sizeOptions}
-                  onChange={(e) => updateState({ size: e?.value as 'large' | 'small' })}
-                />
-              </SharedIf>
+            <SharedIf If={isMainArticle}>
+              <SharedAutoComplete
+                className={'u-mb--5'}
+                label={'Article Feature'}
+                value={state.feature}
+                options={featureOptions}
+                onChange={(e) => updateState({ feature: e?.value as ArticleFeatureType })}
+              />
             </SharedIf>
 
-            <SharedIf If={(state.isActive || true) && isMainArticle && !!state.feature}>
+            <SharedIf If={isMainArticle}>
+              <SharedGridItem xs={12}>
+                <SharedTextField label={'Title'} value={state.title} onChange={(e) => updateState({ title: e.target.value })} />
+              </SharedGridItem>
+            </SharedIf>
+
+            <SharedGridItem xs={12}>
+              <SharedTextField label={'Content'} value={state.content} onChange={(e) => updateState({ content: e.target.value })} />
+            </SharedGridItem>
+
+            <SharedGridItem xs={12}>
+              <SharedTextField label={'Order'} type={'number'} value={state.order} onChange={handleOrderChange} />
+            </SharedGridItem>
+
+            <SharedIf RIf={isMainArticle}>
+              <SharedAutoComplete
+                className={'u-mb--5'}
+                label={'Size'}
+                value={state.size}
+                options={sizeOptions}
+                onChange={(e) => updateState({ size: e?.value as 'large' | 'small' })}
+              />
+            </SharedIf>
+
+            <SharedIf If={isMainArticle && !!state.feature}>
               <SharedAutoComplete
                 className={'u-mb--5'}
                 label={'Feature Text Alignment'}
@@ -260,7 +238,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
             <SharedIf If={isMainArticle}>
               <div className={'u-end--x u-flex--space-between u-mb--2'}>
                 <Typography className={'u-mr--5'}>Sub Articles</Typography>
-                <SharedButton color={'primary'} disabled={!state.isActive && false} onClick={handleCreateSubArticle}>
+                <SharedButton color={'primary'} onClick={handleCreateSubArticle}>
                   <div className={'u-center--x'}>
                     <span>Add</span>
                     <AddIcon />
@@ -316,21 +294,26 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
         <SharedFormModal open={state.isSubModalOpen} title={'Manage Sub Article'} onClose={() => updateState({ isModalOpen: false })}>
           <SharedNamedChild name={SharedFormModalChildrenNames.content}>
             <SharedOutlinedContainer label={'Turn On/Off'} center={false} noPadding={true} className={'u-pb--5'}>
-              <SharedGridSwitch gridItemProps={{ className: 'u-pl--3' }} label={'State:'} value={subArticle?.state} onChange={(state) => handleChangeSubArticle('state', state)} />
+              <SharedGridSwitch
+                gridItemProps={{ className: 'u-pl--3' }}
+                label={'State:'}
+                value={state.subArticle?.state ?? false}
+                onChange={(state) => handleChangeSubArticle('state', state)}
+              />
             </SharedOutlinedContainer>
 
             <SharedGridItem xs={12}>
-              <SharedTextField label={'Content'} value={subArticle?.content} onChange={(e) => handleChangeSubArticle('content', e.target.value)} />
+              <SharedTextField label={'Content'} value={state.subArticle?.content ?? ''} onChange={(e) => handleChangeSubArticle('content', e.target.value)} />
             </SharedGridItem>
 
             <SharedGridItem xs={12}>
-              <SharedTextField label={'Link'} value={subArticle?.link} onChange={(e) => handleChangeSubArticle('link', e.target.value)} />
+              <SharedTextField label={'Link'} value={state.subArticle?.link ?? ''} onChange={(e) => handleChangeSubArticle('link', e.target.value)} />
             </SharedGridItem>
 
             <SharedGridItem xs={12}>
               <SharedImageUpload
                 label={'Article Image'}
-                previewUrl={subArticle?.imagePreviewUrl}
+                previewUrl={state.subArticle?.imagePreviewUrl}
                 onChange={(_, file) => handleChangeSubArticle('image', file)}
                 onPreviewUrlChange={(url) => handleChangeSubArticle('imagePreviewUrl', url)}
               />
