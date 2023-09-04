@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { DragEvent, useEffect, useState } from 'react';
+import { DragEvent, useEffect, useState, ChangeEvent } from 'react';
 import classes from './SharedImageUpload.module.scss';
 import { Divider, Grid, Typography } from '@mui/material';
 import { SharedIf } from '../SharedIf';
@@ -15,6 +15,7 @@ import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import clsx from 'clsx';
+import { convertGoogleDriveLink } from '@/utils/googleDrive';
 import { func } from 'prop-types';
 
 interface SharedImageUploadProps {
@@ -82,6 +83,10 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
     }
   }
 
+  function handleExternalLinkChange(e: ChangeEvent<HTMLInputElement>) {
+    onExternalLinkChange?.(convertGoogleDriveLink(e.target.value));
+  }
+
   return (
     <SharedOutlinedContainer style={{ aspectRatio: '16/9', width: '100%', height: '100%', marginBottom: '20px' }} label={label}>
       <SharedGridContainer centerX={false} spacing={0} mb={0}>
@@ -96,7 +101,7 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
 
         <SharedIf If={useExternalLinkState}>
           <SharedGridItem item xs={12}>
-            <SharedTextField label={'External URL'} value={externalLink ?? ''} onChange={(e) => onExternalLinkChange?.(e.target.value)} />
+            <SharedTextField label={'External URL'} value={externalLink ?? ''} onChange={handleExternalLinkChange} />
           </SharedGridItem>
         </SharedIf>
 
