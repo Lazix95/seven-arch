@@ -5,6 +5,7 @@ export interface Article {
   readonly id: string;
   readonly title?: string;
   readonly image?: FirebaseImage;
+  readonly imageExternalUrl?: string;
   readonly content: string;
   readonly feature: ArticleFeature;
   readonly subArticles?: SubArticle[];
@@ -20,6 +21,7 @@ export interface SubArticle {
   readonly content: string;
   readonly state: boolean;
   readonly image?: FirebaseImage;
+  readonly imageExternalUrl?: string;
   readonly link: string;
 }
 
@@ -47,6 +49,7 @@ export interface MainArticleSubmitPayload {
   content: string;
   subArticles?: SubArticleSubmitPayload[];
   image?: File | null | undefined;
+  imageExternalUrl?: string | null;
   state: boolean;
   size: 'small' | 'large';
   order?: number;
@@ -57,6 +60,7 @@ export interface SubArticleEditPayload {
   content: string;
   image?: File | FirebaseImage | null | undefined;
   imagePreviewUrl?: string | null;
+  imageExternalUrl?: string | null;
   oldFirebaseImage?: FirebaseImage | null;
   state: boolean;
   link: string;

@@ -47,6 +47,7 @@ export interface AdminSharedArticleContainerState {
   readonly featureContent: string;
   readonly featureAlign: FeatureTextAlign;
   readonly image: File | null;
+  readonly imageExternalUrl: string | null;
   readonly size: 'small' | 'large';
   readonly subArticles: SubArticleEditPayload[];
   readonly subArticle: SubArticleEditPayload | null;
@@ -66,6 +67,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
     featureContent: article?.feature?.content ?? '',
     featureAlign: article?.feature?.align ?? 'center',
     image: null,
+    imageExternalUrl: article?.imageExternalUrl ?? null,
     size: article?.size ?? 'large',
     subArticles: subArticleToSubArticlePayload(article?.subArticles ?? []),
     subArticle: null,
@@ -107,6 +109,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
       state: manualInput?.state ?? state.isActive ?? false,
       order: state.order,
       image: state.image ?? null,
+      imageExternalUrl: state.imageExternalUrl ?? null,
       subArticles: state.subArticles.map((subArticle) => {
         const { imagePreviewUrl, oldFirebaseImage, ...restData } = subArticle;
         return { ...restData, image: subArticle.image || oldFirebaseImage };
@@ -280,7 +283,14 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
             </SharedIf>
 
             <SharedGridItem xs={12}>
-              <SharedImageUpload label={'Article Image'} previewUrl={article?.image?.url} onChange={(_, file) => updateState({ image: file })} />
+              <SharedImageUpload
+                useExternalLink={true}
+                externalLink={state.imageExternalUrl}
+                onExternalLinkChange={(url) => updateState({ imageExternalUrl: url })}
+                label={'Article Image'}
+                previewUrl={article?.image?.url}
+                onChange={(_, file) => updateState({ image: file })}
+              />
             </SharedGridItem>
           </SharedNamedChild>
 
@@ -312,6 +322,9 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
 
             <SharedGridItem xs={12}>
               <SharedImageUpload
+                useExternalLink
+                externalLink={state.subArticle?.imageExternalUrl}
+                onExternalLinkChange={(url) => handleChangeSubArticle('imageExternalUrl', url)}
                 label={'Article Image'}
                 previewUrl={state.subArticle?.imagePreviewUrl}
                 onChange={(_, file) => handleChangeSubArticle('image', file)}

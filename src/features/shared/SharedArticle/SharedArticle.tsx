@@ -38,7 +38,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
         </SharedGridItem>
 
         <SharedGridItem xs={12} sm={6} md={imageWidth} xl={imageWidth < 12 ? 9 : 12} className={classes['sharedArticle__height']}>
-          <SharedFirebaseImage url={article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
+          <SharedFirebaseImage url={article.imageExternalUrl ?? article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
         </SharedGridItem>
 
         <Hidden mdDown>
@@ -67,7 +67,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
           <SharedIf If={!!article?.subArticles && article.subArticles.length > 0}>
             {article?.subArticles?.map((subArticle) => (
               <SharedGridItem key={subArticle.id} xs={6} sm={6} md={4} xl={3} className={classes.sharedArticle__height}>
-                <SharedFirebaseImage url={subArticle.image?.url} text={subArticle.content} onClick={() => onSubArticleClick?.(subArticle)} />
+                <SharedFirebaseImage url={subArticle.imageExternalUrl ?? subArticle.image?.url} text={subArticle.content} onClick={() => onSubArticleClick?.(subArticle)} />
               </SharedGridItem>
             ))}
           </SharedIf>
