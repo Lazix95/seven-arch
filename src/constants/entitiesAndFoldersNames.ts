@@ -21,6 +21,7 @@ export const documents = {
   others: 'others',
   basicInfo: 'basicInfo',
   news: 'news',
+  images: 'images',
   ...socialNetworkDocuments,
 } as const;
 

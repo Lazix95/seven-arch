@@ -6,24 +6,28 @@ import { SharedForm } from '../../shared/form/SharedForm';
 import { SharedGridInput } from '../../shared/form/SharedGridInput';
 import { SharedGridItem } from '../../shared/grid/SharedGridItem';
 import { GeneralFormSubmitModel } from '@/models/generalModels';
-import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 
 export interface FeatureAdminBasicInfoAdminViewData extends Record<string, unknown> {
   readonly companyName: string;
 }
 
 export interface FeatureAdminBasicInfoAdminViewImages {
-  readonly loadingScreenImage?: FirebaseImage | null;
+  readonly loadingScreenImage?: FirebaseImage | ExternalImage | null;
 }
 
 export interface FeatureAdminBasicInfoAdminViewFields {
   readonly data: FeatureAdminBasicInfoAdminViewData;
+  readonly externalImages: {
+    readonly loadingScreenImage?: string | null;
+  };
   readonly images: {
     readonly loadingScreenImage?: File | null;
   };
 }
 
-export interface FeatureAdminBasicInfoAdminViewFormPayload extends GeneralFormSubmitModel<FeatureAdminBasicInfoAdminViewData, FeatureAdminBasicInfoAdminViewFields['images']> {}
+export interface FeatureAdminBasicInfoAdminViewFormPayload
+  extends GeneralFormSubmitModel<FeatureAdminBasicInfoAdminViewData, FeatureAdminBasicInfoAdminViewFields['images'], FeatureAdminBasicInfoAdminViewFields['externalImages']> {}
 
 export interface FeatureAdminBasicInfoAdminViewProps {
   readonly initialLoading?: boolean;
@@ -35,6 +39,9 @@ export interface FeatureAdminBasicInfoAdminViewProps {
 
 const initFields: FeatureAdminBasicInfoAdminViewFields = {
   data: { companyName: '' },
+  externalImages: {
+    loadingScreenImage: null,
+  },
   images: {
     loadingScreenImage: null,
   },
@@ -45,12 +52,22 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
 
   useEffect(() => {
     if (data && !isSubmitLoading) {
-      setFields({ data, images: {} });
+      let externalImages = {};
+
+      if (images.loadingScreenImage && images.loadingScreenImage.type === 'externalImage') {
+        externalImages = { loadingScreenImage: images.loadingScreenImage.url };
+      }
+
+      setFields({ data, images: {}, externalImages });
     }
   }, [data, isSubmitLoading]);
 
   function handleImageUpload(name: string, file: File | null) {
     setFields((oldFields) => ({ ...oldFields, images: { ...oldFields.images, [name]: file } }));
+  }
+
+  function handleExternalLinkChange(name: string, link: string | null) {
+    setFields((oldFields) => ({ ...oldFields, externalImages: { ...oldFields.externalImages, [name]: link } }));
   }
 
   function handleDataChange(event: ChangeEvent<HTMLInputElement>) {
@@ -60,8 +77,8 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
   }
 
   function handleSubmit() {
-    const { images, data } = fields;
-    onSubmit({ images, data });
+    const { images, externalImages, data } = fields;
+    onSubmit({ images, externalImages, data });
   }
 
   return (
@@ -71,7 +88,15 @@ export function FeatureAdminBasicInfoAdminView({ onSubmit, data, images, isSubmi
       </SharedGridItem>
 
       <SharedGridInput required name={'companyName'} label={'Company Name'} value={fields.data.companyName} onChange={handleDataChange} />
-      <SharedImageUpload label={'Splash Screen Image'} name={'loadingScreenImage'} previewUrl={images?.loadingScreenImage?.url} onChange={handleImageUpload} />
+      <SharedImageUpload
+        useExternalLink={true}
+        label={'Splash Screen Image'}
+        name={'loadingScreenImage'}
+        previewUrl={images?.loadingScreenImage?.url}
+        externalLink={fields.externalImages?.loadingScreenImage}
+        onExternalLinkChange={(link) => handleExternalLinkChange('loadingScreenImage', link)}
+        onChange={handleImageUpload}
+      />
 
       <SharedGridItem>
         <SharedButton fullWidth btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>

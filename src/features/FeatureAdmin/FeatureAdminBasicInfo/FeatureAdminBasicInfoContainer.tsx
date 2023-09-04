@@ -1,9 +1,9 @@
 import { FeatureAdminBasicInfoAdminView, FeatureAdminBasicInfoAdminViewFormPayload } from './FeatureAdminBasicInfoView';
-import { useContainerData } from '../../../hooks/useContainerData';
+import { useContainerData } from '@/hooks/useContainerData';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { fetchBasicInfo, DataBasicInfo } from '../../firebase/api/basicDataApi';
 import { updateObjectEnteries } from '@/utils/objectUtils';
-import { storeImages } from '@/features/firebase/utils/firebaseImageUtils';
+import { storeExternalImages, storeImages } from '@/features/firebase/utils/firebaseImageUtils';
 import { storeDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
 
 export const getStaticProps = createGetStaticProps([]);
@@ -34,6 +34,11 @@ export function FeatureAdminBasicInfoContainer({ basicInfo, basicInfoImages }: F
       if (payload.images) {
         const newSavedImages = await storeImages({ images: payload.images, folder: 'general' });
         newImages = updateObjectEnteries(newImages, newSavedImages);
+      }
+
+      if (payload.externalImages) {
+        const newExternalImages = await storeExternalImages('general', payload.externalImages);
+        newImages = updateObjectEnteries(newImages, newExternalImages);
       }
 
       const newBasicInfo = await storeDocument('general', 'basicInfo', payload.data);

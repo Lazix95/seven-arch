@@ -15,6 +15,7 @@ import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import clsx from 'clsx';
+import { func } from 'prop-types';
 
 interface SharedImageUploadProps {
   name?: string;
@@ -23,13 +24,13 @@ interface SharedImageUploadProps {
   noPreview?: boolean;
   externalLink?: string | null;
   useExternalLink?: boolean;
-  onChange?: (name: string, file: File) => void;
+  onChange?: (name: string, file: File | null) => void;
   onPreviewUrlChange?: (previewUrl: string | null) => void;
   onExternalLinkChange?: (externalLink: string | null) => void;
 }
 
 export const SharedImageUpload = (props: SharedImageUploadProps) => {
-  const { previewUrl, name, label, useExternalLink = true, externalLink } = props;
+  const { previewUrl, name, label, useExternalLink, externalLink } = props;
   const { onChange, noPreview, onPreviewUrlChange, onExternalLinkChange } = props;
 
   const [useExternalLinkState, setUseExternalLinkState] = useState<boolean>(!!externalLink);
@@ -57,6 +58,7 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
 
   const handleRemoveImage = () => {
     setImage(null);
+    onChange?.(name ?? '', null);
     onPreviewUrlChange?.(null);
   };
 
@@ -67,6 +69,15 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
     setImage(previewUrl);
   }
 
+  function handleUseExternalLinkChange(value: boolean) {
+    setUseExternalLinkState(value);
+    if (value) {
+      handleRemoveImage();
+    } else {
+      onExternalLinkChange?.(null);
+    }
+  }
+
   return (
     <SharedOutlinedContainer style={{ aspectRatio: '16/9', width: '100%', height: '100%', marginBottom: '20px' }} label={label}>
       <SharedGridContainer centerX={false} spacing={0} mb={0}>
@@ -75,7 +86,7 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
             gridItemProps={{ className: 'u-text--align-start u-ml--1 u-mb--3' }}
             label={'Use External Link'}
             value={useExternalLinkState}
-            onChange={setUseExternalLinkState}
+            onChange={handleUseExternalLinkChange}
           />
         </SharedIf>
 
@@ -85,15 +96,17 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
           </SharedGridItem>
         </SharedIf>
 
-        <SharedGridItem className={'u-pb--5'} xs={12}>
-          <Divider />
-        </SharedGridItem>
+        <SharedIf If={useExternalLink}>
+          <SharedGridItem className={'u-pb--5'} xs={12}>
+            <Divider />
+          </SharedGridItem>
+        </SharedIf>
 
         <Grid item xs={12} style={{ position: 'relative' }}>
           <div className={classes.dropzone}>
             <div onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} style={{ aspectRatio: '16/9', width: '100%', height: '100%' }}>
               <Grid style={{ height: '100%' }} container alignContent={'center'}>
-                <Grid style={{ height: image ? '100%' : 'auto' }} item xs={12}>
+                <Grid style={{ height: image || externalLink ? '100%' : 'auto' }} item xs={12}>
                   <SharedIf If={useExternalLinkState ? externalLink : image}>
                     <img src={useExternalLinkState ? externalLink ?? '' : (image as string)} alt="Uploaded" className={classes.image} />
                     <div className={clsx(classes.overlay, classes.overlayFull)}>
