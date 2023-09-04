@@ -113,7 +113,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
       imageExternalUrl: state.imageExternalUrl ?? null,
       subArticles: state.subArticles.map((subArticle) => {
         const { imagePreviewUrl, oldFirebaseImage, ...restData } = subArticle;
-        return { ...restData, image: subArticle.image || oldFirebaseImage };
+        return { ...restData, image: subArticle.image || oldFirebaseImage, imageExternalUrl: subArticle.imageExternalUrl ?? null };
       }),
     };
 
