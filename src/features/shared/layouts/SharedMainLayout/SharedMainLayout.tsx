@@ -30,20 +30,9 @@ interface SharedMainLayoutProps {
   readonly Drawer?: ReactComponent | undefined;
 }
 
-export function SharedMainLayout({
-  children,
-  title,
-  drawerValue,
-  maxMainWidth = 'sm',
-  isPublishLoading,
-  isTransparentAppBar,
-  UpperNavList,
-  LowerNavList,
-  onDrawerChange,
-  onSignOut,
-  onPublishClick,
-  onLogoClick,
-}: SharedMainLayoutProps) {
+export function SharedMainLayout(props: SharedMainLayoutProps) {
+  const { children, title, drawerValue, isPublishLoading, isTransparentAppBar, UpperNavList, LowerNavList, maxMainWidth = 'sm' } = props;
+  const { onDrawerChange, onSignOut, onPublishClick, onLogoClick } = props;
   const Drawer = getNamedChild(children, 'drawer');
   const Footer = getNamedChild(children, 'footer');
   const defaultChildren = getNamedChild(children);
