@@ -6,14 +6,14 @@ import { useContainerData } from '@/hooks/useContainerData';
 import { deleteExternalImage, ExternalImage, FirebaseImage, storeExternalImage, storeImage } from '@/features/firebase/utils/firebaseImageUtils';
 import { deleteByDbPath } from '@/features/firebase/utils/firebaseGeneralUtils';
 import { uuidV4 } from '@/plugins/uuid';
-import { deleteImageDocument, storeImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { deleteImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
 
 const hydrationFncs = [fetchBasicInfo, fetchSliderImages];
 
 export const getStaticProps = createGetStaticProps(hydrationFncs);
 
 interface FeatureAdminMainPageContainerState {
-  sliderImages: FirebaseImage[];
+  sliderImages: (FirebaseImage | ExternalImage)[];
   isSaveLoading?: boolean;
   isDeleteLoading?: boolean;
 }

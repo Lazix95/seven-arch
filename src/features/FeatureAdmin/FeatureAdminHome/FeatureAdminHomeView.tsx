@@ -8,7 +8,7 @@ import { useState } from 'react';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
 
 export interface FeatureAdminHomeViewProps {
-  images: FirebaseImage[];
+  images: (FirebaseImage | ExternalImage)[];
   isUploadLoading: boolean;
   onUploadImage: (file: File) => Promise<void>;
   onSaveExternalLink: (link: string) => Promise<void>;
@@ -29,7 +29,7 @@ export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUpl
     setExternalLink(value);
   }
 
-  function handleRemoveImage(image: FirebaseImage) {
+  function handleRemoveImage(image: FirebaseImage | ExternalImage) {
     onRemoveImage(image);
   }
 

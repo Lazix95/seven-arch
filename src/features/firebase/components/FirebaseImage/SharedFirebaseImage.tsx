@@ -2,11 +2,11 @@ import Image from 'next/image';
 import styles from './FirebaseImage.module.scss';
 import { Typography } from '@mui/material';
 import { SharedIf } from '@/features/shared/SharedIf';
-import { FirebaseImage } from '../../utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '../../utils/firebaseImageUtils';
 import { DivProps } from '@/models/generalModels';
 
 export interface SharedFirebaseImage {
-  image?: FirebaseImage;
+  image?: FirebaseImage | ExternalImage;
   url?: string;
   alt?: string;
   text?: string;

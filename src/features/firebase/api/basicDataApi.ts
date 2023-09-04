@@ -1,5 +1,5 @@
 import { getDocument } from '../utils/firebaseDocumentUtils';
-import { FirebaseImage, getImageLink } from '../utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage, getImageLink } from '../utils/firebaseImageUtils';
 
 export async function fetchBasicInfo(): Promise<DataBasicInfo> {
   const basicInfo = await getDocument<DataBasicInfo['basicInfo']>('general', 'basicInfo');
@@ -9,5 +9,5 @@ export async function fetchBasicInfo(): Promise<DataBasicInfo> {
 
 export interface DataBasicInfo {
   readonly basicInfo: { companyName: string };
-  readonly basicInfoImages: { loadingScreenImage: FirebaseImage | null };
+  readonly basicInfoImages: { loadingScreenImage: FirebaseImage | ExternalImage | null };
 }

@@ -1,7 +1,8 @@
 import { FirebaseImage } from '@/features/firebase/components/FirebaseImage';
-import { FirebaseImage as FirebaseImageType } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage as FirebaseImageType } from '@/features/firebase/utils/firebaseImageUtils';
+
 export interface SharedSliderImageProps {
-  image: FirebaseImageType;
+  image: FirebaseImageType | ExternalImage;
 }
 
 export function SharedSliderImage({ image }: SharedSliderImageProps) {

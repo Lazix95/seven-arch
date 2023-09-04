@@ -1,5 +1,5 @@
 import { CircularProgress, Grid, Typography } from '@mui/material';
-import { FirebaseImage } from '../../firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '../../firebase/utils/firebaseImageUtils';
 import { SharedOutlinedContainer } from '../grid/SharedOutlinedContainer';
 import { SharedButton } from '../SharedButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -8,12 +8,12 @@ import { SharedIf } from '../SharedIf';
 
 export interface SharedGaleryProps {
   loading?: boolean;
-  images?: FirebaseImage[];
-  onRemoveImage?: (image: FirebaseImage) => void;
+  images?: (FirebaseImage | ExternalImage)[];
+  onRemoveImage?: (image: FirebaseImage | ExternalImage) => void;
 }
 
 export function SharedGalery({ loading, images = [], onRemoveImage }: SharedGaleryProps) {
-  function handleRemoveImage(image: FirebaseImage) {
+  function handleRemoveImage(image: FirebaseImage | ExternalImage) {
     onRemoveImage?.(image);
   }
 

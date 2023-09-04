@@ -1,16 +1,12 @@
-import { SharedFirebaseImage } from '../firebase/components/FirebaseImage/SharedFirebaseImage';
-import { FirebaseImage } from '../firebase/utils/firebaseImageUtils';
-import { SharedArticle, SharedArticleChildrenNames } from '../shared/SharedArticle/SharedArticle';
+import { ExternalImage, FirebaseImage } from '../firebase/utils/firebaseImageUtils';
+import { SharedArticle } from '../shared/SharedArticle/SharedArticle';
 import { SharedGridContainer } from '../shared/SharedDrawer/SharedGridContainer';
-import { SharedNamedChild } from '../shared/SharedNamedChild';
 import { SharedSlider } from '../shared/SharedSlider/SharedSlider';
-import { SharedCardSubscribeToNewsTeller } from '../shared/cards/SharedCardSubscribeToNewsTeller';
 import { SharedGridItem } from '../shared/grid/SharedGridItem';
-import { Grid } from '@mui/material';
 import { Article, SubArticle } from '@/models/articleModels';
 
 interface FeatureHomePageViewProps {
-  images: FirebaseImage[];
+  images: (FirebaseImage | ExternalImage)[];
   articles: Article[];
   onSubscribe: (email: string) => Promise<void>;
   onArticleCLick?: (article: Article) => void;

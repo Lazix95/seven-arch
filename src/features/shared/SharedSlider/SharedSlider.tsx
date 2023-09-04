@@ -4,10 +4,10 @@ import { SharedSliderImage } from './SharedSliderImage';
 import classes from './SharedSlider.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 
 interface SharedSliderProps {
-  images?: FirebaseImage[];
+  images?: (FirebaseImage | ExternalImage)[];
 }
 
 export function SharedSlider({ images = [] }: SharedSliderProps) {
