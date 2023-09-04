@@ -84,6 +84,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
         featureContent: article.feature?.content ?? '',
         featureAlign: article.feature?.align ?? 'center',
         image: null,
+        imageExternalUrl: article.imageExternalUrl ?? null,
         size: article.size ?? 'large',
         subArticles: subArticleToSubArticlePayload(article.subArticles ?? []),
       });
@@ -234,7 +235,13 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
               />
 
               <SharedGridItem xs={12} className={''}>
-                <SharedTextField multiline label={'Feature Content'} value={state.featureContent} onChange={(e) => updateState({ featureContent: e.target.value })} />
+                <SharedTextField
+                  multiline
+                  maxRows={10}
+                  label={'Feature Content'}
+                  value={state.featureContent ?? ''}
+                  onChange={(e) => updateState({ featureContent: e.target.value })}
+                />
               </SharedGridItem>
             </SharedIf>
 
@@ -257,8 +264,8 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
               </SharedIf>
 
               <SharedIf If={state.subArticles.length > 0}>
-                {state.subArticles.map((subArticle) => (
-                  <div key={subArticle.id} className={'u-flex--space-between u-center--x'}>
+                {state.subArticles.map((subArticle, index) => (
+                  <div key={subArticle.id ?? index} className={'u-flex--space-between u-center--x'}>
                     <div className={'u-center--x u'}>
                       <Typography>{subArticle.content}</Typography>
                       <SharedIf If={!subArticle.state}>
@@ -322,7 +329,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
 
             <SharedGridItem xs={12}>
               <SharedImageUpload
-                useExternalLink
+                useExternalLink={true}
                 externalLink={state.subArticle?.imageExternalUrl}
                 onExternalLinkChange={(url) => handleChangeSubArticle('imageExternalUrl', url)}
                 label={'Article Image'}

@@ -58,7 +58,6 @@ export function useContainerData<T extends object = object>(initState: T, hydrat
       try {
         setInitialLoading(true);
         const requests = hydrationFunctions.map((fnc) => fnc());
-        await new Promise((resolve) => setInterval(resolve, 4000));
         const dataArray = await Promise.all(requests);
         const data = dataArray.reduce((acc, curren) => ({ ...acc, ...curren }), {});
         setState(data as T);

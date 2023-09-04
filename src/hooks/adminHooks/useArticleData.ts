@@ -60,7 +60,6 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
   }
 
   async function updateArticle(payload: MainArticleSubmitPayload, id: string): Promise<Article> {
-    console.log('updateArticle', payload);
     const formattedPayload: UpdateArticlePayload = {
       id: id,
       ...payload,

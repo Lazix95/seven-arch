@@ -40,6 +40,10 @@ export const SharedImageUpload = (props: SharedImageUploadProps) => {
     setImage(previewUrl ?? null);
   }, [previewUrl]);
 
+  useEffect(() => {
+    if (externalLink) setUseExternalLinkState(true);
+  }, [externalLink]);
+
   const handleDrop = async (e: DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer?.files[0];

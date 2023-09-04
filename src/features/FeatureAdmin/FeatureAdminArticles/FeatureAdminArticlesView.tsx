@@ -35,8 +35,8 @@ export function FeatureAdminArticlesView({ articles, isPageLoading }: FeatureStu
       <div>
         <div style={{ height: 20 }} />
         <SharedDragAndDrop onDragEnd={() => {}}>
-          {sortedArticles.map(({ entity }) => (
-            <FeatureAdminSharedArticlesItem key={entity} entity={entity} onMove={handleMove} />
+          {sortedArticles.map(({ entity }, index) => (
+            <FeatureAdminSharedArticlesItem key={entity ?? index} entity={entity} onMove={handleMove} />
           ))}
         </SharedDragAndDrop>
       </div>

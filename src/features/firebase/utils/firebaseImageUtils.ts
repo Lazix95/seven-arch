@@ -2,21 +2,28 @@ import { deleteObject, getDownloadURL, listAll, ref as storageRef, uploadBytes }
 import { firebaseStorage } from '../firebase';
 import { FolderKeys } from '../models/firebaseBaseModels';
 import { Optional } from '@/models/generalModels';
-import { getDocument, storeImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
-import { uuidv4 } from '@firebase/util';
+import { deleteImageDocument, getDocument, storeImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { uuidV4 } from '@/plugins/uuid';
 
 export async function storeImage({ image, folder, name }: { image: File; name?: string; folder: FolderKeys }): Promise<FirebaseImage> {
+  const id = name ?? uuidV4();
   const imageRef = storageRef(firebaseStorage, `images/${folder}/${name ?? image.name}`);
   const uploadedImage = await uploadBytes(imageRef, image);
-  const firebaseImage: FirebaseImage = { type: 'firebaseImage', url: await getDownloadURL(uploadedImage.ref), dbPath: imageRef.fullPath };
-  await storeImageDocument(folder, name ?? image.name, firebaseImage);
+  const firebaseImage: FirebaseImage = { id, type: 'firebaseImage', url: await getDownloadURL(uploadedImage.ref), dbPath: imageRef.fullPath };
+  await storeImageDocument(folder, id, firebaseImage);
   return firebaseImage;
 }
 
-export async function storeExternalImage({ url, folder, name }: { url: string; folder: FolderKeys; name: string }): Promise<ExternalImage> {
-  const externalImage: ExternalImage = { type: 'externalImage', url, dbPath: null };
-  await storeImageDocument(folder, name, externalImage);
+export async function storeExternalImage({ url, folder, name }: { url: string; folder: FolderKeys; name?: string }): Promise<ExternalImage> {
+  const id = name ?? uuidV4();
+  const externalImage: ExternalImage = { id, type: 'externalImage', url, dbPath: null };
+  await storeImageDocument(folder, id, externalImage);
   return externalImage;
+}
+
+export async function deleteExternalImage({ folder, name }: { folder: FolderKeys; name: string }): Promise<void> {
+  //await storeImageDocument(folder, name, null);
+  await deleteImageDocument(folder, name);
 }
 
 export async function storeExternalImages<T extends { [key: string]: Optional<string> }>(folder: FolderKeys, images: Partial<T>): Promise<ImagesRecord> {
@@ -34,7 +41,7 @@ export async function storeExternalImageList({ images, folder }: { folder: Folde
   let imagesLinks: ExternalImage[] = [];
   if (images) {
     for (const img of images) {
-      const externalImage = await storeExternalImage({ url: img, name: uuidv4(), folder });
+      const externalImage = await storeExternalImage({ url: img, folder });
       imagesLinks = [...imagesLinks, externalImage];
     }
   }
@@ -91,15 +98,18 @@ export async function getAllImageLinks({ folder }: { folder: FolderKeys }): Prom
 export async function removeFirebaseImage(image: FirebaseImage) {
   const imageRef = storageRef(firebaseStorage, image.dbPath);
   await deleteObject(imageRef);
+  //await storeImageDocument(image.id, null); // TODO: Implement this function, folder is missing
 }
 
 export interface FirebaseImage {
+  readonly id: string;
   readonly type: 'firebaseImage';
   readonly url: string;
   readonly dbPath: string;
 }
 
 export interface ExternalImage {
+  readonly id: string;
   readonly type: 'externalImage';
   readonly url: string;
   readonly dbPath: null;

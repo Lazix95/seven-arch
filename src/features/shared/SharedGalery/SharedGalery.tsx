@@ -20,8 +20,8 @@ export function SharedGalery({ loading, images = [], onRemoveImage }: SharedGale
   return (
     <SharedOutlinedContainer className={classes['shared-galery']} label={'Slider Images'} style={{ marginBottom: '20px' }}>
       <Grid container spacing={4}>
-        {images.map((img) => (
-          <Grid item xs={3} key={img.dbPath} style={{ height: '150px' }}>
+        {images.map((img, index) => (
+          <Grid item xs={3} key={index} style={{ height: '150px' }}>
             <div className={classes['shared-galery__hover-zone']} style={{ height: '100%' }}>
               <div className={classes['shared-galery__overlay']}>
                 <SharedButton onClick={() => handleRemoveImage(img)} btnType={'Icon'}>
