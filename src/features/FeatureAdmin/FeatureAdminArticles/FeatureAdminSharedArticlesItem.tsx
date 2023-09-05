@@ -7,26 +7,28 @@ import { capitalizeFirstLetter } from '@/utils/stringUtils';
 export interface FeatureAdminSharedArticlesItemProps {
   entity: EntityKeys;
   order?: number;
-  onMove?: (entity: string, order: number) => void;
+  articleData: ReturnType<typeof useArticleData>;
 }
 
-export function FeatureAdminSharedArticlesItem({ entity, onMove }: FeatureAdminSharedArticlesItemProps) {
-  const { article, isArticleLoading, handleSubmitArticle } = useArticleData({
-    entity,
-    link: `/${entity}`,
-    options: { initialLoading: true },
-  });
+export function FeatureAdminSharedArticlesItem({ entity, articleData }: FeatureAdminSharedArticlesItemProps) {
+  const { article, isArticleLoading, handleSavePayload, currentPayload, order } = articleData;
 
   return (
     <SharedIf If={!isArticleLoading}>
       <AdminSharedArticle
+        dragAndDrop={true}
         className={'u-mb--5'}
         key={article?.entity}
         article={article}
+        previousPayload={currentPayload ?? undefined}
+        order={order}
         isMainArticle={true}
-        onSubmitArticle={handleSubmitArticle}
-        onOrderChange={(order) => onMove?.(entity, order)}
-        label={`${capitalizeFirstLetter(entity)} Article Settings - ${article?.order ?? 0}`}
+        onSubmitArticle={handleSavePayload}
+        label={
+          <span>
+            <strong>{capitalizeFirstLetter(entity)}</strong> Article Settings
+          </span>
+        }
         size={'small'}
       />
     </SharedIf>

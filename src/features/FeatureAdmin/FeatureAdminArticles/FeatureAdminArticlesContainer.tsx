@@ -18,12 +18,18 @@ export function FeatureAdminArticlesContainer({}: FeatureAdminArticlesContainerP
   const projectsArticle = useArticleData({ entity: 'projects', link: '/projects' });
   const studioArticle = useArticleData({ entity: 'studio', link: '/studio' });
 
-  const articles = useMemo(
-    () => [careerArticle, contactArticle, expertiseArticle, insightsArticle, newsArticle, partnersArticle, peopleArticle, projectsArticle, studioArticle],
-    [careerArticle, contactArticle, expertiseArticle, insightsArticle, newsArticle, partnersArticle, peopleArticle, projectsArticle, studioArticle],
-  );
+  const articles = useMemo(() => {
+    return [careerArticle, contactArticle, expertiseArticle, insightsArticle, newsArticle, partnersArticle, peopleArticle, projectsArticle, studioArticle];
+  }, [careerArticle, contactArticle, expertiseArticle, insightsArticle, newsArticle, partnersArticle, peopleArticle, projectsArticle, studioArticle]);
 
   const isPageLoading = useMemo(() => articles.some(({ isArticleLoading }) => isArticleLoading), [articles]);
+  const isSubmitLoading = useMemo(() => articles.some(({ isArticleSubmitLoading }) => isArticleSubmitLoading), [articles]);
 
-  return <FeatureAdminArticlesView articles={articles} isPageLoading={isPageLoading} />;
+  async function handleSaveAll() {
+    for (const article of articles) {
+      await article.handleSubmitArticle();
+    }
+  }
+
+  return <FeatureAdminArticlesView articles={articles} isPageLoading={isPageLoading} onSubmit={handleSaveAll} isSubmitLoading={isSubmitLoading} />;
 }

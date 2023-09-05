@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useMemo, useRef } from 'react';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { SharedIf } from '../SharedIf';
 import { SharedCircularLoader } from './../loaders/SharedCircularLoader';
@@ -25,13 +25,16 @@ export function SharedForm({ children, validation = true, grid = true, isLoading
   }
 
   if (isLoading) return <SharedCircularLoader />;
-
   return (
     <form ref={formRef} onSubmit={handleSubmit}>
-      <SharedIf RIf={grid} Fallback={() => <div className={'u-mb--6'}>{children}</div>}>
-        <SharedGridContainer style={{ width: '100%' }} centerX column spacing={spacing} mt={0} mb={5}>
+      <SharedIf RIf={grid}>
+        <SharedGridContainer centerX column spacing={spacing} mt={0} mb={5}>
           {children}
         </SharedGridContainer>
+      </SharedIf>
+
+      <SharedIf If={!grid}>
+        <div className={'u-mb--6'}>{children}</div>
       </SharedIf>
     </form>
   );

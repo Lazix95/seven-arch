@@ -33,7 +33,7 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
         updateState({ isArticleLoading: true });
         const article = await fetchArticleByEntity(entity);
         orderRef.current = article?.order ?? 0;
-        updateState({ article });
+        updateState({ article, order: article?.order });
       } finally {
         updateState({ isArticleLoading: false });
       }
@@ -44,7 +44,6 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
   }, []);
 
   function handleSavePayload(payload: MainArticleSubmitPayload) {
-    console.log('handleSavePayload', payload);
     updateState({ articlePayload: payload });
   }
 
@@ -77,6 +76,7 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
 
   async function handleSubmitArticle(payload: MainArticleSubmitPayload | null | undefined = state.articlePayload) {
     if (!payload) return;
+    console.log(entity);
     try {
       updateState({ isArticleSubmitLoading: true });
       if (state.article) {
@@ -94,13 +94,13 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
   }
 
   function handleChangTempOrder(order: number) {
-    if (order === orderRef.current) return;
-    orderRef.current = order ?? 0;
+    if (order === state.order) return;
+    updateState({ order });
   }
 
   const handleSubmitArticleMemo = useCallback(handleSubmitArticle, [saveArticleMemo, state.article, state.articlePayload, updateArticleMemo, updateState]);
   const handleSavePayloadMemo = useCallback(handleSavePayload, [updateState]);
-  const handleChangTempOrderMemo = useCallback(handleChangTempOrder, []);
+  const handleChangTempOrderMemo = useCallback(handleChangTempOrder, [updateState]);
 
   return {
     article: state.article,
@@ -109,7 +109,8 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
     handleSubmitArticle: handleSubmitArticleMemo,
     handleSavePayload: handleSavePayloadMemo,
     handleChangTempOrder: handleChangTempOrderMemo,
-    order: orderRef,
+    order: state.order,
+    currentPayload: state.articlePayload,
     entity,
   };
 }
