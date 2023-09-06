@@ -12,6 +12,7 @@ import { SharedButton } from '../../form/SharedButton';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import classes from './SharedMainLayout.module.scss';
 import { ReactComponent } from '@/models/generalModels';
+import { HideOnScroll } from '@/features/shared/util/HideOnScroll';
 
 interface SharedMainLayoutProps {
   readonly children: ReactNode;
@@ -48,44 +49,46 @@ export function SharedMainLayout(props: SharedMainLayoutProps) {
 
   return (
     <div className={classes.sharedMainLayout}>
-      <AppBar
-        position={'sticky'}
-        elevation={2}
-        sx={{ mb: '24px', borderBottom: (theme) => `1px solid ${theme.palette.divider}`, backgroundColor: `${palette.primary.main}${isTransparentAppBar ? '5e' : ''}` }}
-      >
-        <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
-          <Typography onClick={onLogoClick} variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }} style={{ cursor: 'pointer' }}>
-            {title}
-          </Typography>
+      <HideOnScroll>
+        <AppBar
+          position={'sticky'}
+          elevation={2}
+          sx={{ mb: '24px', borderBottom: (theme) => `1px solid ${theme.palette.divider}`, backgroundColor: `${palette.primary.main}${isTransparentAppBar ? '5e' : ''}` }}
+        >
+          <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
+            <Typography onClick={onLogoClick} variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }} style={{ cursor: 'pointer' }}>
+              {title}
+            </Typography>
 
-          <SharedIf RIf={showUpper}>
-            <nav>{showUpper && <UpperNavList />}</nav>
-          </SharedIf>
+            <SharedIf RIf={showUpper}>
+              <nav>{showUpper && <UpperNavList />}</nav>
+            </SharedIf>
 
-          <SharedIf RIf={isAdminPage && !!user}>
-            <SharedButton btnType={'LoadingButton'} color={'secondary'} loading={isPublishLoading} onClick={onPublishClick} sx={{ mr: 2 }}>
-              Publish
-            </SharedButton>
+            <SharedIf RIf={isAdminPage && !!user}>
+              <SharedButton btnType={'LoadingButton'} color={'secondary'} loading={isPublishLoading} onClick={onPublishClick} sx={{ mr: 2 }}>
+                Publish
+              </SharedButton>
 
-            <SharedButton btnType={'Icon'} aria-label={'Logout'} edge="end" onClick={onSignOut} sx={{ mr: 2 }}>
-              <LogoutIcon />
-            </SharedButton>
-          </SharedIf>
+              <SharedButton btnType={'Icon'} aria-label={'Logout'} edge="end" onClick={onSignOut} sx={{ mr: 2 }}>
+                <LogoutIcon />
+              </SharedButton>
+            </SharedIf>
 
-          <SharedIf RIf={showDrawer}>
-            <SharedButton btnType={'Icon'} aria-label="open drawer" edge="end" onClick={handleDrawerChange}>
-              <MenuIcon />
-            </SharedButton>
-            {showDrawer && Drawer}
-          </SharedIf>
-        </Toolbar>
-
-        <SharedIf RIf={showLower}>
-          <Toolbar component="nav" variant="dense" sx={{ justifyContent: 'space-between', overflowX: 'auto' }}>
-            <nav>{showLower && <LowerNavList />}</nav>
+            <SharedIf RIf={showDrawer}>
+              <SharedButton btnType={'Icon'} aria-label="open drawer" edge="end" onClick={handleDrawerChange}>
+                <MenuIcon />
+              </SharedButton>
+              {showDrawer && Drawer}
+            </SharedIf>
           </Toolbar>
-        </SharedIf>
-      </AppBar>
+
+          <SharedIf RIf={showLower}>
+            <Toolbar component="nav" variant="dense" sx={{ justifyContent: 'space-between', overflowX: 'auto' }}>
+              <nav>{showLower && <LowerNavList />}</nav>
+            </Toolbar>
+          </SharedIf>
+        </AppBar>
+      </HideOnScroll>
 
       <Container component={'main'} className={classes.mainContainer} maxWidth={maxMainWidth}>
         {defaultChildren}
