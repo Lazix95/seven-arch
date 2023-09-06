@@ -8,7 +8,7 @@ export interface SharedSliderImageProps {
 export function SharedSliderImage({ image }: SharedSliderImageProps) {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <SharedFirebaseImage type={'div'} image={image} />
+      <SharedFirebaseImage image={image} />
     </div>
   );
 }
