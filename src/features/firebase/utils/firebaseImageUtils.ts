@@ -105,6 +105,7 @@ export interface FirebaseImage {
   readonly id: string;
   readonly type: 'firebaseImage';
   readonly url: string;
+  readonly order?: number;
   readonly dbPath: string;
 }
 
@@ -112,6 +113,7 @@ export interface ExternalImage {
   readonly id: string;
   readonly type: 'externalImage';
   readonly url: string;
+  readonly order?: number;
   readonly dbPath: null;
 }
 

@@ -11,6 +11,7 @@ import { DataArticles, fetchArticles } from '@/features/firebase/api/articleApi'
 import { filterActiveArticles } from '@/utils/articleUtils';
 import { Article, SubArticle } from '@/models/articleModels';
 import { useLinks } from '@/hooks/useLinks';
+import { sortArray } from '@/utils/arrayUtils';
 
 export const getStaticProps = createGetStaticProps([fetchSliderImages, fetchArticles]);
 
@@ -19,7 +20,7 @@ export interface FeatureHomePageContainerProps extends DataBasicInfo, DataSlider
 export interface FeatureHomePageContainerState extends DataSliderImages, DataArticles {}
 
 export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHomePageContainerProps) {
-  const { state } = useContainerData<FeatureHomePageContainerState>({ sliderImages, articles }, [fetchSliderImages, fetchArticles]);
+  const { state } = useContainerData<FeatureHomePageContainerState>({ sliderImages, articles });
   const { setFullWidth, resetMainViewMaxWidthToDefault, setIsTransparentAppBar } = useSystemContext();
   const { openInternalLink, openExternalLink, isExternalLink } = useLinks();
 
@@ -31,6 +32,10 @@ export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHome
       setIsTransparentAppBar(false);
     };
   }, []);
+
+  const sortedSliderImages = useMemo(() => {
+    return sortArray(state.sliderImages || [], 'order');
+  }, [state.sliderImages]);
 
   const activeArticles = useMemo(() => {
     return filterActiveArticles(state.articles);
@@ -51,7 +56,7 @@ export function FeatureHomePageContainer({ sliderImages, articles }: FeatureHome
   return (
     <FeatureHomePageView
       articles={activeArticles}
-      images={state.sliderImages || []}
+      images={sortedSliderImages}
       onSubscribe={handleSubscribe}
       onSubArticleClick={handleArticleClick}
       onArticleCLick={handleArticleClick}

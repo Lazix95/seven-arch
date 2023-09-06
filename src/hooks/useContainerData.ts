@@ -11,6 +11,11 @@ interface ReduceActionDeleteItemFromArray<T> {
   payload: { key: KeyWithArrayValue<T>; idKey: string | number; idValue: string | number };
 }
 
+interface ReduceActionUpdateItemInArray<T> {
+  type: 'UPDATE_ITEM_IN_ARRAY';
+  payload: { key: KeyWithArrayValue<T>; idKey: string | number; idValue: string | number; value: Partial<T[KeyWithArrayValue<T>]> };
+}
+
 interface ReduceActionUpdateObject<T> {
   type: 'UPDATE_OBJECT';
   payload: { key: keyof T; value: T[keyof T] };
@@ -21,7 +26,7 @@ interface ReduceAction<T> {
   payload?: Partial<T>;
 }
 
-type ReduceActions<T> = ReduceAction<T> | ReduceActionAddToArray<T> | ReduceActionDeleteItemFromArray<T> | ReduceActionUpdateObject<T>;
+type ReduceActions<T> = ReduceAction<T> | ReduceActionAddToArray<T> | ReduceActionDeleteItemFromArray<T> | ReduceActionUpdateObject<T> | ReduceActionUpdateItemInArray<T>;
 
 function containerDataReducer<T>(state: T, action: ReduceActions<T>): T {
   switch (action.type) {
@@ -44,6 +49,18 @@ function containerDataReducer<T>(state: T, action: ReduceActions<T>): T {
       const idValue = action.payload.idValue;
       let newArray = (state[keyDelete] as []).filter((item: any) => item[idKey] !== idValue);
       return { ...state, [keyDelete]: newArray };
+
+    case 'UPDATE_ITEM_IN_ARRAY':
+      const keyUpdate = action.payload.key;
+      const idKeyUpdate = action.payload.idKey;
+      const idValueUpdate = action.payload.idValue;
+      let newArrayUpdate = (state[keyUpdate] as []).map((item: any) => {
+        if (item[idKeyUpdate] === idValueUpdate) {
+          return { ...item, ...action.payload.value };
+        }
+        return item;
+      });
+      return { ...state, [keyUpdate]: newArrayUpdate };
     default:
       return { ...state };
   }
@@ -89,11 +106,15 @@ export function useContainerData<T extends object = object>(initState: T, hydrat
     dispatch({ type: 'DELETE_ITEM_FROM_ARRAY', payload: { key, idKey, idValue } });
   }
 
+  function updateArrayItemInState(key: KeyWithArrayValue<T>, idKey: string | number, idValue: string | number, value: Partial<T[KeyWithArrayValue<T>]>) {
+    dispatch({ type: 'UPDATE_ITEM_IN_ARRAY', payload: { key, idKey, idValue, value } });
+  }
+
   function clearState() {
     dispatch({ type: 'CLEAR' });
   }
 
-  return { state: state, initialLoading, setState, updateState, updateObjectInState, clearState, addToArrayInState, deleteFromArrayInState };
+  return { state: state, initialLoading, setState, updateState, updateObjectInState, clearState, addToArrayInState, deleteFromArrayInState, updateArrayItemInState };
 }
 
 type KeyWithArrayValue<T> = {

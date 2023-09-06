@@ -1,8 +1,7 @@
 import { doc, getDoc, setDoc, collection, updateDoc, FieldValue, deleteField } from 'firebase/firestore';
 import { firebaseDB } from '../firebase';
 import { DocumentKeys, FolderKeys } from '../models/firebaseBaseModels';
-import { ExternalImage } from '@/features/firebase/utils/firebaseImageUtils';
-import { FirebaseImage } from '@/features/firebase/components/FirebaseImage';
+import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 
 export async function storeDocument<T = object>(folder: FolderKeys, docName: DocumentKeys, payload: Partial<T>): Promise<T> {
   const docRef = doc(firebaseDB, folder, docName);
@@ -21,6 +20,13 @@ export async function storeImageDocument<T = FirebaseImage | ExternalImage>(fold
 export async function deleteImageDocument(folder: FolderKeys, imageName: string): Promise<void> {
   const docRef = doc(firebaseDB, folder, 'images');
   await updateDoc(docRef, { [imageName]: deleteField() });
+}
+
+export async function updateImageDocument({ folder, payload }: { folder: FolderKeys; payload: FirebaseImage | ExternalImage }): Promise<FirebaseImage | ExternalImage> {
+  if (!payload.id) throw new Error('Image id is required');
+  const docRef = doc(firebaseDB, folder, 'images');
+  await updateDoc(docRef, { [payload.id]: payload });
+  return payload;
 }
 
 export async function replaceDocument<T = object>(folder: FolderKeys, docName: DocumentKeys, payload: Partial<T>): Promise<T> {

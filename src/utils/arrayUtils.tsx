@@ -20,3 +20,10 @@ export function addOrUpdateEntityInArray<T extends object>(array: Array<T>, enti
 export function removeEntityFromArray<T extends object>(array: Array<T>, entity: T, key: keyof T): Array<T> {
   return array.filter((item) => item[key] !== entity[key]);
 }
+
+export function changeArrayElementPosition<T extends object>(array: Array<T>, fromIndex: number, toIndex: number): Array<T> {
+  const arrayCopy = [...array];
+  const [removed] = arrayCopy.splice(fromIndex, 1);
+  arrayCopy.splice(toIndex, 0, removed);
+  return arrayCopy;
+}

@@ -14,6 +14,7 @@ export interface AdminSharedFormProps {
   readonly isMainArticle?: boolean;
   readonly noArticle?: boolean;
   readonly noSubmitBtn?: boolean;
+  readonly btnText?: string;
   readonly initialLoading?: boolean;
   readonly isSubmitLoading?: boolean;
   readonly spacing?: number;
@@ -35,6 +36,7 @@ export function AdminSharedForm({
   onArticleSubmit,
   spacing,
   formGrid,
+  btnText = 'Save',
   children,
 }: AdminSharedFormProps) {
   return (
@@ -58,7 +60,7 @@ export function AdminSharedForm({
       <SharedIf If={!noSubmitBtn}>
         <SharedGridItem>
           <SharedButton fullWidth btnType={'LoadingButton'} loading={isSubmitLoading} type={'submit'}>
-            Save
+            {btnText}
           </SharedButton>
         </SharedGridItem>
       </SharedIf>

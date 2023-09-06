@@ -13,10 +13,11 @@ export interface FeatureAdminHomeViewProps {
   onUploadImage: (file: File) => Promise<void>;
   onSaveExternalLink: (link: string) => Promise<void>;
   onRemoveImage: (image: FirebaseImage | ExternalImage) => void;
+  onChangeImageOrder?: (image: FirebaseImage | ExternalImage, order: number) => Promise<void>;
   isLoading?: boolean;
 }
 
-export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUploadImage, onRemoveImage, onSaveExternalLink }: FeatureAdminHomeViewProps) {
+export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUploadImage, onRemoveImage, onSaveExternalLink, onChangeImageOrder }: FeatureAdminHomeViewProps) {
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [externalLink, setExternalLink] = useState<string | null>(null);
@@ -33,6 +34,10 @@ export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUpl
     onRemoveImage(image);
   }
 
+  async function handleOrderChange(image: FirebaseImage | ExternalImage, order: number) {
+    await onChangeImageOrder?.(image, order);
+  }
+
   async function handleSubmit() {
     if (fileToUpload) {
       await onUploadImage(fileToUpload);
@@ -45,8 +50,8 @@ export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUpl
   }
 
   return (
-    <AdminSharedForm noArticle initialLoading={isLoading} title={'Home Page'} isSubmitLoading={isUploadLoading} onSubmit={handleSubmit}>
-      <SharedGalery onRemoveImage={handleRemoveImage} images={images} />
+    <AdminSharedForm noArticle btnText={'Add'} initialLoading={isLoading} title={'Home Page'} isSubmitLoading={isUploadLoading} onSubmit={handleSubmit}>
+      <SharedGalery onRemoveImage={handleRemoveImage} onChangeImageOrder={handleOrderChange} images={images} />
       <SharedImageUpload
         useExternalLink
         externalLink={externalLink ?? ''}

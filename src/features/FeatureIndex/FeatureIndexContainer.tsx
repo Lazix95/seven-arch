@@ -15,6 +15,7 @@ import { useLinks } from '@/hooks/useLinks';
 import { fetchSliderImages } from '@/features/firebase/api/homeApi';
 import { fetchArticles } from '@/features/firebase/api/articleApi';
 import { triggerVarcelDeploy } from '@/api/varcelApi';
+import { ToastMessageProvider } from '@/context/ToastMessageContext';
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const { openExternalLink } = useLinks();
@@ -69,31 +70,33 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <SystemContextProvider>
-      <UserContextProvider value={user}>
-        <FeatureIndexView
-          themeType={themeType}
-          currentDrawerItem={currentRoute}
-          socialNetworks={pageProps?.socialNetworks}
-          appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
-          splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
-          onSingInSubmit={handleSubmitSignIn}
-          onDrawerChange={setIsDrawerActive}
-          onSignOut={handleSignOut}
-          hasLoginError={hasLoginError}
-          isSignInLoading={isSignInLoading}
-          isDrawerActive={isDrawerActive}
-          isAdminPage={isAdminPage}
-          userData={user}
-          isPublishLoading={isPublishLoading}
-          onSocialNetworkClick={handleSocialNetworkClick}
-          drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
-          onPublishClick={handlePublishClick}
-          onLogoClick={handleLogoClick}
-        >
-          <Component {...pageProps} />
-        </FeatureIndexView>
-      </UserContextProvider>
-    </SystemContextProvider>
+    <ToastMessageProvider>
+      <SystemContextProvider>
+        <UserContextProvider value={user}>
+          <FeatureIndexView
+            themeType={themeType}
+            currentDrawerItem={currentRoute}
+            socialNetworks={pageProps?.socialNetworks}
+            appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
+            splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
+            onSingInSubmit={handleSubmitSignIn}
+            onDrawerChange={setIsDrawerActive}
+            onSignOut={handleSignOut}
+            hasLoginError={hasLoginError}
+            isSignInLoading={isSignInLoading}
+            isDrawerActive={isDrawerActive}
+            isAdminPage={isAdminPage}
+            userData={user}
+            isPublishLoading={isPublishLoading}
+            onSocialNetworkClick={handleSocialNetworkClick}
+            drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
+            onPublishClick={handlePublishClick}
+            onLogoClick={handleLogoClick}
+          >
+            <Component {...pageProps} />
+          </FeatureIndexView>
+        </UserContextProvider>
+      </SystemContextProvider>
+    </ToastMessageProvider>
   );
 }

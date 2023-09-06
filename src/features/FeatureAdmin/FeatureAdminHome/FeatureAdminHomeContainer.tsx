@@ -6,7 +6,8 @@ import { useContainerData } from '@/hooks/useContainerData';
 import { deleteExternalImage, ExternalImage, FirebaseImage, storeExternalImage, storeImage } from '@/features/firebase/utils/firebaseImageUtils';
 import { deleteByDbPath } from '@/features/firebase/utils/firebaseGeneralUtils';
 import { uuidV4 } from '@/plugins/uuid';
-import { deleteImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { deleteImageDocument, updateImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { useToastMessage } from '@/context/ToastMessageContext';
 
 const hydrationFncs = [fetchBasicInfo, fetchSliderImages];
 
@@ -21,7 +22,9 @@ interface FeatureAdminMainPageContainerState {
 export interface FeatureAdminHomeContainerProps extends DataBasicInfo, DataSliderImages {}
 
 export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeContainerProps) {
-  const { state, addToArrayInState, updateState, deleteFromArrayInState, initialLoading } = useContainerData<FeatureAdminMainPageContainerState>(
+  const { showToastMessage } = useToastMessage();
+
+  const { state, addToArrayInState, updateState, deleteFromArrayInState, updateArrayItemInState, initialLoading } = useContainerData<FeatureAdminMainPageContainerState>(
     { sliderImages: sliderImages ?? [] },
     hydrationFncs,
   );
@@ -30,6 +33,7 @@ export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeCont
     try {
       updateState({ isSaveLoading: true });
       const newImage = await storeImage({ folder: 'sliderImages', image });
+      showToastMessage('Image successfully added');
       addToArrayInState('sliderImages', newImage);
     } finally {
       updateState({ isSaveLoading: false });
@@ -64,6 +68,17 @@ export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeCont
     }
   }
 
+  async function handleOrderChange(image: FirebaseImage | ExternalImage, order: number) {
+    try {
+      updateState({ isSaveLoading: true });
+      const newImage = await updateImageDocument({ folder: 'sliderImages', payload: { ...image, order } });
+      updateArrayItemInState('sliderImages', 'id', newImage.id, newImage);
+      showToastMessage('Image order successfully changed');
+    } finally {
+      updateState({ isSaveLoading: false });
+    }
+  }
+
   return (
     <FeatureAdminHomeView
       isLoading={initialLoading}
@@ -71,6 +86,7 @@ export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeCont
       onUploadImage={handleAddNewImage}
       onSaveExternalLink={handleSaveExternalLink}
       onRemoveImage={handleDeleteImage}
+      onChangeImageOrder={handleOrderChange}
       images={state.sliderImages}
     />
   );
