@@ -76,6 +76,7 @@ export function useArticleData({ entity, link, options }: UseArticleDataProps) {
 
   async function handleSubmitArticle(payload: MainArticleSubmitPayload | null | undefined = state.articlePayload) {
     if (!payload) return;
+
     try {
       updateState({ isArticleSubmitLoading: true });
       if (state.article) {

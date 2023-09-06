@@ -4,17 +4,19 @@ import { SharedGridContainer, SharedGridContainerProps } from '../SharedDrawer/S
 import { SharedTextField } from '../form/SharedTextField';
 import { SharedGridItem } from '../grid/SharedGridItem';
 import { useMemo, useState } from 'react';
-import { FeatureTextAlign } from '@/models/articleModels';
+import { FeatureFontSize, FeatureTextAlign } from '@/models/articleModels';
+import classes from '@/features/shared/SharedArticle/SharedArticle.module.scss';
 
 export interface SharedCardSubscribeToNewstellerProps {
   readonly text: string;
   readonly btnText: string;
   readonly onSubscribe?: (email: string) => void;
   readonly align?: FeatureTextAlign;
+  readonly fontSize?: FeatureFontSize;
   readonly containerProps?: Omit<SharedGridContainerProps, 'children'>;
 }
 
-export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe, containerProps, align }: SharedCardSubscribeToNewstellerProps) {
+export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe, containerProps, align, fontSize = 'normal' }: SharedCardSubscribeToNewstellerProps) {
   const [email, setEmail] = useState('');
   const styles = useMemo(() => ({ backgroundColor: '#333', height: '100%', width: '100%', margin: 0, padding: '24px' }), []);
 
@@ -26,7 +28,7 @@ export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe, co
     <SharedGridContainer centerX={false} centerY={false} sx={styles} {...containerProps}>
       <SharedGridContainer spacing={0} sx={{ margin: 'auto auto auto auto' }}>
         <SharedGridItem mb={2} xs={12}>
-          <Typography fontWeight={500} color="white" align={align}>
+          <Typography fontWeight={500} color="white" align={align} className={classes[`sharedArticle__font_${fontSize ?? 'normal'}`]}>
             {text}
           </Typography>
         </SharedGridItem>

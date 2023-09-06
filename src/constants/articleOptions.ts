@@ -15,3 +15,10 @@ export const alignOptions = [
   { label: 'Center', value: 'center' },
   { label: 'Justify', value: 'justify' },
 ];
+
+export const fontSizeOptions = [
+  { label: 'Small', value: 'small' },
+  { label: 'Normal', value: 'normal' },
+  { label: 'Large', value: 'large' },
+  { label: 'Extra Large', value: 'extraLarge' },
+];

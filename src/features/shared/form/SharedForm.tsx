@@ -17,10 +17,7 @@ export function SharedForm({ children, validation = true, grid = true, isLoading
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (validation && formRef.current && !formRef.current.checkValidity()) return;
-
-    const data = new FormData(event.currentTarget);
-
+    // if (validation && formRef.current && !formRef.current.checkValidity()) return;
     onSubmit?.();
   }
 

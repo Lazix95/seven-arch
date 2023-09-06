@@ -3,7 +3,7 @@ import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { useCallback, useEffect, ReactNode } from 'react';
 import { SharedIf } from '@/features/shared/util/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
-import { Article, ArticleFeatureType, FeatureTextAlign, MainArticleSubmitPayload, SubArticleEditPayload } from '@/models/articleModels';
+import { Article, ArticleFeatureType, FeatureFontSize, FeatureTextAlign, MainArticleSubmitPayload, SubArticleEditPayload } from '@/models/articleModels';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
@@ -18,7 +18,7 @@ import { subArticleToSubArticlePayload } from '@/utils/articleUtils';
 import { DeleteForeverIcon, ModeEditIcon, AddIcon } from '@/features/shared/icons/materialUiIcons';
 import clsx from 'clsx';
 import { useContainerData } from '@/hooks/useContainerData';
-import { alignOptions, featureOptions, sizeOptions } from '@/constants/articleOptions';
+import { alignOptions, featureOptions, fontSizeOptions, sizeOptions } from '@/constants/articleOptions';
 import { AdminSharedArticleInterfaceLarge } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticleInterfaceLarge';
 import { AdminSharedArticleInterfaceSmall } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticleInterfaceSmall';
 
@@ -32,6 +32,7 @@ export interface AdminSharedArticleContainerState {
   readonly order: number;
   readonly featureContent: string;
   readonly featureAlign: FeatureTextAlign;
+  readonly featureFontSize: FeatureFontSize;
   readonly image: File | null;
   readonly imageExternalUrl: string | null;
   readonly size: 'small' | 'large';
@@ -64,6 +65,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
     order: article?.order ?? 0,
     featureContent: article?.feature?.content ?? '',
     featureAlign: article?.feature?.align ?? 'center',
+    featureFontSize: article?.feature?.fontSize ?? 'normal',
     image: null,
     imageExternalUrl: article?.imageExternalUrl ?? null,
     size: article?.size ?? 'large',
@@ -81,6 +83,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
         order: previousPayload?.order ?? order ?? 0,
         featureContent: previousPayload?.feature?.content ?? article.feature?.content ?? '',
         featureAlign: previousPayload?.feature?.align ?? article.feature?.align ?? 'center',
+        featureFontSize: previousPayload?.feature?.fontSize ?? article.feature?.fontSize ?? 'normal',
         image: previousPayload?.image ?? null,
         imageExternalUrl: previousPayload?.imageExternalUrl ?? article.imageExternalUrl ?? null,
         size: previousPayload?.size ?? article.size ?? 'large',
@@ -94,7 +97,10 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
   }, [article]);
 
   useEffect(() => {
-    if (article?.order !== order) handleSubmit();
+    if (order && article?.order !== order) {
+      updateState({ order });
+      handleSubmit({ order });
+    }
   }, [order]);
 
   function handleCancel() {
@@ -102,15 +108,15 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
     fillForm();
   }
 
-  function handleSubmit(manualInput?: { state?: boolean }) {
+  function handleSubmit(manualInput?: { state?: boolean; order?: number }) {
     let payload: MainArticleSubmitPayload = {
       type: 'main',
       title: state.title,
-      feature: state.feature ? { type: state.feature, content: state.featureContent, align: state.featureAlign } : null,
+      feature: state.feature ? { type: state.feature, content: state.featureContent, align: state.featureAlign, fontSize: state.featureFontSize } : null,
       size: state.size,
       content: state.content,
       state: manualInput?.state ?? state.isActive ?? false,
-      order: order,
+      order: manualInput?.order ?? state.order ?? -1,
       image: state.image ?? null,
       imageExternalUrl: state.imageExternalUrl ?? null,
       subArticles: state.subArticles.map((subArticle) => {
@@ -220,6 +226,14 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
                 value={state.featureAlign}
                 options={alignOptions}
                 onChange={(e) => updateState({ featureAlign: e?.value as FeatureTextAlign })}
+              />
+
+              <SharedAutoComplete
+                className={'u-mb--5'}
+                label={'Feature Font Size'}
+                value={state.featureFontSize}
+                options={fontSizeOptions}
+                onChange={(e) => updateState({ featureFontSize: e?.value as FeatureFontSize })}
               />
 
               <SharedGridItem xs={12} className={''}>

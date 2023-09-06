@@ -29,12 +29,14 @@ export interface ArticleFeatureDescription {
   readonly type: 'description';
   readonly content: string;
   readonly align: FeatureTextAlign;
+  readonly fontSize: FeatureFontSize;
 }
 
 export interface ArticleFeatureNewsTeller {
   readonly type: 'newsTeller';
   readonly content: string;
   readonly align: FeatureTextAlign;
+  readonly fontSize: FeatureFontSize;
 }
 
 export type ArticleFeature = null | ArticleFeatureDescription | ArticleFeatureNewsTeller;
@@ -67,3 +69,4 @@ export interface SubArticleEditPayload {
 }
 
 export type FeatureTextAlign = 'left' | 'center' | 'right' | 'justify';
+export type FeatureFontSize = 'small' | 'normal' | 'large' | 'extraLarge';
