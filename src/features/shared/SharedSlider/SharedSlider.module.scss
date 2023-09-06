@@ -1,5 +1,7 @@
 .slider {
   // position: relative;
+  width: auto;
+  height: calc(100vh - 64px);
   :global {
     .overlay {
       position: absolute;
@@ -30,6 +32,15 @@
       }
     }
   }
+}
+
+.container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  max-width: 100%;
+  top: 0;
+  left: 0;
 }
 
 .outer {

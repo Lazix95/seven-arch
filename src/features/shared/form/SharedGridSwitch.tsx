@@ -3,7 +3,7 @@
 import { FormControl, FormLabel, Switch } from '@mui/material';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { SharedGridItem, SharedGridItemProps } from '../grid/SharedGridItem';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import { ChangeEvent, ReactNode } from 'react';
 
 export interface FeatureSocialNetworksViewProps {

@@ -1,6 +1,6 @@
 import ReactDragListView from 'react-drag-listview';
 import { ReactNode } from 'react';
-import { SharedIf } from '@/features/shared/SharedIf';
+import { SharedIf } from '@/features/shared/util/SharedIf';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { DivProps } from '@/models/generalModels';
 

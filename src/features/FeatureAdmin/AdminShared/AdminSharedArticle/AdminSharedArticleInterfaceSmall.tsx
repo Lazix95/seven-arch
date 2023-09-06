@@ -1,9 +1,9 @@
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { Divider } from '@mui/material';
-import { SharedButton } from '@/features/shared/SharedButton';
-import { SharedIf } from '@/features/shared/SharedIf';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import { SharedButton } from '@/features/shared/form/SharedButton';
+import { SharedIf } from '@/features/shared/util/SharedIf';
+import { DragIndicatorIcon } from '@/features/shared/icons/materialUiIcons';
 
 export interface AdminSharedArticleInterfaceSmallProps {
   readonly state?: boolean;

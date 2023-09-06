@@ -1,7 +1,7 @@
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { Divider } from '@mui/material';
-import { SharedButton } from '@/features/shared/SharedButton';
+import { SharedButton } from '@/features/shared/form/SharedButton';
 
 export interface AdminSharedArticleInterfaceLargeProps {
   readonly state?: boolean;

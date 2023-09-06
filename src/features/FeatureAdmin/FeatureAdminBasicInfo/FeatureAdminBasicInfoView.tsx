@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { SharedButton } from '../../shared/SharedButton';
-import { SharedHeading } from '../../shared/SharedHeading';
+import { SharedButton } from '../../shared/form/SharedButton';
+import { SharedHeading } from '../../shared/text/SharedHeading';
 import { SharedImageUpload } from '../../shared/SharedImageUpload/SharedImageUpload';
 import { SharedForm } from '../../shared/form/SharedForm';
 import { SharedGridInput } from '../../shared/form/SharedGridInput';

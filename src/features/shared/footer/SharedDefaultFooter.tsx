@@ -2,7 +2,7 @@ import { SharedGridItem } from '../grid/SharedGridItem';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { Divider, Typography } from '@mui/material';
-import { SharedButton } from '../SharedButton';
+import { SharedButton } from '../form/SharedButton';
 import { mainDrawerItems } from '@/constants/mainDrawerItems';
 import { SharedCopyright } from './SharedCopyright';
 import { SharedDrawerItem } from '../SharedDrawer/SharedDrawer';

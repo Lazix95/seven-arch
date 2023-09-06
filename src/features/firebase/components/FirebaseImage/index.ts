@@ -1,1 +1,1 @@
-export { SharedFirebaseImage as FirebaseImage } from './SharedFirebaseImage';
+export { SharedFirebaseImage } from './SharedFirebaseImage';

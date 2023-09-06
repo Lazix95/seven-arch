@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
-import { SharedHeading } from '@/features/shared/SharedHeading';
+import { SharedHeading } from '@/features/shared/text/SharedHeading';
 import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticle';
-import { SharedButton } from '@/features/shared/SharedButton';
+import { SharedButton } from '@/features/shared/form/SharedButton';
 import { SharedForm } from '@/features/shared/form/SharedForm';
 import { Article, MainArticleSubmitPayload, SubArticleSubmitPayload } from '@/models/articleModels';
-import { SharedIf } from '@/features/shared/SharedIf';
+import { SharedIf } from '@/features/shared/util/SharedIf';
 
 export interface AdminSharedFormProps {
   readonly title: string;

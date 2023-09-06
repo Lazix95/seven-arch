@@ -1,7 +1,7 @@
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Fragment } from 'react';
 import { SharedDrawerItem } from './SharedDrawer';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import Link from 'next/link';
 
 interface SharedDrawerItemListProps {

@@ -1,5 +1,5 @@
 import { Typography } from '@mui/material';
-import { SharedButton } from '../SharedButton';
+import { SharedButton } from '../form/SharedButton';
 import { SharedGridContainer, SharedGridContainerProps } from '../SharedDrawer/SharedGridContainer';
 import { SharedTextField } from '../form/SharedTextField';
 import { SharedGridItem } from '../grid/SharedGridItem';

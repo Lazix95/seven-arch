@@ -1,12 +1,11 @@
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
+import { DeleteForeverIcon, DragIndicatorIcon } from '@/features/shared/icons/materialUiIcons';
 import { ExternalImage, FirebaseImage } from '../../firebase/utils/firebaseImageUtils';
 import { SharedOutlinedContainer } from '../grid/SharedOutlinedContainer';
-import { SharedButton } from '../SharedButton';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { SharedButton } from '../form/SharedButton';
 import classes from './SharedGalery.module.scss';
-import { SharedIf } from '../SharedIf';
-import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
-import { SharedDragAndDrop } from '@/features/shared/SharedDragAndDrop';
+import { SharedIf } from '../util/SharedIf';
+import { SharedDragAndDrop } from '@/features/shared/util/SharedDragAndDrop';
 import { changeArrayElementPosition, sortArray } from '@/utils/arrayUtils';
 import { useMemo } from 'react';
 

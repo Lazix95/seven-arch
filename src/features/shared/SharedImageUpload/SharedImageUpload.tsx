@@ -2,21 +2,19 @@
 import { DragEvent, useEffect, useState, ChangeEvent } from 'react';
 import classes from './SharedImageUpload.module.scss';
 import { Divider, Grid, Typography } from '@mui/material';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import { getFilePreviewURL } from '@/utils/uploadUtils';
 import { SharedGridBreak } from '../grid/SharedGridBreak';
 import { SharedUploadFile } from '../form/SharedUploadFile';
 import { SharedOutlinedContainer } from '../grid/SharedOutlinedContainer';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { SharedButton } from '../SharedButton';
+import { SharedButton } from '../form/SharedButton';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
-import ImageNotSupportedOutlinedIcon from '@mui/icons-material/ImageNotSupportedOutlined';
 import clsx from 'clsx';
 import { convertGoogleDriveLink } from '@/utils/googleDrive';
-import { func } from 'prop-types';
+import { DeleteForeverIcon, ImageNotSupportedOutlinedIcon } from '@/features/shared/icons/materialUiIcons';
 
 interface SharedImageUploadProps {
   name?: string;

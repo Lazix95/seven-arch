@@ -17,7 +17,6 @@ export async function saveArticleApi(payload: SaveArticlePayload): Promise<Artic
   const { image, subArticles, ...dataPayload } = payload;
   const id = `article-${payload.entity}`;
   const firebaseImage = image ? await storeImage({ image, folder: 'articles', name: id }) : undefined;
-  console.log(dataPayload, firebaseImage);
   return await storeEntity<Article>({ entity: 'articles', payload: { ...dataPayload, ...(firebaseImage && { image: firebaseImage }) }, id });
 }
 

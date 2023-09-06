@@ -1,10 +1,10 @@
-import { SharedHeading } from '@/features/shared/SharedHeading';
+import { SharedHeading } from '@/features/shared/text/SharedHeading';
 import { SharedForm } from '@/features/shared/form/SharedForm';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
 import { DocumentSocialNetwork, SocialNetworkSlug } from '@/models/socialNetworks';
 import { useEffect, useMemo, useState } from 'react';
-import { SharedButton } from '@/features/shared/SharedButton';
+import { SharedButton } from '@/features/shared/form/SharedButton';
 import { FeatureAdminSocialNetworkToggleItem } from '@/features/FeatureAdmin/FeatureAdminSocialNetworks/components/FeatureAdminSocialNetworkToggleItem';
 import { FeatureAdminSocialNetworkForm } from '@/features/FeatureAdmin/FeatureAdminSocialNetworks/components/FeatureAdminSocialNetworkForm';
 import ReactDragListView from 'react-drag-listview';

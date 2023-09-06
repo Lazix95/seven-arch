@@ -1,6 +1,6 @@
 import { DivProps } from '@/models/generalModels';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { SharedButton, SharedButtonIconProps } from '../SharedButton';
+import { SharedButton, SharedButtonIconProps } from '../form/SharedButton';
 import { SharedSocialNetworkIcon } from '@/features/shared/icons/SharedSocialNetworkIcon';
 import { sortArray } from '@/utils/arrayUtils';
 import { useMemo } from 'react';

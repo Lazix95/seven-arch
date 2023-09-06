@@ -1,6 +1,6 @@
 import { ReactNode, useMemo, useRef } from 'react';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import { SharedCircularLoader } from './../loaders/SharedCircularLoader';
 
 export interface SharedFormProps {

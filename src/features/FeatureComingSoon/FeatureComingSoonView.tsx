@@ -1,5 +1,5 @@
 import styles from './FeatureComingSoonView.module.scss';
-import { FirebaseImage } from '@/features/firebase/components/FirebaseImage';
+import { SharedFirebaseImage } from '@/features/firebase/components/FirebaseImage';
 
 export interface FeatureComingSoonViewProps {}
 
@@ -8,7 +8,7 @@ export function FeatureComingSoonView({}: FeatureComingSoonViewProps) {
     <div className={styles.wrapper}>
       <div className={styles.image}>
         <h2 className={styles.text}>Coming soon...</h2>
-        <FirebaseImage
+        <SharedFirebaseImage
           imageProps={{ className: styles.backgroundPosition }}
           noZoom={true}
           type={'div'}

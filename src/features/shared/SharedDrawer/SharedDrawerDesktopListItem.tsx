@@ -1,6 +1,6 @@
 import { List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
 import { SharedDrawerItem, SharedDrawerSubItem } from './SharedDrawer';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faReply } from '@fortawesome/free-solid-svg-icons';
 import clsx from 'clsx';

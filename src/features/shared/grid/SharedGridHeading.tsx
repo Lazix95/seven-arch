@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { SharedHeading, SharedHeadingProps } from '../SharedHeading';
+import { SharedHeading, SharedHeadingProps } from '../text/SharedHeading';
 import { SharedGridItem } from './SharedGridItem';
 
 export interface SharedGridHeadingProps extends SharedHeadingProps {

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { SharedButton } from '../SharedButton';
+import { SharedButton } from '../form/SharedButton';
 
 export interface SharedCopyrightProps extends TypographyProps {
   companyName?: string;

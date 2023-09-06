@@ -1,6 +1,6 @@
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';
-import { SharedDragAndDrop } from '@/features/shared/SharedDragAndDrop';
+import { SharedDragAndDrop } from '@/features/shared/util/SharedDragAndDrop';
 import { FeatureAdminSharedArticlesItem } from '@/features/FeatureAdmin/FeatureAdminArticles/FeatureAdminSharedArticlesItem';
 import { useEffect, useState } from 'react';
 

@@ -1,9 +1,9 @@
 import { SharedFirebaseImage } from '@/features/firebase/components/FirebaseImage/SharedFirebaseImage';
 import { SharedGridContainer } from '../SharedDrawer/SharedGridContainer';
 import { SharedGridItem } from '../grid/SharedGridItem';
-import { SharedHeading } from '../SharedHeading';
+import { SharedHeading } from '../text/SharedHeading';
 import { useMemo } from 'react';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import { Hidden } from '@mui/material';
 import classes from './SharedArticle.module.scss';
 import { Article, SubArticle } from '@/models/articleModels';

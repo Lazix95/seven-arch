@@ -1,8 +1,9 @@
 import { Avatar, Box, Checkbox, Container, FormControlLabel, Typography } from '@mui/material';
-import { LockOutlined } from '@mui/icons-material';
+
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
 import { useState, ChangeEvent } from 'react';
-import { SharedButton } from '@/features/shared/SharedButton';
+import { SharedButton } from '@/features/shared/form/SharedButton';
+import { LockOutlined } from '@/features/shared/icons/materialUiIcons';
 
 export interface FirebaseAuthProps {
   onSubmit?: (email: string, password: string) => void;

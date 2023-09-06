@@ -2,7 +2,7 @@ import Drawer from '@mui/material/Drawer';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { SharedDrawerDesktopList } from './SharedDrawerDeskropList';
 import { SharedDrawerMobileList } from './SharedDrawerMobileList';
-import { SharedIf } from '../SharedIf';
+import { SharedIf } from '../util/SharedIf';
 import styled from './SharedDriver.module.scss';
 import { SharedCardSocialNetworks } from '../cards/SharedCardSocialNetworks';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';

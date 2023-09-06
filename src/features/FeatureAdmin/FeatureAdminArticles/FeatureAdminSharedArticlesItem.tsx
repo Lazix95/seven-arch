@@ -1,7 +1,7 @@
 import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
 import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticle';
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
-import { SharedIf } from '@/features/shared/SharedIf';
+import { SharedIf } from '@/features/shared/util/SharedIf';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 export interface FeatureAdminSharedArticlesItemProps {

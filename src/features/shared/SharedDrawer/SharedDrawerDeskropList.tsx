@@ -2,9 +2,9 @@ import { useState, PointerEvent } from 'react';
 import { SharedDrawerDesktopListItem } from './SharedDrawerDesktopListItem';
 import { Box, Grid, Typography } from '@mui/material';
 import { SharedDrawerItem, SharedDrawerSubItem } from './SharedDrawer';
-import { SharedIf } from '../SharedIf';
-import { SharedButton } from '../SharedButton';
-import CloseIcon from '@mui/icons-material/Close';
+import { SharedIf } from '../util/SharedIf';
+import { SharedButton } from '../form/SharedButton';
+import { CloseIcon } from '@/features/shared/icons/materialUiIcons';
 
 interface SharedDrawerDesktopListProps {
   readonly items: SharedDrawerItem[];

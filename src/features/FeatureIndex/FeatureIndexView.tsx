@@ -1,11 +1,11 @@
 import { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { FirebaseAuth } from '../firebase/components/FirebaseAuth';
-import { SharedHead } from '../shared/SharedHead';
+import { SharedHead } from '../shared/util/SharedHead';
 import { SharedSplashScreen } from '../shared/SharedSplashScreen/SharedSplashScreen';
 import { SharedThemeProvider } from '../shared/theme/SharedThemeProvider';
 import { CssBaseline } from '@mui/material';
-import { SharedIf } from '../shared/SharedIf';
-import { SharedNamedChild } from '../shared/SharedNamedChild';
+import { SharedIf } from '../shared/util/SharedIf';
+import { SharedNamedChild } from '../shared/util/SharedNamedChild';
 import { SharedMainLayout } from '../shared/layouts/SharedMainLayout/SharedMainLayout';
 import { SharedDrawer, SharedDrawerItem, SharedDrawerSubItem } from '../shared/SharedDrawer/SharedDrawer';
 import { User } from '../firebase';

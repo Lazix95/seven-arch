@@ -1,23 +1,21 @@
 import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
 import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
 import { useCallback, useEffect, ReactNode } from 'react';
-import { SharedIf } from '@/features/shared/SharedIf';
+import { SharedIf } from '@/features/shared/util/SharedIf';
 import { SharedAutoComplete } from '@/features/shared/form/SharedAutoComplete';
 import { Article, ArticleFeatureType, FeatureTextAlign, MainArticleSubmitPayload, SubArticleEditPayload } from '@/models/articleModels';
 import { SharedGridContainer } from '@/features/shared/grid/SharedGridContainer';
 import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
 import { SharedTextField } from '@/features/shared/form/SharedTextField';
 import { SharedImageUpload } from '@/features/shared/SharedImageUpload/SharedImageUpload';
-import { SharedButton } from '@/features/shared/SharedButton';
+import { SharedButton } from '@/features/shared/form/SharedButton';
 import { SharedFormModal, SharedFormModalChildrenNames } from '@/features/shared/Modals/SharedFormModal';
-import { SharedNamedChild } from '@/features/shared/SharedNamedChild';
+import { SharedNamedChild } from '@/features/shared/util/SharedNamedChild';
 import { Divider, Typography } from '@mui/material';
 import { uuidV4 } from '@/plugins/uuid';
 import { addOrUpdateEntityInArray, removeEntityFromArray } from '@/utils/arrayUtils';
 import { subArticleToSubArticlePayload } from '@/utils/articleUtils';
-import AddIcon from '@mui/icons-material/Add';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { DeleteForeverIcon, ModeEditIcon, AddIcon } from '@/features/shared/icons/materialUiIcons';
 import clsx from 'clsx';
 import { useContainerData } from '@/hooks/useContainerData';
 import { alignOptions, featureOptions, sizeOptions } from '@/constants/articleOptions';
@@ -75,7 +73,6 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
 
   const fillForm = useCallback(() => {
     if (article) {
-      console.log('fillForm', article, previousPayload);
       updateState({
         isActive: previousPayload?.state ?? article.state,
         feature: previousPayload?.feature?.type ?? article.feature?.type ?? null,

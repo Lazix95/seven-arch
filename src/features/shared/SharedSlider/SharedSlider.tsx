@@ -12,6 +12,7 @@ interface SharedSliderProps {
 
 export function SharedSlider({ images = [] }: SharedSliderProps) {
   const settings: Settings = {
+    lazyLoad: 'progressive',
     dots: true,
     infinite: true,
     speed: 500,
@@ -21,9 +22,10 @@ export function SharedSlider({ images = [] }: SharedSliderProps) {
     autoplay: true,
     customPaging: SharedSliderDot,
   };
+
   return (
-    <div style={{ width: 'auto', height: 'calc(100vh - 64px)' }} className={classes.slider}>
-      <div style={{ position: 'absolute', width: '100vw', height: '100vh', maxWidth: '100%', top: 0, left: 0 }}>
+    <div className={classes.slider}>
+      <div className={classes.container}>
         <div className={'overlay'} />
         <Slider {...settings}>
           {images.map((image) => (
