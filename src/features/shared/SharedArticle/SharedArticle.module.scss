@@ -7,18 +7,18 @@
   }
 
   &__font_small {
-    font-size: 0.75rem;
+    font-size: 0.75rem !important;
   }
 
   &__font_normal {
-    font-size: 1rem;
+    font-size: 1rem !important;
   }
 
   &__font_large {
-    font-size: 1.3125rem;
+    font-size: 1.3125rem !important;
   }
 
   &__font_extraLarge {
-    font-size: 1.5rem;
+    font-size: 1.5rem !important;
   }
 }
