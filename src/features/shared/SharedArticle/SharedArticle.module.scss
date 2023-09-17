@@ -36,20 +36,19 @@
 
   &__sliderArrowNext,
   &__sliderArrowPrev {
-    position: absolute;
-    color: white;
+    position: absolute !important;
+    color: white !important;
     transform: translateY(-50%);
     top: 35px;
-    right: 0;
-    padding: 3px;
-    min-width: 0;
+    padding: 3px !important;
+    min-width: 0 !important;
   }
 
   &__sliderArrowPrev {
-    right: 40px;
+    right: 40px !important;
   }
 
   &__sliderArrowNext {
-    right: 0;
+    right: 0 !important;
   }
 }
