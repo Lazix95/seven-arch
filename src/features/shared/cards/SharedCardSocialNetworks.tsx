@@ -13,18 +13,9 @@ export interface SharedCardSocialNetworksProps {
 }
 
 export function SharedCardSocialNetworks({ socialNetworks = [], containerProps, btnsProps, onClick }: SharedCardSocialNetworksProps) {
-  const socialNetworkFilteredArray = useMemo(
-    () =>
-      sortArray(
-        socialNetworks.filter((social) => social.state),
-        'order',
-      ),
-    [socialNetworks],
-  );
-
   return (
     <div {...containerProps}>
-      {socialNetworkFilteredArray.map((social) => (
+      {socialNetworks.map((social) => (
         <SharedButton style={{ marginRight: '5px' }} btnType={'Icon'} key={social.id} {...btnsProps} onClick={() => onClick?.(social)}>
           <SharedSocialNetworkIcon slug={social.slug} />
         </SharedButton>

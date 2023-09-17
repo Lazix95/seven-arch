@@ -16,6 +16,7 @@ import { fetchSliderImages } from '@/features/firebase/api/homeApi';
 import { fetchArticles } from '@/features/firebase/api/articleApi';
 import { triggerVarcelDeploy } from '@/api/varcelApi';
 import { ToastMessageProvider } from '@/context/ToastMessageContext';
+import { sortArray } from '@/utils/arrayUtils';
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   const { openExternalLink } = useLinks();
@@ -32,6 +33,11 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
       setUser?.(user);
     });
   }, []);
+
+  const socialNetworkFilteredArray = useMemo(
+    () => sortArray(pageProps.socialNetworks?.filter((social: DocumentSocialNetwork) => social.state) ?? [], 'order'),
+    [pageProps.socialNetworks],
+  );
 
   async function handleSubmitSignIn(email: string, password: string): Promise<void> {
     try {
@@ -76,7 +82,7 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
           <FeatureIndexView
             themeType={themeType}
             currentDrawerItem={currentRoute}
-            socialNetworks={pageProps?.socialNetworks}
+            socialNetworks={socialNetworkFilteredArray as DocumentSocialNetwork[]}
             appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
             splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
             onSingInSubmit={handleSubmitSignIn}

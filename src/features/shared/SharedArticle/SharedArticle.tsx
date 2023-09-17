@@ -10,6 +10,10 @@ import { Article, SubArticle } from '@/models/articleModels';
 import { SharedCardSubscribeToNewsTeller } from '@/features/shared/cards/SharedCardSubscribeToNewsTeller';
 import { SharedCardDescription } from '@/features/shared/cards/SharedCardDescription';
 import clsx from 'clsx';
+import Slider, { Settings } from 'react-slick';
+import { SharedButton } from '@/features/shared/form/SharedButton';
+import { func } from 'prop-types';
+import { ArrowBackIcon, ArrowForwardIcon } from '@/features/shared/icons/materialUiIcons';
 
 export interface SharedArticleProps {
   readonly article: Article;
@@ -18,6 +22,16 @@ export interface SharedArticleProps {
   readonly onSubscribe?: (email: string) => void;
 }
 
+const settings: Settings = {
+  lazyLoad: 'progressive',
+  dots: false,
+  infinite: true,
+  speed: 500,
+  adaptiveHeight: true,
+  arrows: false,
+  autoplay: false,
+};
+
 export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArticleClick }: SharedArticleProps) {
   const [isShown, setIsShown] = useState(false);
   const imageWidth = useMemo(() => {
@@ -25,24 +39,30 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
     if (article && article.size == 'large' && !article.feature) return 12;
     return 8;
   }, [article]);
-
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const sliderRef = useRef<Slider | null>(null);
+
+  function handleGoNext() {
+    sliderRef.current?.slickNext();
+  }
+
+  function handleGoPrev() {
+    sliderRef.current?.slickPrev();
+  }
 
   useEffect(() => {
+    const targetRefCurrent = targetRef.current;
+    if (!targetRefCurrent) return;
     const options = {
-      root: null, // Use the viewport as the root
-      rootMargin: '0px', // No margin
-      threshold: 0, // Trigger when 50% of the element is visible
+      root: null,
+      rootMargin: '0px',
+      threshold: 0,
     };
 
     const callback: IntersectionObserverCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setIsShown(true);
-          console.log('in the view port');
-          // Element is in the viewport
-          console.log('Element is visible');
-          // Perform your desired actions here
         }
       });
     };
@@ -50,35 +70,33 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
     const observer = new IntersectionObserver(callback, options);
 
     if (targetRef.current) {
-      observer.observe(targetRef.current);
+      observer.observe(targetRefCurrent);
     }
 
     return () => {
-      if (targetRef.current) {
-        observer.unobserve(targetRef.current);
-      }
+      if (targetRefCurrent) observer.unobserve(targetRefCurrent);
     };
   }, []);
 
   return (
     <SharedIf If={!!article}>
-      <div ref={targetRef}>
+      <div ref={targetRef} className={classes.sharedArticle}>
         <Fade in={isShown} timeout={1000}>
           <div>
             <SharedGridContainer spacing={2} centerX={false}>
               <SharedGridItem xs={12}>
-                <SharedHeading fontWeight={500} color={'white'} level={4}>
+                <SharedHeading className={classes.sharedArticle__heading} fontWeight={500} color={'white'} level={4}>
                   {article?.title || ''}
                 </SharedHeading>
               </SharedGridItem>
 
-              <SharedGridItem xs={12} sm={6} md={imageWidth} xl={imageWidth < 12 ? 9 : 12} className={classes['sharedArticle__height']}>
-                <SharedFirebaseImage url={article.imageExternalUrl ?? article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
-              </SharedGridItem>
+              <Hidden smDown>
+                <SharedGridItem xs={12} sm={6} md={imageWidth} xl={imageWidth < 12 ? 9 : 12} className={classes['sharedArticle__height']}>
+                  <SharedFirebaseImage url={article.imageExternalUrl ?? article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
+                </SharedGridItem>
 
-              <Hidden mdDown>
                 <SharedIf If={!!article?.feature && article.feature.type === 'newsTeller'}>
-                  <SharedGridItem xs={6} sm={4} xl={3} className={clsx(classes.sharedArticle__height)}>
+                  <SharedGridItem xs={12} sm={6} md={4} xl={3} className={clsx(classes.sharedArticle__height)}>
                     <SharedCardSubscribeToNewsTeller
                       containerProps={{ className: `u-overflow__auto` }}
                       text={article?.feature?.content || ''}
@@ -93,7 +111,7 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
 
               <Hidden mdDown>
                 <SharedIf If={!!article?.feature && article.feature.type === 'description'}>
-                  <SharedGridItem xs={6} sm={4} xl={3} className={`${classes.sharedArticle__height} u-overflow__auto`}>
+                  <SharedGridItem xs={12} sm={6} md={4} xl={3} className={`${classes.sharedArticle__height} u-overflow__auto`}>
                     <SharedCardDescription text={article?.feature?.content || ''} align={article?.feature?.align} fontSize={article.feature?.fontSize} />
                   </SharedGridItem>
                 </SharedIf>
@@ -107,6 +125,30 @@ export function SharedArticle({ article, onSubscribe, onArticleCLick, onSubArtic
                     </SharedGridItem>
                   ))}
                 </SharedIf>
+              </Hidden>
+
+              <Hidden smUp>
+                <SharedGridItem xs={12}>
+                  <SharedIf If={article.subArticles && article.subArticles.length > 0}>
+                    <SharedButton variant={'outlined'} className={classes.sharedArticle__sliderArrowNext} onClick={handleGoNext}>
+                      <ArrowForwardIcon />
+                    </SharedButton>
+                    <SharedButton variant={'outlined'} className={classes.sharedArticle__sliderArrowPrev} onClick={handleGoPrev}>
+                      <ArrowBackIcon />
+                    </SharedButton>
+                  </SharedIf>
+                  <Slider ref={sliderRef} className={classes.sharedArticle__mobileSlider} {...settings}>
+                    <SharedFirebaseImage url={article.imageExternalUrl ?? article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
+                    {article?.subArticles?.map((subArticle) => (
+                      <SharedFirebaseImage
+                        key={subArticle.id}
+                        url={subArticle.imageExternalUrl ?? subArticle.image?.url}
+                        text={subArticle.content}
+                        onClick={() => onSubArticleClick?.(subArticle)}
+                      />
+                    ))}
+                  </Slider>
+                </SharedGridItem>
               </Hidden>
             </SharedGridContainer>
           </div>

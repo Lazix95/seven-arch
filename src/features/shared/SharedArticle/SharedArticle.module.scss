@@ -1,4 +1,12 @@
 .sharedArticle {
+  position: relative;
+
+  &__heading {
+    @media screen and (max-width: 600px) {
+      padding-right: 80px;
+    }
+  }
+
   &__height {
     height: 351px !important;
     @media screen and (max-width: 1024px) {
@@ -20,5 +28,28 @@
 
   &__font_extraLarge {
     font-size: 1.5rem !important;
+  }
+
+  &__mobileSlider {
+    width: 100%;
+  }
+
+  &__sliderArrowNext,
+  &__sliderArrowPrev {
+    position: absolute;
+    color: white;
+    transform: translateY(-50%);
+    top: 35px;
+    right: 0;
+    padding: 3px;
+    min-width: 0;
+  }
+
+  &__sliderArrowPrev {
+    right: 40px;
+  }
+
+  &__sliderArrowNext {
+    right: 0;
   }
 }
