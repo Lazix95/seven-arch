@@ -1,38 +1,25 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AppProps } from 'next/app';
-import { User, signIn, signUserOut, watchForUserData } from '../../firebase';
-import { UserContextProvider } from '@/context/userContext';
+import { signIn, signUserOut } from '@/firebase';
+import { useUserContext } from '@/context/userContext';
 import { FeatureIndexView } from './FeatureIndexView';
 import { mainDrawerItems, adminDrawerItems } from '@/constants/mainDrawerItems';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
-import { createGetStaticProps } from '@/utils/ssgUtils';
-import { fetchBasicInfo } from '@/firebase/api/basicDataApi';
-import { SystemContextProvider } from '@/context/SystemContext';
 import { ThemeType } from '@/themes/sharedThemeDefault';
-import { fetchSocialNetworks } from '@/firebase/api/socialNetworksDataApi';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
 import { useLinks } from '@/hooks/useLinks';
-import { fetchSliderImages } from '@/firebase/api/homeApi';
-import { fetchArticles } from '@/firebase/api/articleApi';
 import { triggerVarcelDeploy } from '@/api/varcelApi';
-import { ToastMessageProvider } from '@/context/ToastMessageContext';
 import { sortArray } from '@/utils/arrayUtils';
 
 export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
+  const user = useUserContext();
   const { openExternalLink } = useLinks();
   const [hasLoginError, setHasLoginError] = useState<boolean>(false);
   const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false);
   const [isDrawerActive, setIsDrawerActive] = useState(false);
   const [isPublishLoading, setIsPublishLoading] = useState(false);
-  const [user, setUser] = useState<User | null | undefined>(undefined);
   const { push, isAdminPage, isHomePage, currentRoute } = useLocalRouter();
   const themeType: ThemeType = useMemo(() => (isHomePage ? 'transparentDark' : 'light'), [isHomePage]);
-
-  useEffect(() => {
-    watchForUserData((user) => {
-      setUser?.(user);
-    });
-  }, []);
 
   const socialNetworkFilteredArray = useMemo(
     () => sortArray(pageProps.socialNetworks?.filter((social: DocumentSocialNetwork) => social.state) ?? [], 'order'),
@@ -76,33 +63,27 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
   }
 
   return (
-    <ToastMessageProvider>
-      <SystemContextProvider>
-        <UserContextProvider value={user}>
-          <FeatureIndexView
-            themeType={themeType}
-            currentDrawerItem={currentRoute}
-            socialNetworks={socialNetworkFilteredArray as DocumentSocialNetwork[]}
-            appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
-            splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
-            onSingInSubmit={handleSubmitSignIn}
-            onDrawerChange={setIsDrawerActive}
-            onSignOut={handleSignOut}
-            hasLoginError={hasLoginError}
-            isSignInLoading={isSignInLoading}
-            isDrawerActive={isDrawerActive}
-            isAdminPage={isAdminPage}
-            userData={user}
-            isPublishLoading={isPublishLoading}
-            onSocialNetworkClick={handleSocialNetworkClick}
-            drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
-            onPublishClick={handlePublishClick}
-            onLogoClick={handleLogoClick}
-          >
-            <Component {...pageProps} />
-          </FeatureIndexView>
-        </UserContextProvider>
-      </SystemContextProvider>
-    </ToastMessageProvider>
+    <FeatureIndexView
+      userData={user}
+      themeType={themeType}
+      currentDrawerItem={currentRoute}
+      socialNetworks={socialNetworkFilteredArray as DocumentSocialNetwork[]}
+      appBarTitle={pageProps?.basicInfo?.companyName ?? 'Seven Arch'}
+      splashScreenImageUrl={pageProps?.basicInfoImages?.loadingScreenImage?.url}
+      onSingInSubmit={handleSubmitSignIn}
+      onDrawerChange={setIsDrawerActive}
+      onSignOut={handleSignOut}
+      hasLoginError={hasLoginError}
+      isSignInLoading={isSignInLoading}
+      isDrawerActive={isDrawerActive}
+      isAdminPage={isAdminPage}
+      isPublishLoading={isPublishLoading}
+      onSocialNetworkClick={handleSocialNetworkClick}
+      drawerItems={isAdminPage ? adminDrawerItems : mainDrawerItems}
+      onPublishClick={handlePublishClick}
+      onLogoClick={handleLogoClick}
+    >
+      <Component {...pageProps} />
+    </FeatureIndexView>
   );
 }
