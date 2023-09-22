@@ -1,26 +1,25 @@
-.u-text {
-  § &--white {
-    color: #ffffff !important;
-  }
-  &--black {
-    color: #000000 !important;
-  }
+.u-text--white {
+  color: #ffffff !important;
+}
 
-  &--gray {
-    color: #ccc !important;
-  }
+.u-text--black {
+  color: #000000 !important;
+}
 
-  &--align-start {
-    text-align: start !important;
-  }
+.u-text--gray {
+  color: #ccc !important;
+}
 
-  &--align-center {
-    text-align: center !important;
-  }
+.u-text--align-start {
+  text-align: start !important;
+}
 
-  &--align-end {
-    text-align: end !important;
-  }
+.u-text--align-center {
+  text-align: center !important;
+}
+
+.u-text--align-end {
+  text-align: end !important;
 }
 
 .u-text--font-10 {
