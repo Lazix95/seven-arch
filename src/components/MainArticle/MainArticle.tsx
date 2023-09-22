@@ -1,4 +1,4 @@
-import { SharedFirebaseImage } from '@/features/firebase/components/FirebaseImage/SharedFirebaseImage';
+import { SharedFirebaseImage } from '@/components/shared/SharedFirebaseImage/SharedFirebaseImage';
 import { MainGridContainer } from '@/components/MainDrawer/MainGridContainer';
 import { SharedGridItem } from '../shared/grid/SharedGridItem';
 import { SharedHeading } from '../shared/text/SharedHeading';

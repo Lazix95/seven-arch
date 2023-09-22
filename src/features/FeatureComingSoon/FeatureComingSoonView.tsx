@@ -1,5 +1,5 @@
 import styles from './FeatureComingSoonView.module.scss';
-import { SharedFirebaseImage } from '@/features/firebase/components/FirebaseImage';
+import { SharedFirebaseImage } from '../../components/shared/SharedFirebaseImage';
 
 export interface FeatureComingSoonViewProps {}
 

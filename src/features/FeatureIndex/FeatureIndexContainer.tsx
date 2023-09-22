@@ -39,11 +39,11 @@ export function FeatureIndexContainer({ Component, pageProps }: AppProps) {
     [pageProps.socialNetworks],
   );
 
-  async function handleSubmitSignIn(email: string, password: string): Promise<void> {
+  async function handleSubmitSignIn(email: string, password: string, rememberMe: boolean): Promise<void> {
     try {
       setIsSignInLoading(true);
       setHasLoginError(false);
-      await signIn(email, password);
+      await signIn(email, password, rememberMe);
       setIsSignInLoading(false);
     } catch (err) {
       setIsSignInLoading(false);

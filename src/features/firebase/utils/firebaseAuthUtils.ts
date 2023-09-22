@@ -1,8 +1,18 @@
-import { Auth, browserSessionPersistence, getAuth, onAuthStateChanged, setPersistence, signInWithEmailAndPassword, signOut, User } from 'firebase/auth';
+import {
+  Auth,
+  browserSessionPersistence,
+  browserLocalPersistence,
+  getAuth,
+  onAuthStateChanged,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+} from 'firebase/auth';
 
-export async function signIn(email: string, password: string) {
+export async function signIn(email: string, password: string, rememberMe?: boolean) {
   const auth = getAuth();
-  await saveUserSession(auth);
+  await saveUserSession(auth, rememberMe);
   return signInUserWithEmailAndPass(auth, email, password);
 }
 
@@ -18,8 +28,8 @@ export function watchForUserData(onUserStatusChanged: (user: User | null) => voi
   });
 }
 
-function saveUserSession(auth: Auth) {
-  return setPersistence(auth, browserSessionPersistence);
+function saveUserSession(auth: Auth, rememberMe?: boolean) {
+  return setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 }
 
 function signInUserWithEmailAndPass(auth: Auth, email: string, password: string) {

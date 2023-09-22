@@ -1,5 +1,5 @@
 import { Fragment, ReactNode, useCallback, useMemo } from 'react';
-import { FirebaseAuth } from '../firebase/components/FirebaseAuth';
+import { FormAuth } from '../../components/forms/FormAuth';
 import { SharedHead } from '@/components/shared/util/SharedHead';
 import { MainSplashScreen } from '@/components/MainSplashScreen/MainSplashScreen';
 import { SharedThemeProvider } from '@/themes/SharedThemeProvider';
@@ -29,7 +29,7 @@ export interface FeatureIndexViewProps {
   readonly currentDrawerItem?: MainDrawerItem;
   readonly socialNetworks?: DocumentSocialNetwork[];
   readonly isPublishLoading?: boolean;
-  readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
+  readonly onSingInSubmit: (email: string, password: string, rememberMe: boolean) => Promise<void>;
   readonly onDrawerChange: (state: boolean) => void;
   readonly onSignOut: () => void;
   readonly onLegalAndPoliciesClick?: () => void;
@@ -61,11 +61,6 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
   const { mainViewMaxWidth, isTransparentAppBar } = useSystemContext();
   const { push } = useLocalRouter();
 
-  const LoginFallback = useCallback(() => {
-    return <FirebaseAuth onSubmit={onSingInSubmit} error={hasLoginError} isLoading={isSignInLoading} />;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignInLoading]);
-
   const hasAnySubItem = useMemo(() => {
     return drawerItems.some((item) => item.subItems?.length && item.subItems?.length > 0);
   }, [drawerItems]);
@@ -88,7 +83,10 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
       <SharedThemeProvider themeType={themeType}>
         <MainSplashScreen imageUrl={splashScreenImageUrl} />
         <CssBaseline />
-        <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
+        <SharedIf If={!userData && isAdminPage}>
+          <FormAuth onSubmit={onSingInSubmit} error={hasLoginError} isLoading={isSignInLoading} />
+        </SharedIf>
+        <SharedIf If={userData || !isAdminPage}>
           <SharedMainLayout
             onLogoClick={onLogoClick}
             isTransparentAppBar={isTransparentAppBar}
