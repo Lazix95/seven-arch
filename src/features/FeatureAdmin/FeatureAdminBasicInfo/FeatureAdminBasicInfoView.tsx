@@ -6,7 +6,7 @@ import { SharedForm } from '@/components/shared/form/SharedForm';
 import { SharedGridInput } from '@/components/shared/form/SharedGridInput';
 import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { GeneralFormSubmitModel } from '@/models/generalModels';
-import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 
 export interface FeatureAdminBasicInfoAdminViewData extends Record<string, unknown> {
   readonly companyName: string;
@@ -27,7 +27,11 @@ export interface FeatureAdminBasicInfoAdminViewFields {
 }
 
 export interface FeatureAdminBasicInfoAdminViewFormPayload
-  extends GeneralFormSubmitModel<FeatureAdminBasicInfoAdminViewData, FeatureAdminBasicInfoAdminViewFields['images'], FeatureAdminBasicInfoAdminViewFields['externalImages']> {}
+  extends GeneralFormSubmitModel<
+    FeatureAdminBasicInfoAdminViewData,
+    FeatureAdminBasicInfoAdminViewFields['images'],
+    FeatureAdminBasicInfoAdminViewFields['externalImages']
+  > {}
 
 export interface FeatureAdminBasicInfoAdminViewProps {
   readonly initialLoading?: boolean;

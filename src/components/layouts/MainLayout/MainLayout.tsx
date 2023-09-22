@@ -3,18 +3,18 @@ import { ReactNode } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { LogoutIcon, MenuIcon } from '@/components/shared/icons/materialUiIcons';
+import { LogoutIcon, MenuIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 import { Breakpoint, Container, useTheme } from '@mui/material';
-import { SharedIf } from '../../util/SharedIf';
+import { SharedIf } from '../../shared/util/SharedIf';
 import { getNamedChild } from '@/utils/SharedReactUtils';
 import { useUserContext } from '@/context/userContext';
-import { SharedButton } from '../../form/SharedButton';
+import { SharedButton } from '../../shared/form/SharedButton';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
-import classes from './SharedMainLayout.module.scss';
+import classes from './MainLayout.module.scss';
 import { ReactComponent } from '@/models/generalModels';
 import { HideOnScroll } from '@/components/shared/util/HideOnScroll';
 
-interface SharedMainLayoutProps {
+interface MainLayoutProps {
   readonly children: ReactNode;
   readonly drawerValue?: boolean;
   readonly isTransparentAppBar?: boolean;
@@ -30,7 +30,7 @@ interface SharedMainLayoutProps {
   readonly Drawer?: ReactComponent | undefined;
 }
 
-export function SharedMainLayout(props: SharedMainLayoutProps) {
+export function MainLayout(props: MainLayoutProps) {
   const { children, title, drawerValue, isPublishLoading, isTransparentAppBar, UpperNavList, LowerNavList, maxMainWidth = 'sm' } = props;
   const { onDrawerChange, onSignOut, onPublishClick, onLogoClick } = props;
   const Drawer = getNamedChild(children, 'drawer');
@@ -53,7 +53,11 @@ export function SharedMainLayout(props: SharedMainLayoutProps) {
         <AppBar
           position={'sticky'}
           elevation={2}
-          sx={{ mb: '24px', borderBottom: (theme) => `1px solid ${theme.palette.divider}`, backgroundColor: `${palette.primary.main}${isTransparentAppBar ? '5e' : ''}` }}
+          sx={{
+            mb: '24px',
+            borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+            backgroundColor: `${palette.primary.main}${isTransparentAppBar ? '5e' : ''}`,
+          }}
         >
           <Toolbar sx={{ flexWrap: 'wrap', borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
             <Typography onClick={onLogoClick} variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }} style={{ cursor: 'pointer' }}>

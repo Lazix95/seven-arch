@@ -2,7 +2,7 @@ import Image from 'next/image';
 import styles from './FirebaseImage.module.scss';
 import { Typography } from '@mui/material';
 import { SharedIf } from '@/components/shared/util/SharedIf';
-import { ExternalImage, FirebaseImage } from '../../../features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 import { DivProps } from '@/models/generalModels';
 
 export interface SharedFirebaseImage {
@@ -20,7 +20,9 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt, url, noZoo
   return (
     <SharedIf RIf={!!image || !!url}>
       <div
-        className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']} ${noZoom ? '' : 'u-mouse-pointer'}`}
+        className={`${styles.SharedContentImage} ${styles.SharedContentImage_container} ${styles['SharedContentImage_fullSize']} ${
+          noZoom ? '' : 'u-mouse-pointer'
+        }`}
         style={{ aspectRatio: '16/9' }}
         onClick={onClick}
       >
@@ -44,9 +46,9 @@ export function SharedFirebaseImage({ image, text, type = 'img', alt, url, noZoo
 
         <SharedIf RIf={type === 'div'}>
           <div
-            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${noZoom ? '' : styles['SharedContentImage__image-zoom']} ${
-              imageProps?.className ?? ''
-            }`}
+            className={`${styles['SharedContentImage_fullSize']} ${styles['SharedContentImage__image-div']} ${
+              noZoom ? '' : styles['SharedContentImage__image-zoom']
+            } ${imageProps?.className ?? ''}`}
             style={{
               backgroundImage: `url('${image?.url ?? url ?? ''}')`,
               ...(imageProps?.style ?? {}),

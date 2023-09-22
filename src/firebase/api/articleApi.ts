@@ -1,7 +1,7 @@
-import { deleteEntity, getEntities, getEntityById, storeEntity, updateEntityById } from '@/features/firebase/utils/firebaseEntityUtils';
+import { deleteEntity, getEntities, getEntityById, storeEntity, updateEntityById } from '@/firebase/utils/firebaseEntityUtils';
 import { Article, ArticleFeature, SubArticle } from '@/models/articleModels';
-import { FirebaseImage, storeImage } from '@/features/firebase/utils/firebaseImageUtils';
-import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
+import { FirebaseImage, storeImage } from '@/firebase/utils/firebaseImageUtils';
+import { EntityKeys } from '@/firebase/models/firebaseBaseModels';
 
 export async function fetchArticles(): Promise<DataArticles> {
   const articles = await getEntities<Article>('articles');

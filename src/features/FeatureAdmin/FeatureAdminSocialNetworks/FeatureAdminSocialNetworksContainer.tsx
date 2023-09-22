@@ -1,9 +1,9 @@
-import { fetchBasicInfo } from '@/features/firebase/api/basicDataApi';
+import { fetchBasicInfo } from '@/firebase/api/basicDataApi';
 import { FeatureAdminSocialNetworksView } from './FeatureAdminSocialNetworksView';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { useContainerData } from '@/hooks/useContainerData';
-import { fetchSocialNetworks, saveSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
-import { DataSocialNetworks } from '../../firebase/api/socialNetworksDataApi';
+import { fetchSocialNetworks, saveSocialNetworks } from '@/firebase/api/socialNetworksDataApi';
+import { DataSocialNetworks } from '@/firebase/api/socialNetworksDataApi';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
 
 export interface FeatureSocialNetworksContainerProps extends DataSocialNetworks {}
@@ -30,5 +30,12 @@ export function FeatureAdminSocialNetworksContainer({ socialNetworks }: FeatureS
     }
   }
 
-  return <FeatureAdminSocialNetworksView socialNetworks={state.socialNetworks} initLoading={initialLoading} isSubmitLoading={state.isSubmitLoading} onSubmit={handleSubmit} />;
+  return (
+    <FeatureAdminSocialNetworksView
+      socialNetworks={state.socialNetworks}
+      initLoading={initialLoading}
+      isSubmitLoading={state.isSubmitLoading}
+      onSubmit={handleSubmit}
+    />
+  );
 }

@@ -14,7 +14,7 @@ import { SharedGridSwitch } from '@/components/shared/form/SharedGridSwitch';
 import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import clsx from 'clsx';
 import { convertGoogleDriveLink } from '@/utils/googleDrive';
-import { DeleteForeverIcon, ImageNotSupportedOutlinedIcon } from '@/components/shared/icons/materialUiIcons';
+import { DeleteForeverIcon, ImageNotSupportedOutlinedIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 
 interface SharedImageUploadProps {
   name?: string;

@@ -1,4 +1,4 @@
-import { ExternalImage, FirebaseImage } from '../firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 import { MainArticle } from '@/components/MainArticle/MainArticle';
 import { MainGridContainer } from '@/components/MainDrawer/MainGridContainer';
 import { MainSlider } from '@/components/MainSlider/MainSlider';

@@ -4,7 +4,7 @@ import { MainSliderImage } from './MainSliderImage';
 import classes from './MainSlider.module.scss';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 
 interface MainSliderProps {
   images?: (FirebaseImage | ExternalImage)[];

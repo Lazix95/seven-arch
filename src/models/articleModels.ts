@@ -1,5 +1,5 @@
-import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
-import { FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { EntityKeys } from '@/firebase/models/firebaseBaseModels';
+import { FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 
 export interface Article {
   readonly id: string;

@@ -1,5 +1,5 @@
-import { fetchBasicInfo } from '@/features/firebase/api/basicDataApi';
-import { fetchSocialNetworks } from '@/features/firebase/api/socialNetworksDataApi';
+import { fetchBasicInfo } from '@/firebase/api/basicDataApi';
+import { fetchSocialNetworks } from '@/firebase/api/socialNetworksDataApi';
 
 export function convertToProps(obj: object) {
   return { props: obj };

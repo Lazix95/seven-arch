@@ -1,7 +1,7 @@
 import { socialNetworksMap } from '@/constants/socialNetworkItems';
 import { storeDocument } from '../utils/firebaseDocumentUtils';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { getEntities } from '@/features/firebase/utils/firebaseEntityUtils';
+import { getEntities } from '@/firebase/utils/firebaseEntityUtils';
 
 export async function fetchSocialNetworks(): Promise<DataSocialNetworks> {
   const socialNetworksRaw = await getEntities<DocumentSocialNetwork>('socialNetworks');

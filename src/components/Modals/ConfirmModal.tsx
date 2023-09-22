@@ -5,7 +5,7 @@ import { Button, DialogContentText, useMediaQuery, useTheme } from '@mui/materia
 import DialogActions from '@mui/material/DialogActions';
 import { ReactNode } from 'react';
 
-export interface SharedConfirmModalProps {
+export interface ConfirmModalProps {
   readonly isOpen: boolean;
   readonly title: ReactNode;
   readonly content: ReactNode;
@@ -13,7 +13,7 @@ export interface SharedConfirmModalProps {
   readonly onConfirm: () => void;
 }
 
-export function SharedConfirmModal({ isOpen, title, content, onConfirm, onClose }: SharedConfirmModalProps) {
+export function ConfirmModal({ isOpen, title, content, onConfirm, onClose }: ConfirmModalProps) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 

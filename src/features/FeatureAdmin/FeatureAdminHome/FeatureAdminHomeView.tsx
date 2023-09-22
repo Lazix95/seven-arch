@@ -1,4 +1,4 @@
-import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 import { SharedGalery } from '@/components/shared/SharedGalery/SharedGalery';
 import { SharedImageUpload } from '@/components/shared/SharedImageUpload/SharedImageUpload';
 import { SharedForm } from '@/components/shared/form/SharedForm';
@@ -17,7 +17,15 @@ export interface FeatureAdminHomeViewProps {
   isLoading?: boolean;
 }
 
-export function FeatureAdminHomeView({ images, isUploadLoading, isLoading, onUploadImage, onRemoveImage, onSaveExternalLink, onChangeImageOrder }: FeatureAdminHomeViewProps) {
+export function FeatureAdminHomeView({
+  images,
+  isUploadLoading,
+  isLoading,
+  onUploadImage,
+  onRemoveImage,
+  onSaveExternalLink,
+  onChangeImageOrder,
+}: FeatureAdminHomeViewProps) {
   const [fileToUpload, setFileToUpload] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [externalLink, setExternalLink] = useState<string | null>(null);

@@ -19,7 +19,13 @@ export function FeatureAdminSocialNetworkForm({ socialNetwork, linkValue, onLink
         </div>
       }
     >
-      <SharedTextField style={{ marginTop: '20px' }} fullWidth label={'Link'} value={linkValue ?? ''} onChange={(event) => onLinkChange(socialNetwork, event.target.value)} />
+      <SharedTextField
+        style={{ marginTop: '20px' }}
+        fullWidth
+        label={'Link'}
+        value={linkValue ?? ''}
+        onChange={(event) => onLinkChange(socialNetwork, event.target.value)}
+      />
     </SharedOutlinedContainer>
   );
 }

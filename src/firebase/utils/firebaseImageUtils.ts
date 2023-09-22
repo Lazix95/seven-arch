@@ -2,7 +2,7 @@ import { deleteObject, getDownloadURL, listAll, ref as storageRef, uploadBytes }
 import { firebaseStorage } from '../firebase';
 import { FolderKeys } from '../models/firebaseBaseModels';
 import { Optional } from '@/models/generalModels';
-import { deleteImageDocument, getDocument, storeImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { deleteImageDocument, getDocument, storeImageDocument } from '@/firebase/utils/firebaseDocumentUtils';
 import { uuidV4 } from '@/plugins/uuid';
 
 export async function storeImage({ image, folder, name }: { image: File; name?: string; folder: FolderKeys }): Promise<FirebaseImage> {

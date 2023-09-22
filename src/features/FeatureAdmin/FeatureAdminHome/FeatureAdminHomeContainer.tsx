@@ -1,12 +1,12 @@
-import { fetchBasicInfo, DataBasicInfo } from '@/features/firebase/api/basicDataApi';
+import { fetchBasicInfo, DataBasicInfo } from '@/firebase/api/basicDataApi';
 import { createGetStaticProps } from '@/utils/ssgUtils';
 import { FeatureAdminHomeView } from './FeatureAdminHomeView';
-import { DataSliderImages, fetchSliderImages } from '@/features/firebase/api/homeApi';
+import { DataSliderImages, fetchSliderImages } from '@/firebase/api/homeApi';
 import { useContainerData } from '@/hooks/useContainerData';
-import { deleteExternalImage, ExternalImage, FirebaseImage, storeExternalImage, storeImage } from '@/features/firebase/utils/firebaseImageUtils';
-import { deleteByDbPath } from '@/features/firebase/utils/firebaseGeneralUtils';
+import { deleteExternalImage, ExternalImage, FirebaseImage, storeExternalImage, storeImage } from '@/firebase/utils/firebaseImageUtils';
+import { deleteByDbPath } from '@/firebase/utils/firebaseGeneralUtils';
 import { uuidV4 } from '@/plugins/uuid';
-import { deleteImageDocument, updateImageDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { deleteImageDocument, updateImageDocument } from '@/firebase/utils/firebaseDocumentUtils';
 import { useToastMessage } from '@/context/ToastMessageContext';
 
 const hydrationFncs = [fetchBasicInfo, fetchSliderImages];
@@ -24,10 +24,8 @@ export interface FeatureAdminHomeContainerProps extends DataBasicInfo, DataSlide
 export function FeatureAdminHomeContainer({ sliderImages }: FeatureAdminHomeContainerProps) {
   const { showToastMessage } = useToastMessage();
 
-  const { state, addToArrayInState, updateState, deleteFromArrayInState, updateArrayItemInState, initialLoading } = useContainerData<FeatureAdminMainPageContainerState>(
-    { sliderImages: sliderImages ?? [] },
-    hydrationFncs,
-  );
+  const { state, addToArrayInState, updateState, deleteFromArrayInState, updateArrayItemInState, initialLoading } =
+    useContainerData<FeatureAdminMainPageContainerState>({ sliderImages: sliderImages ?? [] }, hydrationFncs);
 
   async function handleAddNewImage(image: File) {
     try {

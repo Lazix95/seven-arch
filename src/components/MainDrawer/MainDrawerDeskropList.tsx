@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import { MainDrawerItem, MainDrawerSubItem } from './MainDrawer';
 import { SharedIf } from '../shared/util/SharedIf';
 import { SharedButton } from '../shared/form/SharedButton';
-import { CloseIcon } from '@/components/shared/icons/materialUiIcons';
+import { CloseIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 
 interface MainDrawerDesktopListProps {
   readonly items: MainDrawerItem[];
@@ -47,7 +47,13 @@ export function MainDrawerDesktopList({ items, showSubList, currentItem, title, 
           <Typography variant={'h6'} style={{ marginLeft: '18px', marginTop: '12px' }}>
             {title}
           </Typography>
-          <MainDrawerDesktopListItem mainItems={true} selectedItemId={hoveredItem.id} items={items ?? []} onHover={handleHoverOnDrawerItem} onClick={handleMenuClick} />
+          <MainDrawerDesktopListItem
+            mainItems={true}
+            selectedItemId={hoveredItem.id}
+            items={items ?? []}
+            onHover={handleHoverOnDrawerItem}
+            onClick={handleMenuClick}
+          />
         </Grid>
 
         <SharedIf RIf={showSubList}>

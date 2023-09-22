@@ -5,9 +5,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getNamedChild } from '@/utils/SharedReactUtils';
 import { Divider } from '@mui/material';
-import styles from './SharedModals.module.scss';
+import styles from './Modals.module.scss';
 
-export interface SharedFormModalProps {
+export interface FormModalProps {
   readonly open: boolean | undefined;
   readonly title: string;
   readonly onClose: () => void;
@@ -19,12 +19,20 @@ export const SharedFormModalChildrenNames = {
   content: 'content',
 };
 
-export function SharedFormModal({ open, title, children, onClose }: SharedFormModalProps) {
+export function FormModal({ open, title, children, onClose }: FormModalProps) {
   const Content = getNamedChild(children, SharedFormModalChildrenNames.content);
   const Actions = getNamedChild(children, SharedFormModalChildrenNames.actions);
 
   return (
-    <Dialog className={styles.dialogAllowOverflow} open={Boolean(open)} onClose={onClose} maxWidth={'xs'} sx={{ overflow: 'visible' }} componentsProps={{}} fullWidth>
+    <Dialog
+      className={styles.dialogAllowOverflow}
+      open={Boolean(open)}
+      onClose={onClose}
+      maxWidth={'xs'}
+      sx={{ overflow: 'visible' }}
+      componentsProps={{}}
+      fullWidth
+    >
       <DialogTitle>{title}</DialogTitle>
       <Divider />
       <DialogContent>{Content}</DialogContent>

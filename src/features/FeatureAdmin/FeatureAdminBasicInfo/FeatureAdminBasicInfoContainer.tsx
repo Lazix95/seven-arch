@@ -1,10 +1,10 @@
 import { FeatureAdminBasicInfoAdminView, FeatureAdminBasicInfoAdminViewFormPayload } from './FeatureAdminBasicInfoView';
 import { useContainerData } from '@/hooks/useContainerData';
 import { createGetStaticProps } from '@/utils/ssgUtils';
-import { fetchBasicInfo, DataBasicInfo } from '../../firebase/api/basicDataApi';
+import { fetchBasicInfo, DataBasicInfo } from '@/firebase/api/basicDataApi';
 import { updateObjectEnteries } from '@/utils/objectUtils';
-import { storeExternalImages, storeImages } from '@/features/firebase/utils/firebaseImageUtils';
-import { storeDocument } from '@/features/firebase/utils/firebaseDocumentUtils';
+import { storeExternalImages, storeImages } from '@/firebase/utils/firebaseImageUtils';
+import { storeDocument } from '@/firebase/utils/firebaseDocumentUtils';
 
 export const getStaticProps = createGetStaticProps([]);
 

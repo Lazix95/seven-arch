@@ -6,13 +6,13 @@ import { SharedThemeProvider } from '@/themes/SharedThemeProvider';
 import { CssBaseline } from '@mui/material';
 import { SharedIf } from '@/components/shared/util/SharedIf';
 import { SharedNamedChild } from '@/components/shared/util/SharedNamedChild';
-import { SharedMainLayout } from '@/components/shared/layouts/SharedMainLayout/SharedMainLayout';
+import { MainLayout } from '@/components/layouts/MainLayout/MainLayout';
 import { MainDrawer, MainDrawerItem, MainDrawerSubItem } from '@/components/MainDrawer/MainDrawer';
-import { User } from '../firebase';
+import { User } from '../../firebase';
 import { useSystemContext } from '@/context/SystemContext';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { SharedDefaultFooter } from '@/components/shared/footer/SharedDefaultFooter';
+import { MainFooter } from '@/components/MainFooter/MainFooter';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 
 export interface FeatureIndexViewProps {
@@ -87,7 +87,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
           <FormAuth onSubmit={onSingInSubmit} error={hasLoginError} isLoading={isSignInLoading} />
         </SharedIf>
         <SharedIf If={userData || !isAdminPage}>
-          <SharedMainLayout
+          <MainLayout
             onLogoClick={onLogoClick}
             isTransparentAppBar={isTransparentAppBar}
             maxMainWidth={mainViewMaxWidth}
@@ -114,7 +114,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
             {children}
 
             <SharedNamedChild name="footer">
-              <SharedDefaultFooter
+              <MainFooter
                 socialNetworks={socialNetworks ?? []}
                 themeType={themeType}
                 companyName={appBarTitle}
@@ -123,7 +123,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
                 onSocialNetworkClick={handleSocialNetworkClick}
               />
             </SharedNamedChild>
-          </SharedMainLayout>
+          </MainLayout>
         </SharedIf>
       </SharedThemeProvider>
     </Fragment>

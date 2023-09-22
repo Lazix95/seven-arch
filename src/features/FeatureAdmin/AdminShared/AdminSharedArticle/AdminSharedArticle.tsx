@@ -9,13 +9,13 @@ import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { SharedTextField } from '@/components/shared/form/SharedTextField';
 import { SharedImageUpload } from '@/components/shared/SharedImageUpload/SharedImageUpload';
 import { SharedButton } from '@/components/shared/form/SharedButton';
-import { SharedFormModal, SharedFormModalChildrenNames } from '@/components/shared/Modals/SharedFormModal';
+import { FormModal, SharedFormModalChildrenNames } from '@/components/Modals/FormModal';
 import { SharedNamedChild } from '@/components/shared/util/SharedNamedChild';
 import { Divider, Typography } from '@mui/material';
 import { uuidV4 } from '@/plugins/uuid';
 import { addOrUpdateEntityInArray, removeEntityFromArray } from '@/utils/arrayUtils';
 import { subArticleToSubArticlePayload } from '@/utils/articleUtils';
-import { DeleteForeverIcon, ModeEditIcon, AddIcon } from '@/components/shared/icons/materialUiIcons';
+import { DeleteForeverIcon, ModeEditIcon, AddIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 import clsx from 'clsx';
 import { useContainerData } from '@/hooks/useContainerData';
 import { alignOptions, featureOptions, fontSizeOptions, sizeOptions } from '@/constants/articleOptions';
@@ -53,7 +53,17 @@ export interface AdminSharedArticleProps {
 }
 
 export function AdminSharedArticle(props: AdminSharedArticleProps) {
-  const { article, className, dragAndDrop, order, previousPayload, isMainArticle = true, size: articleFormSize = 'small', label = 'Article Settings', onSubmitArticle } = props;
+  const {
+    article,
+    className,
+    dragAndDrop,
+    order,
+    previousPayload,
+    isMainArticle = true,
+    size: articleFormSize = 'small',
+    label = 'Article Settings',
+    onSubmitArticle,
+  } = props;
 
   const { state, updateState, updateObjectInState } = useContainerData<AdminSharedArticleContainerState>({
     isModalOpen: false,
@@ -187,7 +197,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
         </SharedIf>
 
         {/* Main Article Modal */}
-        <SharedFormModal open={state.isModalOpen && !state.isSubModalOpen} title={'Manage Article'} onClose={() => updateState({ isModalOpen: false })}>
+        <FormModal open={state.isModalOpen && !state.isSubModalOpen} title={'Manage Article'} onClose={() => updateState({ isModalOpen: false })}>
           <SharedNamedChild name={SharedFormModalChildrenNames.content}>
             <SharedIf If={isMainArticle}>
               <SharedAutoComplete
@@ -307,10 +317,10 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
             <SharedButton onClick={handleCancel}>Cancel</SharedButton>
             <SharedButton onClick={() => handleSubmit()}>Submit</SharedButton>
           </SharedNamedChild>
-        </SharedFormModal>
+        </FormModal>
 
         {/* Sub Article Modal */}
-        <SharedFormModal open={state.isSubModalOpen} title={'Manage Sub Article'} onClose={() => updateState({ isModalOpen: false })}>
+        <FormModal open={state.isSubModalOpen} title={'Manage Sub Article'} onClose={() => updateState({ isModalOpen: false })}>
           <SharedNamedChild name={SharedFormModalChildrenNames.content}>
             <SharedOutlinedContainer label={'Turn On/Off'} center={false} noPadding={true} className={'u-pb--5'}>
               <SharedGridSwitch
@@ -346,7 +356,7 @@ export function AdminSharedArticle(props: AdminSharedArticleProps) {
             <SharedButton onClick={handleCancelSubArticle}>Cancel</SharedButton>
             <SharedButton onClick={handleSaveSubArticle}>Submit</SharedButton>
           </SharedNamedChild>
-        </SharedFormModal>
+        </FormModal>
       </SharedGridContainer>
     </SharedOutlinedContainer>
   );

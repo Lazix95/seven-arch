@@ -13,7 +13,7 @@ import clsx from 'clsx';
 import Slider, { Settings } from 'react-slick';
 import { SharedButton } from '@/components/shared/form/SharedButton';
 import { func } from 'prop-types';
-import { ArrowBackIcon, ArrowForwardIcon } from '@/components/shared/icons/materialUiIcons';
+import { ArrowBackIcon, ArrowForwardIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 
 export interface MainArticleProps {
   readonly article: Article;
@@ -121,7 +121,11 @@ export function MainArticle({ article, onSubscribe, onArticleCLick, onSubArticle
                 <SharedIf If={!!article?.subArticles && article.subArticles.length > 0}>
                   {article?.subArticles?.map((subArticle) => (
                     <SharedGridItem key={subArticle.id} xs={6} sm={6} md={4} xl={3} className={classes.sharedArticle__height}>
-                      <SharedFirebaseImage url={subArticle.imageExternalUrl ?? subArticle.image?.url} text={subArticle.content} onClick={() => onSubArticleClick?.(subArticle)} />
+                      <SharedFirebaseImage
+                        url={subArticle.imageExternalUrl ?? subArticle.image?.url}
+                        text={subArticle.content}
+                        onClick={() => onSubArticleClick?.(subArticle)}
+                      />
                     </SharedGridItem>
                   ))}
                 </SharedIf>
@@ -138,7 +142,11 @@ export function MainArticle({ article, onSubscribe, onArticleCLick, onSubArticle
                     </SharedButton>
                   </SharedIf>
                   <Slider ref={sliderRef} className={classes.sharedArticle__mobileSlider} {...settings}>
-                    <SharedFirebaseImage url={article.imageExternalUrl ?? article.image?.url} text={article?.content} onClick={() => onArticleCLick?.(article)} />
+                    <SharedFirebaseImage
+                      url={article.imageExternalUrl ?? article.image?.url}
+                      text={article?.content}
+                      onClick={() => onArticleCLick?.(article)}
+                    />
                     {article?.subArticles?.map((subArticle) => (
                       <SharedFirebaseImage
                         key={subArticle.id}

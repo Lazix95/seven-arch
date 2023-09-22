@@ -1,13 +1,13 @@
 import { ReactElement } from 'react';
 import Typography, { TypographyProps } from '@mui/material/Typography';
-import { SharedButton } from '../form/SharedButton';
+import { SharedButton } from '../shared/form/SharedButton';
 
-export interface SharedCopyrightProps extends TypographyProps {
+export interface MainFooterCopyrightProps extends TypographyProps {
   companyName?: string;
   onLegalAndPoliciesClick?: () => void;
 }
 
-export function SharedCopyright({ onLegalAndPoliciesClick, companyName, ...rest }: SharedCopyrightProps): ReactElement {
+export function MainFooterCopyright({ onLegalAndPoliciesClick, companyName, ...rest }: MainFooterCopyrightProps): ReactElement {
   return (
     <Typography variant="body2" color="text.secondary" {...rest}>
       <SharedButton btnType={'Link'} onClick={onLegalAndPoliciesClick}>

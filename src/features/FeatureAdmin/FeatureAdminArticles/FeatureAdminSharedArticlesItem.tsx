@@ -1,4 +1,4 @@
-import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
+import { EntityKeys } from '@/firebase/models/firebaseBaseModels';
 import { AdminSharedArticle } from '@/features/FeatureAdmin/AdminShared/AdminSharedArticle/AdminSharedArticle';
 import { useArticleData } from '@/hooks/adminHooks/useArticleData';
 import { SharedIf } from '@/components/shared/util/SharedIf';

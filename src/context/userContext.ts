@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { User } from '../features/firebase/firebase';
+import { User } from '@/firebase/firebase';
 
 export const UserContext = createContext<User | null | undefined>(undefined);
 

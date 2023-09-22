@@ -16,7 +16,14 @@ export interface SharedCardSubscribeToNewstellerProps {
   readonly containerProps?: Omit<MainGridContainerProps, 'children'>;
 }
 
-export function SharedCardSubscribeToNewsTeller({ text, btnText, onSubscribe, containerProps, align, fontSize = 'normal' }: SharedCardSubscribeToNewstellerProps) {
+export function SharedCardSubscribeToNewsTeller({
+  text,
+  btnText,
+  onSubscribe,
+  containerProps,
+  align,
+  fontSize = 'normal',
+}: SharedCardSubscribeToNewstellerProps) {
   const [email, setEmail] = useState('');
   const styles = useMemo(() => ({ backgroundColor: '#333', height: '100%', width: '100%', margin: 0, padding: '24px' }), []);
 

@@ -1,6 +1,6 @@
 import { FeatureComingSoonContainer } from '@/features/FeatureComingSoon/FeatureComingSoonContainer';
 import { createGetStaticProps } from '@/utils/ssgUtils';
-import { DataBasicInfo } from '@/features/firebase/api/basicDataApi';
+import { DataBasicInfo } from '@/firebase/api/basicDataApi';
 
 export const getStaticProps = createGetStaticProps([]);
 

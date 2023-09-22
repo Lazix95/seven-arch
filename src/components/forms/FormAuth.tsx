@@ -1,11 +1,10 @@
-import { Avatar, Box, Checkbox, Container, FormControlLabel, Typography } from '@mui/material';
-
+import { FormEvent } from 'react';
+import { Avatar, Box, Container } from '@mui/material';
 import { SharedTextField } from '@/components/shared/form/SharedTextField';
 import { useState, ChangeEvent } from 'react';
 import { SharedButton } from '@/components/shared/form/SharedButton';
-import { LockOutlined } from '@/components/shared/icons/materialUiIcons';
+import { LockOutlined } from '@/components/shared/icons/SharedMaterialUiIcons';
 import { SharedHeading } from '@/components/shared/text/SharedHeading';
-import { func } from 'prop-types';
 import { SharedCheckbox } from '@/components/shared/form/SharedCheckbox';
 
 export interface FirebaseAuthProps {
@@ -28,7 +27,7 @@ export function FormAuth({ onSubmit, error, isLoading }: FirebaseAuthProps) {
     setFields((oldFields) => ({ ...oldFields, rememberMe: value }));
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onSubmit?.(fields.email, fields.password, fields.rememberMe);
   }

@@ -3,7 +3,7 @@ import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { Divider } from '@mui/material';
 import { SharedButton } from '@/components/shared/form/SharedButton';
 import { SharedIf } from '@/components/shared/util/SharedIf';
-import { DragIndicatorIcon } from '@/components/shared/icons/materialUiIcons';
+import { DragIndicatorIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
 
 export interface AdminSharedArticleInterfaceSmallProps {
   readonly state?: boolean;

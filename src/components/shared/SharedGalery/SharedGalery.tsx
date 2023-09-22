@@ -1,6 +1,6 @@
 import { CircularProgress, Grid } from '@mui/material';
-import { DeleteForeverIcon, DragIndicatorIcon } from '@/components/shared/icons/materialUiIcons';
-import { ExternalImage, FirebaseImage } from '../../../features/firebase/utils/firebaseImageUtils';
+import { DeleteForeverIcon, DragIndicatorIcon } from '@/components/shared/icons/SharedMaterialUiIcons';
+import { ExternalImage, FirebaseImage } from '@/firebase/utils/firebaseImageUtils';
 import { SharedOutlinedContainer } from '../grid/SharedOutlinedContainer';
 import { SharedButton } from '../form/SharedButton';
 import classes from './SharedGalery.module.scss';

@@ -1,5 +1,5 @@
-import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticleApi, UpdateArticlePayload } from '@/features/firebase/api/articleApi';
-import { EntityKeys } from '@/features/firebase/models/firebaseBaseModels';
+import { fetchArticleByEntity, saveArticleApi, SaveArticlePayload, updateArticleApi, UpdateArticlePayload } from '@/firebase/api/articleApi';
+import { EntityKeys } from '@/firebase/models/firebaseBaseModels';
 import { Article, MainArticleSubmitPayload } from '@/models/articleModels';
 import { useContainerData } from '@/hooks/useContainerData';
 import { useCallback, useEffect, useRef } from 'react';
