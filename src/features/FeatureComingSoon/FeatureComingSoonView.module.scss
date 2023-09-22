@@ -1,25 +1,39 @@
-.image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 187px);
+.wrapper {
+  position: relative;
+  min-height: 300px;
+  width: calc(100% + 120px);
+  margin-left: -60px;
+  margin-top: -25px;
+  margin-bottom: -1px;
+  display: flex;
+  flex: auto;
+
+  @media screen and (max-width: 1024px) {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+  }
 }
 
-// .text meed to be in the middle of the image and it needs to looks like a watermark
+.image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
 .text {
   position: absolute;
-  top: calc(90% - 90px);
-  transform: translate(0, -50%);
   color: black;
-  font-size: 5rem;
+  font-size: 3rem;
   font-weight: bold;
   z-index: 999;
-  width: 590px;
   right: 0;
+  bottom: 0;
+
+  @media screen and (max-width: 600px) {
+    font-size: 2rem;
+  }
 }
 
 .backgroundPosition {
   background-position-y: 72% !important;
-  //background-position: bottom !important;
 }

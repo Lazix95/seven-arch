@@ -1,8 +1,8 @@
 import { ExternalImage, FirebaseImage } from '../firebase/utils/firebaseImageUtils';
-import { SharedArticle } from '../shared/SharedArticle/SharedArticle';
-import { SharedGridContainer } from '../shared/SharedDrawer/SharedGridContainer';
-import { SharedSlider } from '../shared/SharedSlider/SharedSlider';
-import { SharedGridItem } from '../shared/grid/SharedGridItem';
+import { MainArticle } from '@/components/MainArticle/MainArticle';
+import { MainGridContainer } from '@/components/MainDrawer/MainGridContainer';
+import { MainSlider } from '@/components/MainSlider/MainSlider';
+import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { Article, SubArticle } from '@/models/articleModels';
 
 interface FeatureHomePageViewProps {
@@ -17,15 +17,15 @@ export function FeatureHomePageView({ images, articles, onSubscribe, onArticleCL
   return (
     <>
       <div>
-        <SharedSlider images={images} />
+        <MainSlider images={images} />
       </div>
-      <SharedGridContainer mt={0} mb={3} pt={0}>
+      <MainGridContainer mt={0} mb={3} pt={0}>
         <SharedGridItem xs={12}>
           {(articles || []).map((article) => (
-            <SharedArticle key={article.id} article={article} onSubscribe={onSubscribe} onArticleCLick={onArticleCLick} onSubArticleClick={onSubArticleClick} />
+            <MainArticle key={article.id} article={article} onSubscribe={onSubscribe} onArticleCLick={onArticleCLick} onSubArticleClick={onSubArticleClick} />
           ))}
         </SharedGridItem>
-      </SharedGridContainer>
+      </MainGridContainer>
     </>
   );
 }

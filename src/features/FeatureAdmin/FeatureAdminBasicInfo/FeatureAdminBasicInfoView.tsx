@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { SharedButton } from '../../shared/form/SharedButton';
-import { SharedHeading } from '../../shared/text/SharedHeading';
-import { SharedImageUpload } from '../../shared/SharedImageUpload/SharedImageUpload';
-import { SharedForm } from '../../shared/form/SharedForm';
-import { SharedGridInput } from '../../shared/form/SharedGridInput';
-import { SharedGridItem } from '../../shared/grid/SharedGridItem';
+import { SharedButton } from '@/components/shared/form/SharedButton';
+import { SharedHeading } from '@/components/shared/text/SharedHeading';
+import { SharedImageUpload } from '@/components/shared/SharedImageUpload/SharedImageUpload';
+import { SharedForm } from '@/components/shared/form/SharedForm';
+import { SharedGridInput } from '@/components/shared/form/SharedGridInput';
+import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { GeneralFormSubmitModel } from '@/models/generalModels';
 import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
 

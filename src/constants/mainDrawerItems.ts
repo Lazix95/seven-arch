@@ -1,6 +1,6 @@
-import { SharedDrawerItem } from '@/features/shared/SharedDrawer/SharedDrawer';
+import { MainDrawerItem } from '@/components/MainDrawer/MainDrawer';
 
-export const mainDrawerItems: SharedDrawerItem[] = [
+export const mainDrawerItems: MainDrawerItem[] = [
   {
     id: 100,
     type: 'MainItem',
@@ -97,7 +97,7 @@ export const mainDrawerItems: SharedDrawerItem[] = [
   },
 ];
 
-export const adminDrawerItems: SharedDrawerItem[] = [
+export const adminDrawerItems: MainDrawerItem[] = [
   {
     id: 1000,
     type: 'MainItem',

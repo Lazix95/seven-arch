@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
+import { SharedGridSwitch } from '@/components/shared/form/SharedGridSwitch';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { SharedSocialNetworkIcon } from '@/features/shared/icons/SharedSocialNetworkIcon';
-import { DragIndicatorIcon } from '@/features/shared/icons/materialUiIcons';
+import { SharedSocialNetworkIcon } from '@/components/shared/icons/SharedSocialNetworkIcon';
+import { DragIndicatorIcon } from '@/components/shared/icons/materialUiIcons';
 
 export interface FeatureSocialNetworkItemProps {
   socialNetwork: DocumentSocialNetwork;

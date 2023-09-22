@@ -1,7 +1,7 @@
-import { SharedGridSwitch } from '@/features/shared/form/SharedGridSwitch';
-import { SharedGridItem } from '@/features/shared/grid/SharedGridItem';
+import { SharedGridSwitch } from '@/components/shared/form/SharedGridSwitch';
+import { SharedGridItem } from '@/components/shared/grid/SharedGridItem';
 import { Divider } from '@mui/material';
-import { SharedButton } from '@/features/shared/form/SharedButton';
+import { SharedButton } from '@/components/shared/form/SharedButton';
 
 export interface AdminSharedArticleInterfaceLargeProps {
   readonly state?: boolean;

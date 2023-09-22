@@ -1,4 +1,4 @@
-import { FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, TwitterIcon, YouTubeIcon } from '@/features/shared/icons/materialUiIcons';
+import { FacebookIcon, InstagramIcon, LinkedInIcon, PinterestIcon, TwitterIcon, YouTubeIcon } from '@/components/shared/icons/materialUiIcons';
 import { SocialNetwork, SocialNetworkSlug } from '@/models/socialNetworks';
 
 export const socialNetworksMap: Record<SocialNetworkSlug, SocialNetwork> = {

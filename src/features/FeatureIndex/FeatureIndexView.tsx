@@ -1,18 +1,18 @@
 import { Fragment, ReactNode, useCallback, useMemo } from 'react';
 import { FirebaseAuth } from '../firebase/components/FirebaseAuth';
-import { SharedHead } from '../shared/util/SharedHead';
-import { SharedSplashScreen } from '../shared/SharedSplashScreen/SharedSplashScreen';
-import { SharedThemeProvider } from '../shared/theme/SharedThemeProvider';
+import { SharedHead } from '@/components/shared/util/SharedHead';
+import { MainSplashScreen } from '@/components/MainSplashScreen/MainSplashScreen';
+import { SharedThemeProvider } from '@/themes/SharedThemeProvider';
 import { CssBaseline } from '@mui/material';
-import { SharedIf } from '../shared/util/SharedIf';
-import { SharedNamedChild } from '../shared/util/SharedNamedChild';
-import { SharedMainLayout } from '../shared/layouts/SharedMainLayout/SharedMainLayout';
-import { SharedDrawer, SharedDrawerItem, SharedDrawerSubItem } from '../shared/SharedDrawer/SharedDrawer';
+import { SharedIf } from '@/components/shared/util/SharedIf';
+import { SharedNamedChild } from '@/components/shared/util/SharedNamedChild';
+import { SharedMainLayout } from '@/components/shared/layouts/SharedMainLayout/SharedMainLayout';
+import { MainDrawer, MainDrawerItem, MainDrawerSubItem } from '@/components/MainDrawer/MainDrawer';
 import { User } from '../firebase';
 import { useSystemContext } from '@/context/SystemContext';
 import { useLocalRouter } from '@/hooks/useLocalRouter';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { SharedDefaultFooter } from '../shared/footer/SharedDefaultFooter';
+import { SharedDefaultFooter } from '@/components/shared/footer/SharedDefaultFooter';
 import { ThemeType } from '@/themes/sharedThemeDefault';
 
 export interface FeatureIndexViewProps {
@@ -20,13 +20,13 @@ export interface FeatureIndexViewProps {
   readonly hasLoginError: boolean;
   readonly isSignInLoading: boolean;
   readonly isAdminPage: boolean;
-  readonly drawerItems: SharedDrawerItem[];
+  readonly drawerItems: MainDrawerItem[];
   readonly isDrawerActive: boolean;
   readonly userData: User | null | undefined;
   readonly children: ReactNode;
   readonly appBarTitle: string;
   readonly themeType?: ThemeType;
-  readonly currentDrawerItem?: SharedDrawerItem;
+  readonly currentDrawerItem?: MainDrawerItem;
   readonly socialNetworks?: DocumentSocialNetwork[];
   readonly isPublishLoading?: boolean;
   readonly onSingInSubmit: (email: string, password: string) => Promise<void>;
@@ -70,7 +70,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     return drawerItems.some((item) => item.subItems?.length && item.subItems?.length > 0);
   }, [drawerItems]);
 
-  function handleDrawerItemClick(item: SharedDrawerItem | SharedDrawerSubItem) {
+  function handleDrawerItemClick(item: MainDrawerItem | MainDrawerSubItem) {
     push(item.to);
   }
 
@@ -86,7 +86,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
     <Fragment>
       <SharedHead title="Welcome to Seven-arch!" />
       <SharedThemeProvider themeType={themeType}>
-        <SharedSplashScreen imageUrl={splashScreenImageUrl} />
+        <MainSplashScreen imageUrl={splashScreenImageUrl} />
         <CssBaseline />
         <SharedIf RIf={!!userData || !isAdminPage} Fallback={LoginFallback}>
           <SharedMainLayout
@@ -100,7 +100,7 @@ export function FeatureIndexView(props: FeatureIndexViewProps) {
             onPublishClick={onPublishClick}
           >
             <SharedNamedChild name="drawer">
-              <SharedDrawer
+              <MainDrawer
                 title={'Menu'}
                 items={drawerItems}
                 value={isDrawerActive}

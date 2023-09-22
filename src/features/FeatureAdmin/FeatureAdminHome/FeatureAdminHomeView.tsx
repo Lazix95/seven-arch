@@ -1,8 +1,8 @@
 import { ExternalImage, FirebaseImage } from '@/features/firebase/utils/firebaseImageUtils';
-import { SharedGalery } from '@/features/shared/SharedGalery/SharedGalery';
-import { SharedImageUpload } from '@/features/shared/SharedImageUpload/SharedImageUpload';
-import { SharedForm } from '@/features/shared/form/SharedForm';
-import { SharedGridHeading } from '@/features/shared/grid/SharedGridHeading';
+import { SharedGalery } from '@/components/shared/SharedGalery/SharedGalery';
+import { SharedImageUpload } from '@/components/shared/SharedImageUpload/SharedImageUpload';
+import { SharedForm } from '@/components/shared/form/SharedForm';
+import { SharedGridHeading } from '@/components/shared/grid/SharedGridHeading';
 import { func } from 'prop-types';
 import { useState } from 'react';
 import { AdminSharedForm } from '@/features/FeatureAdmin/AdminShared/AdminSharedForm';

@@ -1,7 +1,7 @@
-import { SharedOutlinedContainer } from '@/features/shared/grid/SharedOutlinedContainer';
-import { SharedTextField } from '@/features/shared/form/SharedTextField';
+import { SharedOutlinedContainer } from '@/components/shared/grid/SharedOutlinedContainer';
+import { SharedTextField } from '@/components/shared/form/SharedTextField';
 import { DocumentSocialNetwork } from '@/models/socialNetworks';
-import { SharedSocialNetworkIcon } from '@/features/shared/icons/SharedSocialNetworkIcon';
+import { SharedSocialNetworkIcon } from '@/components/shared/icons/SharedSocialNetworkIcon';
 
 export interface FeatureAdminSocialNetworkFormProps {
   socialNetwork: DocumentSocialNetwork;
